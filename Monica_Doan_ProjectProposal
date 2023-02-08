@@ -1,0 +1,7 @@
+Name: Monica Doan
+Stack: JavaScript/MERN
+GitHub Repo: https://github.com/mtvdoan/SAIM.git
+Project Name: SAIM Messenger
+Project Description: A millenial's escape back into the days of "distinctive" usernames, chatrooms, and the famous Away Messages that expresses our deepest feelings.
+MVP (Minimum Viable Product) Features: login, registration, CRUD, CSS, GitHub, .gitignore, data validation
+Bonus Features: CSS framework use, Socket.io
