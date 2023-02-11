@@ -2,6 +2,7 @@
 
 const express = require('express');
 const app = express();
+const cookieParser = require('cookie-parser');
 const http = require('http');
 const server = http.createServer(app);
 const Msg  = require('./models/messages.model')
@@ -13,6 +14,7 @@ const dbConnect = require("./config/dbConnect");
 const cors = require('cors');
 const usersAwayMessagesPort = 8000;
 require('dotenv').config();
+app.use(cookieParser());
 dbConnect();
 
 const chatFunctionsPort = 3001;
@@ -28,7 +30,9 @@ const io = new Server(server, { //added this
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
-// require('./config/dbConnect');
+require('./config/dbConnect');
+const UserRoutes = require('./routes/user.routes')
+
 
 // async function dbConnect() {
 //   // use mongoose to connect this app to our database on mongoDB using the DB_URL (connection string)
@@ -52,6 +56,7 @@ app.use(express.urlencoded({extended: true}));
 // }
 // // module.exports = dbConnect;
 
+// const UserRoutes = require('./routes/users.routes')
 
 // mongoose.connect(mongoDB, {
 //   useNewUrlParser: true,
@@ -62,6 +67,7 @@ app.use(express.urlencoded({extended: true}));
 
 require('./routes/user.routes')(app);
 
+app.use(UserRoutes);
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '../client/src/components/Chat.jsx');
