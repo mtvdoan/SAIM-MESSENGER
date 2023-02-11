@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import "../App.css";
+// const dbConnect = require(".../server/config/dbConnect");  
 
+// execute database connection 
+// dbConnect();
 const Chat = (props) => {
 const [message, setMessage] = useState("");
 const [messages, setMessages] = useState([]);

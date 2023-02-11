@@ -5,12 +5,14 @@ import io from "socket.io-client";
 import React, {useState} from "react";
 
 const socket = io.connect("http://localhost:3001");
+// require database connection 
+
 
 function App() {
 
   return (
     <div>
-      <ChatRoomChoose/>    
+      <ChatRoomChoose/>
     </div>
   );
 }

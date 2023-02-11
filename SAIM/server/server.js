@@ -8,10 +8,12 @@ const Msg  = require('./models/messages.model')
 const mongoose = require('mongoose');
 const {Server} = require("socket.io");
 const mongoDB = "mongodb+srv://mtvdoan:I10v3413x@cluster0.havkg6w.mongodb.net/?retryWrites=true&w=majority";
+const dbConnect = require("./config/dbConnect");
 
 const cors = require('cors');
 const usersAwayMessagesPort = 8000;
 require('dotenv').config();
+dbConnect();
 
 const chatFunctionsPort = 3001;
 // const io = new Server(server); taken out of original
@@ -26,28 +28,29 @@ const io = new Server(server, { //added this
 
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+// require('./config/dbConnect');
 
-async function dbConnect() {
-  // use mongoose to connect this app to our database on mongoDB using the DB_URL (connection string)
-  mongoose
-    .connect(
-        process.env.DB_URL,
-      {
-        //   these are options to ensure that the connection is done properly
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        useCreateIndex: true,
-      }
-    )
-    .then(() => {
-      console.log("Successfully connected to MongoDB Atlas!");
-    })
-    .catch((error) => {
-      console.log("Unable to connect to MongoDB Atlas!");
-      console.error(error);
-    });
-}
-// module.exports = dbConnect;
+// async function dbConnect() {
+//   // use mongoose to connect this app to our database on mongoDB using the DB_URL (connection string)
+//   mongoose
+//     .connect(
+//         process.env.DB_URL,
+//       {
+//         //   these are options to ensure that the connection is done properly
+//         useNewUrlParser: true,
+//         useUnifiedTopology: true,
+//         useCreateIndex: true,
+//       }
+//     )
+//     .then(() => {
+//       console.log("Successfully connected to MongoDB Atlas!");
+//     })
+//     .catch((error) => {
+//       console.log("Unable to connect to MongoDB Atlas!");
+//       console.error(error);
+//     });
+// }
+// // module.exports = dbConnect;
 
 
 // mongoose.connect(mongoDB, {
