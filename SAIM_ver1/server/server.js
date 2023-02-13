@@ -1,83 +1,62 @@
-// server.js
 const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
-const bcrypt = require('bcrypt');
-const socket = require('socket.io');
-
 const app = express();
-const server = app.listen(5000, () => console.log('Server started on port 5000'));
-const io = socket(server);
+const cookieParser = require('cookie-parser');
+const http = require('http');
+const server = http.createServer(app);
+const Msg = require('./models/messages.model')
+const mongoose = require('mongoose');
+const socketio = require('socket.io')
+
+const {Server} = require("socket.io");
+const mongoDB = "mongodb+srv://mtvdoan:I10v3413x@cluster0.havkg6w.mongodb.net/?retryWrites=true&w=majority";
+const dbConnect = require("./config/dbConnect");
+
+const cors = require('cors');
+const Port = 8000;
+require('dotenv').config();
+app.use(cookieParser());
+dbConnect();
+
+const chatFunctionsPort = 3001;
+// const io = new Server(server); taken out of original
+app.use(cors());
+const io = socketio(server, {
+cors: {
+origin: "http://localhost:3000",
+methods: ["GET", "POST"],
+allowedHeaders: ['*'],
+credentials: true,
+},
+});
 
 app.use(express.json());
-app.use(cors());
+app.use(express.urlencoded({extended: true}));
+require('./config/dbConnect');
 
-mongoose.connect('mongodb://localhost/chat-app', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+require('./routes/user.routes')(app);
 
-const UserSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-});
-
-UserSchema.pre('save', function (next) {
-  const user = this;
-  if (!user.isModified('password')) return next();
-  bcrypt.genSalt(10, (err, salt) => {
-    if (err) return next(err);
-    bcrypt.hash(user.password, salt, (err, hash) => {
-      if (err) return next(err);
-      user.password = hash;
-      next();
-    });
-  });
-});
-
-UserSchema.methods.comparePassword = function (candidatePassword, cb) {
-  bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
-    if (err) return cb(err);
-    cb(null, isMatch);
-  });
-};
-
-const User = mongoose.model('User', UserSchema);
-
-app.post('/register', async (req, res) => {
-  try {
-    const user = new User(req.body);
-    await user.save();
-    res.send({ user });
-  } catch (err) {
-    console.error(err);
-    res.status(400).send(err);
-  }
-});
-
-app.post('/login', async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    const user = await User.findOne({ email });
-    if (!user) return res.status(401).send({ error: 'Invalid login credentials' });
-    user.comparePassword(password, (err, isMatch) => {
-      if (err) throw err;
-      if (!isMatch) return res.status(401).send({ error: 'Invalid login credentials' });
-      res.send({ user });
-    });
-  } catch (err) {
-        console.error(err);
-    res.status(400).send(err);
-  }
+app.get('/', (req, res) => {
+res.sendFile(__dirname + '../client/src/components/Chat.jsx');
 });
 
 io.on('connection', (socket) => {
-  console.log(`A user connected: ${socket.id}`);
-  socket.on('disconnect', () => console.log(`A user disconnected: ${socket.id}`));
-  socket.on('chat message', (msg) => {
-    console.log(`Message: ${msg}`);
-    io.emit('chat message', msg);
-  });
+console.log('New client connected');
+let timeout;
+socket.on('typing', (username) => {
+clearTimeout(timeout);
+socket.broadcast.emit('typing', username);
+timeout = setTimeout(() => {
+socket.broadcast.emit('typing', '');
+}, 1000);
+});
+socket.on('chat message', (message) => {
+io.emit('chat message', message);
+});
+socket.on('disconnect', () => {
+console.log('Client disconnected');
+});
 });
 
+server.listen(chatFunctionsPort, () => {
+console.log(S`erver started on port ${chatFunctionsPort}`);
+});

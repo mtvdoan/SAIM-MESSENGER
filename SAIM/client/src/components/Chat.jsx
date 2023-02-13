@@ -1,50 +1,80 @@
-import React, { useState, useEffect } from "react";
-import "../App.css";
-// const dbConnect = require(".../server/config/dbConnect");  
+import React, { useState } from 'react';
+import io from 'socket.io-client';
+import LoginPage from './LoginPage';
+const Chat = (props)=> {
+  const [roomNumber, setRoomNumber] = useState('');
+  const [socket, setSocket] = useState(null);
 
-// execute database connection 
-// dbConnect();
-const Chat = (props) => {
-const [message, setMessage] = useState("");
-const [messages, setMessages] = useState([]);
+  const [screenName, setScreenName] = useState('');
+  const [messages, setMessages] = useState([]);
 
-useEffect(() => {
-    props.socket.on("chat message", (message) => {
-    setMessages([...messages, message]);
-    });
-}, [messages]);
+  const handleScreenNameChange = (event) => {
+    setScreenName(event.target.value);
+  };
 
-const sendMessage = (event) => {
+  const handleRoomNumberChange = (event) => {
+    setRoomNumber(event.target.value);
+  };
+
+  const handleSubmit = (event) => {
     event.preventDefault();
-    if (message) {
-    props.socket.emit("chat message", `${props.username}: ${message}`);
-    setMessage("");
-    }
+    setSocket(io(`http://localhost:3001?room=${roomNumber}&screenName=${screenName}`));
+  };
+
+  const handleMessageChange = (event) => {
+    setInput(event.target.value);
+  };
+
+  const [input, setInput] = useState('');
+
+const handleMessageSubmit = (event) => {
+  event.preventDefault();
+  if (input) {
+    socket.emit('chat message', { sender: screenName, message: input });
+    setInput('');
+  }
 };
 
-return (
-    <div className="chatContainer">
-    <h3>
-        Chatting in room: {props.room} as {props.username}
-    </h3>
-    <div className="chatWindow">
-        <p id="messages">
-            {messages.map((message, index) => (
-                <li key={index}>{message}</li>
-            ))}
-        </p>
+React.useEffect(() => {
+  if (socket) {
+    socket.on('chat message', (data) => {
+      setMessages([...messages, data]);
+    });
+  }
+}, [socket, messages]);
+
+  return (
+    <div>
+      {!socket ? (
+        <form onSubmit={handleSubmit}>
+          <label>
+            Screen Name:
+            
+            <input type="text" value={screenName} onChange={handleScreenNameChange} />
+          </label>
+          <label>
+            Chat Room#:
+            <input type="text" value={roomNumber} onChange={handleRoomNumberChange} />
+          </label>
+          <button type="submit">Submit</button>
+        </form>
+      ) : (
+        <div>
+          <h2>User {screenName} is chatting in room #{roomNumber}</h2>
+          <ul id="messages">
+           {messages.map((message, index) => (
+  <li key={index}>{message.sender}: {message.message}</li>
+))}
+
+          </ul>
+          <form id="form" onSubmit={handleMessageSubmit}>
+            <input id="input" autocomplete="off" value={input} onChange={handleMessageChange} />
+            <button>Send</button>
+          </form>
+        </div>
+      )}
     </div>
-    <form id="form" action="">
-        <input
-            id="input"
-            autoComplete="off"
-            value={message}
-            onChange={(event) => setMessage(event.target.value)}
-        />
-        <button onClick={sendMessage}>Send</button>
-    </form>
-    </div>
-);
-};
+  );
+}
 
 export default Chat;

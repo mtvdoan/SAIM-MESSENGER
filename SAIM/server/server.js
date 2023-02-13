@@ -1,118 +1,42 @@
-
-
 const express = require('express');
 const app = express();
-const cookieParser = require('cookie-parser');
 const http = require('http');
 const server = http.createServer(app);
-const Msg  = require('./models/messages.model')
-const mongoose = require('mongoose');
-const {Server} = require("socket.io");
-const mongoDB = "mongodb+srv://mtvdoan:I10v3413x@cluster0.havkg6w.mongodb.net/?retryWrites=true&w=majority";
-const dbConnect = require("./config/dbConnect");
+const { Server } = require("socket.io");
+const socketio = require('socket.io')
+const cors = require('cors')
+require('./config/mongoose.config')
 
-const cors = require('cors');
-const usersAwayMessagesPort = 8000;
-require('dotenv').config();
-app.use(cookieParser());
-dbConnect();
-
-const chatFunctionsPort = 3001;
-// const io = new Server(server); taken out of original
-app.use(cors());
-const io = new Server(server, { //added this
-  cors: {
-    origin: "http://localhost:3000",
-    methods: ["GET", "POST"],
-  },
-});
+const io = socketio(server,{
+    cors: {
+        origin: "http://localhost:3000",
+        methods: ["GET", "POST"],
+        allowedHeaders: ['*'],
+        credentials: true
+    }
+})
 
 
-app.use(express.json());
-app.use(express.urlencoded({extended: true}));
-require('./config/dbConnect');
-const UserRoutes = require('./routes/user.routes')
 
+app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
 
-// async function dbConnect() {
-//   // use mongoose to connect this app to our database on mongoDB using the DB_URL (connection string)
-//   mongoose
-//     .connect(
-//         process.env.DB_URL,
-//       {
-//         //   these are options to ensure that the connection is done properly
-//         useNewUrlParser: true,
-//         useUnifiedTopology: true,
-//         useCreateIndex: true,
-//       }
-//     )
-//     .then(() => {
-//       console.log("Successfully connected to MongoDB Atlas!");
-//     })
-//     .catch((error) => {
-//       console.log("Unable to connect to MongoDB Atlas!");
-//       console.error(error);
-//     });
-// }
-// // module.exports = dbConnect;
-
-// const UserRoutes = require('./routes/users.routes')
-
-// mongoose.connect(mongoDB, {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true
-// })
-//   .then(() => {console.log('connected mongodb')})
-//   .catch(err=> console.log(err));
-
-require('./routes/user.routes')(app);
-
-app.use(UserRoutes);
 
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '../client/src/components/Chat.jsx');
+  res.sendFile(__dirname + '/index.html');
 });
-// io.on('connection', (socket) => {
-//   console.log('printing above here?')
-// });
-
 
 io.on('connection', (socket) => {
-  Msg.find().then(result=>{
-    socket.emit('output-messages:', result)
-  });
-  console.log(`User Connected: ${socket.id}`); //added this
-  socket.on("join_room", (data) => {
-      socket.join(data);
-      console.log(`User with ID: ${socket.id} joined room: ${data}`);
-    });
-
-  // socket.emit('message', 'Hello world'); taken out from original
-  // socket.on('chat message', msg=> {  taken out from original
-  //   const message = new Msg({msg:msg});
-  //   message.save().then(() => {
-  //   io.emit('message', msg)
-  //   })
-  // })
-  socket.on("chat message", (data) => {  //added this
-    socket.to(data.room).emit("chat message", data);  //might need to change chat message to 'receive_message' later
-  });
-
+  console.log('a user connected');
   socket.on('disconnect', () => {
-    console.log('User Disconnected', socket.id);
+    console.log('user disconnected');
   });
-});
 
-io.on('connection', (socket) => {
   socket.on('chat message', (msg) => {
+    console.log('message: ' + msg);
     io.emit('chat message', msg);
   });
 });
 
-
-server.listen(chatFunctionsPort, () => {
-  console.log(`Chat Functions: Listening on -->  ${chatFunctionsPort}`);
+server.listen(3001, () => {
+  console.log('listening on *:3001');
 });
-
-
-app.listen(usersAwayMessagesPort, () => console.log(`Users and away messages functions: Listening on port  --> ${usersAwayMessagesPort}`));

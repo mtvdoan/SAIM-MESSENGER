@@ -17,13 +17,16 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "force": "^0.0.3",
     "http": "^0.0.1-security",
+    "jsonwebtoken": "^9.0.0",
     "module_name": "^1.0.0",
     "mongodb": "^5.0.1",
     "mongoose": "^6.9.1",
     "nodemon": "^2.0.20",
     "socket.io": "^4.6.0",
-    "socket.io-adapter-mongoose": "^0.5.1"
+    "socket.io-adapter-mongoose": "^0.5.1",
+    "socket.io-client": "^4.6.0"
   },
   "optionalDependencies": {
     "bufferutil": "^4.0.7",

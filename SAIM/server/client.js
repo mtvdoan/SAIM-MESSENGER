@@ -1,12 +1,12 @@
-const socket = io('http://localhost:3001');
+import io from 'socket.io-client';
 const messages = document.getElementById('messages');
 const msgForm = document.getElementById('msgForm');
 
-socket.on('message', data => {
+io.on('message', data => {
     console.log(data)
     appendMessages(data)
 })
-socket.on('output-messages', data => {
+io.on('output-messages', data => {
     console.log(data)
     if (data.length) {
         data.forEach(message => {

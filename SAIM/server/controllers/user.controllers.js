@@ -10,17 +10,10 @@ module.exports = {
 
     findOneUser: (req, res) => {
         User
-            .findById(req.params.id, )
+            .findById(req.params.id)
             .then((user) => res.json(user))
             .catch((err) => res.status(400).json({message: 'Something went wrong while trying to find details of a user', error: err}))
     },
-    // createUser: (req, res) => {
-    //     User
-    //         .create(req.body)
-    //         .then((newUser) => res.json(newUser))
-    //         .catch((err) =>
-    //             res.status(400).json({message: 'Something went wrong while trying to create', error:err}))
-    // },
 
     updateUser: (req, res) => {
         User
