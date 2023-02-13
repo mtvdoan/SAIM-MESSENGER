@@ -6,6 +6,7 @@ const { Server } = require("socket.io");
 const socketio = require('socket.io')
 const cors = require('cors')
 require('./config/mongoose.config')
+const port = 8000;
 
 const io = socketio(server,{
     cors: {
@@ -16,10 +17,11 @@ const io = socketio(server,{
     }
 })
 
-
-
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(cors({credentials: true, origin: 'http://localhost:3000'}));
-
+require("./routes/awayMessage.routes")(app);
+app.listen(port, () => console.log("Listening on port", port));
 
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
