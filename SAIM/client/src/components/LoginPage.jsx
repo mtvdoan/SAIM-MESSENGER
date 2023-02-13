@@ -18,7 +18,7 @@ const LoginPage = () => {
         } 
         else {
             console.log('You are already logged in');
-            alert("You are already logged in! Let's log you out for now!")
+            alert("Strange...look's like you are already logged in.  For security purposes, please log in again!")
             sessionStorage.removeItem('loggedIn');
             navigate("/");
         }
