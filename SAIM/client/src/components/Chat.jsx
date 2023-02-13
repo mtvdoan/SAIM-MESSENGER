@@ -57,6 +57,7 @@ const handleLogOutClick = (e) => {
     <div>
       {!socket ? (
         <form onSubmit={handleSubmit}>
+        <h1>Welcome, {screenName}</h1>
           <label>
             Screen Name:
             

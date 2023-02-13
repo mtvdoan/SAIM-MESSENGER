@@ -24,21 +24,20 @@ userData = JSON.parse(localStorage.getItem(data.email));
             console.log("Email or Password is not matching with our record");
         }
 };
-  return (
+    return (
     <>
-      <p className="title">Login Form</p>
-
-      <form className="App" onSubmit={handleSubmit(onSubmit)}>
-        <input type="email" placeholder="Email" {...register("email", { required: true })} />
-        {errors.email && <span style={{ color: "red" }}>
-         *Email* is mandatory </span>}
-        <input type="password" placeholder="Password" {...register("password", {required: true})} />
-        {errors.email && <span style={{ color: "red" }}>
-         *Password* is mandatory </span>}
-        <input type={"submit"} style={{ backgroundColor: "#a1eafb" }} />
-      </form>
+        <p className="title">Login Form</p>
+        <form className="App" onSubmit={handleSubmit(onSubmit)}>
+            <input type="email" placeholder="Email" {...register("email", { required: true })} />
+            {errors.email && <span style={{ color: "red" }}>
+            *Email* is mandatory </span>}
+            <input type="password" placeholder="Password" {...register("password", {required: true})} />
+            {errors.password && <span style={{ color: "red" }}>
+                *Password* is mandatory </span>}
+            <input type={"submit"} style={{ backgroundColor: "#a1eafb" }} />
+        </form>
     </>
-  );
+)   ;
 }
 
 export default LoginPage
