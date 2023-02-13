@@ -17,7 +17,9 @@ const LoginPage = () => {
           navigate("/chat");
         } else {
           console.log('You are already logged in');
-          alert("You are already logged in!")
+          alert("You are already logged in! Let's log you out now!")
+          sessionStorage.removeItem('loggedIn');
+
         }
       } else {
         console.log("Email or Password is not matching with our record");

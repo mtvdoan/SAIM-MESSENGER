@@ -47,7 +47,7 @@ React.useEffect(() => {
 }, [socket, messages]);
 const handleLogOutClick = (e) => {
     e.preventDefault();
-    localStorage.removeItem(screenName);
+    sessionStorage.removeItem('loggedIn');
     console.log(`${screenName} has been logged out.`);
     alert(`{screenName} has been logged out!`)
     navigate("/login");
