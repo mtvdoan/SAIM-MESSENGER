@@ -1,6 +1,5 @@
 import "./App.css";
 import Chat from './components/Chat';
-import ChatRoomChoose from './components/ChatRoomChoose';
 import io from "socket.io-client";
 import React, {useState} from "react";
 import { UserProvider } from "./context/UserContext";

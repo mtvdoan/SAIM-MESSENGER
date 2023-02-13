@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import io from 'socket.io-client';
 import LoginPage from './LoginPage';
+import LogOut from './LogOut';
+import {useNavigate} from 'react-router-dom';
 const Chat = (props)=> {
+    const navigate = useNavigate();
   const [roomNumber, setRoomNumber] = useState('');
   const [socket, setSocket] = useState(null);
 
@@ -42,6 +45,13 @@ React.useEffect(() => {
     });
   }
 }, [socket, messages]);
+const handleLogOutClick = (e) => {
+    e.preventDefault();
+    localStorage.removeItem(screenName);
+    console.log(`${screenName} has been logged out.`);
+    alert(`{screenName} has been logged out!`)
+    navigate("/login");
+  };
 
   return (
     <div>
@@ -68,11 +78,12 @@ React.useEffect(() => {
 
           </ul>
           <form id="form" onSubmit={handleMessageSubmit}>
-            <input id="input" autocomplete="off" value={input} onChange={handleMessageChange} />
+            <input id="input" autoComplete="off" value={input} onChange={handleMessageChange} />
             <button>Send</button>
           </form>
         </div>
       )}
+    <button onClick={handleLogOutClick}>Temporary Logout</button>
     </div>
   );
 }

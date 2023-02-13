@@ -2,16 +2,17 @@ import React from 'react'
 import {useForm} from 'react-hook-form';
 import {useNavigate} from 'react-router-dom';
 const LoginPage = () => {
-    const navigate = useNavigate();
-const {
+  const navigate = useNavigate();
+  let userData;
+  const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
 
   const onSubmit = (data) => {
-    const userData = JSON.parse(localStorage.getItem(data.email));
-    if (userData) { // getItem can return actual value or null
+    userData = JSON.parse(localStorage.getItem(data.email));
+    if (userData) {
       if (userData.password === data.password) {
         console.log(userData.screenName + " You Are Successfully Logged In");
         alert("Thanks for logging in!");
@@ -22,7 +23,6 @@ const {
     } else {
       console.log("Email or Password is not matching with our record");
     }
-    
   };
   return (
     <>
