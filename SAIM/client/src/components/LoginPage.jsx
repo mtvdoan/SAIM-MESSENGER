@@ -9,10 +9,12 @@ const LoginPage = (props) => {
   const navigate = useNavigate();
   const { register, handleSubmit, formState: { errors } } = useForm();
     // const name = localStorage.getItem("screenName");
+
   const onSubmit = (data) => {
+    console.log(data);
     const userData = JSON.parse(localStorage.getItem(data.email));
-    console.log(userData.screenName);
-    <Chat currentUser={userData.name}/>
+    console.log("printing:", userData.screenName);
+    // <Chat currentUser={userData.name}/>
     if (userData) {
     if (userData.password === data.password) {
         if (!localStorage.getItem('loggedIn')) {
@@ -55,6 +57,15 @@ const LoginPage = (props) => {
                 <img src={logo1} alt="logo"/>
                 <div className="">
                     <form className="text-stone-900" onSubmit={handleSubmit(onSubmit)} >
+                        <label className="block">
+                            <span className="after:content-['*'] after:ml-0.5 after:text-red-500 block text-sm font-medium text-slate-700">
+                                screenName!
+                            </span>
+                            {errors.screenName && <span style={{ color: "red" }}>
+                            *ScreenName* is mandatory </span>}
+                            <input {...register("screenName", { required: true })}   type="screenName" name="screenName" className="mt-1 px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1" placeholder="screenName" />
+                        </label>
+
                         <label className="block">
                             <span className="after:content-['*'] after:ml-0.5 after:text-red-500 block text-sm font-medium text-slate-700">
                                 eMail!

@@ -11,13 +11,13 @@ const Chat = (props)=> {
     const [roomNumber, setRoomNumber] = useState('');
     const [socket, setSocket] = useState(null);
 
-    const [screenName, setScreenName] = useState('');
+    // const [screenName, setScreenName] = useState();
     const [messages, setMessages] = useState([]);
 
 
-    const handleScreenNameChange = (event) => {
-        setScreenName(event.target.value);
-    };
+    // const handleScreenNameChange = (event) => {
+    //     setScreenName(event.target.value);
+    // };
 
     const handleRoomNumberChange = (event) => {
         setRoomNumber(event.target.value);
@@ -51,17 +51,25 @@ const Chat = (props)=> {
         }
     }, [socket, messages]);
 
-    const handleLogOutClick = (e) => {
-        e.preventDefault();
+    const handleLogOutClick = () => {
+        const userData = JSON.parse(localStorage.getItem("loggedIn"));
+
+        localStorage.removeItem('loggedIn');
         sessionStorage.removeItem('loggedIn');
+
         console.log(`${screenName} has been logged out.`);
-        alert(`Logging out!`)
+        alert(`Logging out! ${userData}}`);
         navigate("/");
     };
 
+    const email = localStorage.getItem("email");
+    const userAndPassword = JSON.parse(localStorage.getItem(email));
+    console.log("Chat.jsx:", email, userAndPassword);
+    const screenName = userAndPassword["screenName"];
+
     return (
         <>
-            <p>hi {props.name}</p>
+            <p>HELLO {screenName}</p>
             <nav className=" bg-blue m-auto px-2 sm:px-4  dark: bg-blue-800 fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
                 <div className="container flex flex-wrap items-center justify-between mx-auto scale-75">
                     <div className="center fluid">
@@ -84,8 +92,7 @@ const Chat = (props)=> {
                     <form onSubmit={handleSubmit}>
                         <h1>Welcome, </h1>
                         <label>
-                            Screen Name:
-                            <input type="text" value={props.name} onChange={handleScreenNameChange} />
+                            Screen Name:{screenName}
                         </label>
                         <label>
                             Chat Room#:
@@ -127,7 +134,7 @@ const Chat = (props)=> {
 
         <button onClick={handleLogOutClick} class="bg-red-300 hover:bg-red-700 text-white font-bold py-2 px-4 border border-blue-700 rounded">Log Out</button>
         
-        </>
+       </>
     );
 }
 
