@@ -63,9 +63,9 @@ const Chat = (props)=> {
     };
 
     const email = localStorage.getItem("email");
-    const userAndPassword = JSON.parse(localStorage.getItem(email));
-    console.log("Chat.jsx:", email, userAndPassword);
-    const screenName = userAndPassword["screenName"];
+    const screenNameAndPassword = JSON.parse(localStorage.getItem(email));
+    console.log("Chat.jsx:", email, screenNameAndPassword);
+    const screenName = screenNameAndPassword["screenName"];
 
     return (
         <>
