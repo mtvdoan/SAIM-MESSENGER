@@ -19,7 +19,7 @@ const LoginPage = (props) => {
     if (userData.password === data.password) {
         if (!localStorage.getItem('loggedIn')) {
             localStorage.setItem('loggedIn', true);
-
+            localStorage.setItem('email', data.email);
             console.log( + " You Are Successfully Logged In");
             alert(`Thanks for logging in ${userData.screenName}`);
             navigate("/chat");

@@ -57,7 +57,7 @@ const Chat = (props)=> {
         localStorage.removeItem('loggedIn');
         sessionStorage.removeItem('loggedIn');
 
-        console.log(`${screenName} has been logged out.`);
+        console.log(`${this.screenName} has been logged out.`);
         alert(`Logging out! ${userData}}`);
         navigate("/");
     };
@@ -69,13 +69,11 @@ const Chat = (props)=> {
 
     return (
         <>
-            <p>HELLO {screenName}</p>
             <nav className=" bg-blue m-auto px-2 sm:px-4  dark: bg-blue-800 fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
-                <div className="container flex flex-wrap items-center justify-between mx-auto scale-75">
-                    <div className="center fluid">
-                        <h1 className="text-2xl font-extrabold leading-none tracking-tight text-gray-900 md:text-2xl lg:text-3xl text-center dark:text-white">Welcome!</h1>
+                    <div className="center ">
+                        <h2 className="text-4xl col-start-1 font-extrabold text-white">Hi, @ {screenName} !</h2>
+                        <h2 className="text-2xl col-end-7 col-span-2 font-extrabold text-white tracking-widest">SAIM-MESSENGER</h2>
                     </div>
-                </div>
                 <p className="scale-75 mb-6 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400">A space for millennials to chat and share hilarious away messages!</p>
             </nav>    
             <div class="grid grid-cols-2 gap-4">
@@ -90,16 +88,26 @@ const Chat = (props)=> {
             <div className=' overflow-y-auto flex-row  big-white rounded-lg p-10 shadow-xl max-w-md m-auto p-2' style={{maxHeight:"500px"}}>
                 {!socket ? (
                     <form onSubmit={handleSubmit}>
-                        <h1>Welcome, </h1>
-                        <label>
-                            Screen Name:{screenName}
-                        </label>
-                        <label>
-                            Chat Room#:
-                            <input type="text" value={roomNumber} onChange={handleRoomNumberChange} />
-                        </label>
-                        <button type="submit">Submit</button>
-                        </form>
+                        <h1>Ready to chat? 😊</h1>
+                        <div class="grid gap-6 mb-6 md:grid-cols-2">
+                        <div>
+                            <label for="screenName" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Screen Name</label>
+                            <input type="text" disabled  id="first_name" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" value={screenName} required/>
+                        </div>
+                        <div>
+                            <label for="roomNumber" class="block mb-2 text-sm font-medium text-gray-900 dark:text-black">Room #</label>
+                            <input type="number"  onChange={handleRoomNumberChange} value={roomNumber} id="roomNumber" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="#" required/>
+                        </div>
+                        </div>
+                        <button className="scale-75 relative inline-block text-lg group">
+                            <span className="relative z-10 block px-5 py-3 overflow-hidden font-medium leading-tight text-gray-800 transition-colors duration-300 ease-out border-2 border-gray-900 rounded-lg group-hover:text-white">
+                                <span className="absolute inset-0 w-full h-full px-5 py-3 rounded-lg bg-gray-50"></span>
+                                <span className="absolute left-0 w-48 h-48 -ml-2 transition-all duration-300 origin-top-right -rotate-90 -translate-x-full translate-y-12 bg-gray-900 group-hover:-rotate-180 ease"></span>
+                                <span className="relative">Let's Chat  💬</span>
+                            </span>
+                            <span className="absolute bottom-0 right-0 w-full h-12 -mb-1 -mr-1 transition-all duration-200 ease-linear bg-gray-900 rounded-lg group-hover:mb-0 group-hover:mr-0" data-rounded="rounded-lg"></span>
+                        </button>
+                    </form>
                         ) : 
                         (
                         <div  className=""  >
@@ -107,7 +115,7 @@ const Chat = (props)=> {
                                 <div className="fluid flex-col" id="messages">
                                     {
                                         messages.map((message, index) => (
-                                        <p key={index}>{message.sender}: {message.message}</p>
+                                        <p key={index}>{screenName}: {message.message}</p>
                                     ))
                                 }
                                 </div>
@@ -134,7 +142,7 @@ const Chat = (props)=> {
 
         <button onClick={handleLogOutClick} class="bg-red-300 hover:bg-red-700 text-white font-bold py-2 px-4 border border-blue-700 rounded">Log Out</button>
         
-       </>
+    </>
     );
 }
 
