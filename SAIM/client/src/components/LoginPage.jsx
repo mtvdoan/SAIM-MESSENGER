@@ -44,7 +44,6 @@ const LoginPage = (props) => {
 
     return (
         <>
-        
             <nav className=" bg-blue m-auto px-2 sm:px-4  dark: bg-blue-800 fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
                 <div className="container flex flex-wrap items-center justify-between mx-auto scale-75">
                     <div className="center fluid">

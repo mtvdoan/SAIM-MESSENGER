@@ -3,7 +3,11 @@ const mongoose = require('mongoose');
 // const validator = require('validator')
 
 const AwayMessageSchema = new mongoose.Schema({
-
+    awayMessageCreator: {
+        type: String,
+        required:[true, "A screen name is required." ],
+        minlength: [3, 'A screen name needs to be at least 3 characters long']
+    },
     awayMessageLabel: {
         type: String,
         required: [true, "An Away Message label is required."],

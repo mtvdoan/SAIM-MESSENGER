@@ -2,10 +2,6 @@ import React from 'react'
 import "../App.css";
 import { useForm } from 'react-hook-form';
 import {useNavigate} from 'react-router-dom';
-
- 
-
-
 const UserRegister = () => {
   
  const {register, handleSubmit, formState: { errors } } = useForm();
