@@ -11,7 +11,6 @@ function App() {
 
   return (
     <BrowserRouter>
-
         <Routes>
           <Route path="/register" element={<UserRegistration/>}/>
           <Route path="/" element={<LoginPage/>}/>
@@ -22,5 +21,6 @@ function App() {
     </BrowserRouter>
   );
 }
+
 
 export default App;

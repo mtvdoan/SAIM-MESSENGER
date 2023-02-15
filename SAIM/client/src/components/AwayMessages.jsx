@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import Chat from './Chat';
 import logo1 from '../images/logo1.png';
+import aolemoji from '../images/aolemoji.png';
 import { useNavigate, Link} from 'react-router-dom';
 import axios from 'axios';
 const AwayMessages = (props) => {
@@ -59,76 +60,68 @@ const  actionButton = () => {
 
     return (
     <>
-        <nav className=" bg-blue m-auto px-2 sm:px-4  dark: bg-blue-800 fixed w-full z-20 top-0 left-0 border-b border-gray-200 dark:border-gray-600">
-            <div className="center ">
-                <h2 className="text-4xl col-start-1 font-extrabold text-white">Hi, @ {screenName} !</h2>
-                <h2 className="text-2xl col-end-7 col-span-2 font-extrabold text-white tracking-widest">SAIM-MESSENGER</h2>
-            </div>
-            <p className="scale-75 mb-6 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400">A space for millennials to chat and share hilarious away messages!</p>
-        </nav>    
-        <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-        <table className="w-full text-sm text-left text-black dark:text-black">
-            <thead className="text-xs text-black uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                
-                <tr>
-                    <th scope="col" className="px-6 py-3">
-                        Away Message
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                        Created By Screen Name
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                        Likes
-                    </th>
-                    <th scope="col" className="px-6 py-3">
-                        Action
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                {
-                awayMessagesList.length > 0 && awayMessagesList.map((awayMessage, index) => (
+            <div className="m-auto">
+                <header className="p-1 bg-blue-800 text-white text-center">
+                    <div className="flex justify-center max-h-7  mr-0 w-auto">
+                    <h1 className="font-extrabold text-gray-900 md:text-2xl  dark:text-white">📟  Register to 💬 SAIM-MESSENGER 😂 ! </h1>
+                    <img className="p-0 m-0 align-right flex m-auto" style={{height: "100px", width: "150px"}} src={aolemoji} alt="aolemoji"/>
+                    </div>
+                    <p class="mb-4 text-lg font-normal text-gray-500 dark:text-gray-400">A millennial's utopia.</p>
+                </header>
+            <main class="m-auto max-w-m">
+                <div class="m-auto shadow-xl sm:rounded-lg">
+                    <table class="text-sm text-blue-900 ">
+                        <thead class="text-sm text-white uppercase bg-blue-600">                
+                            <tr>
+                                <th scope="col" className="px-6 py-3">
+                                    Away Message
+                                </th>
+                                <th scope="col" className="px-6 py-3">
+                                    Created By Screen Name
+                                </th>
+                                <th scope="col" className="px-6 py-3">
+                                    Likes
+                                </th>
+                                <th scope="col" className="px-16 py-3">
+                                    Action
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {
+                            awayMessagesList.length > 0 && awayMessagesList.map((awayMessage, index) => (
 
-                <tr key={awayMessage.id} className="bg-white border-b bg-white dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-blue-300">
-                    <td className="px-6 py-4">
-                        <Link className="link-primary" to ={"/awayMessages/" + awayMessage._id}><h6>{awayMessage.awayMessageLabel}</h6></Link>
-                    </td>
-                    <td className="px-6 py-4">
-                        {awayMessage.awayMessageCreator}
-                    </td>
-                    <td className="px-6 py-4">
-                        likes
-                    </td>
-                    <td className="px-6 py-4">
-                        {/* {actionButton()} */}
-                    </td>
-                {(() => {
-                    return  JSON.stringify(awayMessage.awayMessageCreator) === screenName ?
-                    <td className="px-6 py-4">
-                        <button
-                            type="button"
-                            className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-                        >
-                            Edit
-                        </button>
-                        <button
-                            type="button"
-                            className="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900"
-                        >
-                            Delete
-                        </button>
-                    </td> 
-                    :
-                    <td className="px-6 py-4">
-                        <p>I hate this</p>
-                    </td>
-                })()}
-                    </tr>
-                ))}
-            </tbody>
-        </table>
-        </div>
-        <button onClick={handleLogOutClick} className="bg-red-300 hover:bg-red-700 text-white font-bold py-2 px-4 border border-blue-700 rounded">Log Out</button>
+                            <tr key={awayMessage.id} className="bg-white border-b bg-white dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-blue-300">
+                                <td className="px-6 py-4">
+                                    <Link className="link-primary" to ={"/awayMessages/" + awayMessage._id}><h6>{awayMessage.awayMessageLabel}</h6></Link>
+                                </td>
+                                <td className="px-6 py-4">
+                                    {awayMessage.awayMessageCreator}
+                                </td>
+                                <td className="px-6 py-4">
+                                    likes
+                                </td>
+                                <td className=" px-20 py-4">
+                                    {(() => {
+                                        return  JSON.stringify(awayMessage.awayMessageCreator) === screenName ?
+                                            <>
+                                                <button className="bg-yellow-500 hover:bg-blue-700 text-white font-bold py-2 px-2 border border-blue-700 rounded"> Edit
+                                                </button>
+                                                <button className="bg-red-500 hover:bg-blue-700 text-white font-bold py-2 px-2 border border-blue-700 rounded"> Delete
+                                                </button>
+                                            </>
+                                            :
+                                        null
+                                    })()}
+                                </td>
+                            </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                            </div>
+                            <button onClick={handleLogOutClick} className="m-2 btn-xl bg-red-300 hover:bg-red-700 text-white font-bold py-2 px-4 border border-blue-700 rounded">Log Out</button>
+                    </main>
+            </div>
         </>
     )
 }
