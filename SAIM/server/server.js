@@ -6,7 +6,8 @@ const { Server } = require("socket.io");
 const socketio = require('socket.io')
 const cors = require('cors')
 require('./config/mongoose.config')
-const port = 8000;
+const port = process.env.PORT || 8000; //user and awaymessage
+
 
 const io = socketio(server,{
     cors: {
@@ -28,7 +29,7 @@ app.get('/', (req, res) => {
 });
 
 io.on('connection', (socket) => {
-  console.log('a user connected');
+  console.log('a user connected', socket.id);
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });

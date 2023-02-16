@@ -30,9 +30,11 @@
     "react-router-dom": "^6.8.1",
     "react-scripts": "5.0.1",
     "react-scroll-to-bottom": "^4.2.0",
+    "react-use-websocket": "^4.3.1",
     "socket.io-client": "^4.6.0",
     "use-background-image": "^0.1.2",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "ws": "^8.12.1"
   },
   "scripts": {
     "start": "react-scripts start",

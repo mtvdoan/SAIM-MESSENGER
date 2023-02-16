@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useContext} from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, Link } from "react-router-dom";
 import logo1 from "../images/logo1.png";
@@ -7,12 +7,72 @@ import windowsXp from "../images/windowsXp.jpeg";
 import { Badge, Card } from "flowbite-react";
 import man from "../images/aolemoji.png";
 import {ReactSession} from 'react-client-session';
-
+import { UserContext } from "../context/UserContext";
+import axios from 'axios';
 const LoginPage = (props) => {
-    // const name = JSON.parse(localStorage.getItem(data.screenName));
+    const {setUser} = useContext(UserContext);
+    const {register, login} = state;
+
   const navigate = useNavigate();
-  const { register, handleSubmit, formState: { errors } } = useForm();
+    const {formState: { errors } } = useForm();
     // const name = localStorage.getItem("screenName");
+    const [state, setState] = useState({
+        // register: {
+        //     screenName: "",
+        //     email: "",
+        //     password: "",
+        //     confirmPassword: ""
+        // },
+        login: {
+            email: "",
+            password: ""
+        }
+    })
+//*Registration
+    const handleRegInputs = (e) => {
+        props.setAuthorized("");
+        setState({...state, register: {...state.register,[e.target.name]: e.target.value}})    
+        
+    }
+    const handleRegistration = (e) => {
+        e.preventDefault()
+        
+        axios.post("http://localhost:8000/api/register", register, {withCredentials: true})
+            .then(res => {
+                console.log(res)
+                setUser({
+                    id: res.data.user.id,
+                    username: res.data.user.username,
+                    room: ""
+                })
+                navigate("/users")
+
+            })
+            .catch(err => console.log(err))
+    }
+
+    //LOGIN 
+        const handleLoginInputs = (e) => {
+        props.setAuthorized("");
+        setState({...state, login: {...state.login, [e.target.name]: e.target.value}})
+    }
+
+    const handleLogin = (e) => {
+        e.preventDefault();
+        axios.post("http://localhost:8000/api/login", login, {withCredentials:true})
+            .then(res => {
+                console.log(res)
+                setUser({
+                    id: res.data.userInfo.id,
+                    username: res.data.userInfo.username,
+                    room: ""
+                })
+                navigate("/users")
+            })
+            .catch(err => console.log(err))
+    }
+////////////////////////////////////////////////////////////////////////////////////////////////
+
 
   const onSubmit = (data) => {
     console.log(data);
@@ -77,7 +137,7 @@ const LoginPage = (props) => {
                     <img src={logo1} style={{}} alt="logo1" />
                     <hr />
 
-                    <form onSubmit={handleSubmit(onSubmit)}>
+                    <form onSubmit={handleLogin}>
                         <div className="mb-6">
                             <label className="block">
                                 <span className="after:content-['*'] after:ml-0.5 after:text-red-500 flex text-sm font-medium text-slate-700">
