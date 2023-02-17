@@ -20,6 +20,7 @@ function App() {
                     <Routes>
                         <Route>
                             <Route index element={<Login authorized= {authorized} setAuthorized={setAuthorized}/>}/>
+                            <Route path="/register" element={<Register authorized= {authorized} setAuthorized={setAuthorized}/>}/>
                             <Route path="/chat" element={<Chat authorized= {authorized} setAuthorized={setAuthorized}/>}/>
 
                         </Route>
