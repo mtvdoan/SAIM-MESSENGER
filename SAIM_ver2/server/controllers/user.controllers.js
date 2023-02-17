@@ -48,9 +48,9 @@ module.exports = {
 
                 res.cookie("usertoken", userToken, {
                     httpOnly: true,
-                }).json({ msg: "success!", user: user });
+                }).json({ msg: "Successful Registration!", user: user });
             })
-            .catch((err) => res.json(err));
+            .catch((err) => res.json(({message:"Problem with registration", error:err})));
     },
 
     deleteUser: (req, res) => {
@@ -72,7 +72,7 @@ module.exports = {
         
         if (user === null) {
             // email not found in users collection
-            return res.sendStatus(400);
+            return res.sendStatus(400).json({message: "Invalid email address"});
         }
 
         // if we made it this far, we found a user with this email address
@@ -84,7 +84,7 @@ module.exports = {
 
         if (!correctPassword) {
             // password wasn't a match!
-            return res.sendStatus(400);
+            return res.sendStatus(400).json({message: 'Invalid password'});
         }
 
         // if we made it this far, the password was correct
@@ -113,6 +113,6 @@ module.exports = {
 
     logout: (req, res) => {
         res.clearCookie("usertoken");
-        res.sendStatus(200);
+        res.sendStatus(200).json({message:"You have logged out!"});
     },
 };

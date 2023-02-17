@@ -26,7 +26,7 @@ require('./config/mongoose.config')
 
 // app.use(cookieParser());
 // Change the app.use(cors()) to the one below
-// app.use(cors({credentials: true, origin: 'http://localhost:3000'})); 
+app.use(cors({credentials: true, origin: 'http://localhost:3000'})); 
 // app.use(bodyParser.json());       // to support JSON-encoded bodies
 // app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
 //   extended: false
