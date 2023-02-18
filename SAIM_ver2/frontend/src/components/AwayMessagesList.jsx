@@ -1,6 +1,6 @@
 import React from 'react'
 
-const AwayMessagesList = () => {
+const AwayMessagesList = (props) => {
   return (
     <div>AwayMessagesList</div>
   )

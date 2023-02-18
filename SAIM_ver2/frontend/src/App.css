@@ -1,0 +1,6 @@
+.rt-tr-group{
+  background: white;
+}
+.rt-tr-group:nth-of-type(even){
+  background: rgb(172, 172, 206);
+}

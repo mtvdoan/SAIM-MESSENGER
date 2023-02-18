@@ -1,6 +1,4 @@
 const express = require('express');
-// const http = require('http');
-
 const app = express();
 const cors = require('cors')
 const cookieParser = require('cookie-parser');
@@ -36,40 +34,27 @@ const io = socketio(server,{
 app.get('/', (req, res) => {
   res.sendFile(__dirname + '/index.html');
 });
+console.log(JSON.stringify(socketio))
 io.on("connection", (socket) => {
     console.log(" server io ...on")
     console.log("Socket:", socket.id, "connected to the server");
+    console.log(`Message sent from ${socket.id}: ${socket}`);
+    // console.log("Is io on from server printing data?", data);
     socket.on("send_message", (data) => {
-        console.log(data);
         io.emit("message_received", data)
         console.log("io:", io);
         console.log("emit:", emit);
     })
 
-    socket.on("join_room", (data) => {
-        console.log("Joined room:", data);
-        socket.join(data)
-    })
+    // socket.on("join_room", (data) => {
+    //     console.log("Joined room:", data);
+    //     socket.join(data)
+    // })
 
     socket.on("private_message", (data) => {
         console.log(data);
-        io.to(data.room).emit("private_message_response", data)
+        // io.to(data.room).emit("private_message_response", data)  //try this out later to add rooms
+        io.emit("private_message_response", data)
+
     })
 })
-// io.on('connection', (socket) => {
-//   console.log("Socket:", socket.id, "disconnected from server");
-//   socket.on('disconnect', () => {
-//     console.log('user disconnected');
-//   });
-// });
-
-// //   socket.on('chat message', (msg) => {
-// //     console.log('message: ' + msg);
-// //     io.emit('chat message', msg);
-// // console.log("Message:", msg )
-// //   });
-// });
-
-// server.listen(3001, () => {
-//   console.log('listening on *:3001');
-// });

@@ -5,9 +5,25 @@ import Chat from "./Chat";
 import man from "../images/aolemoji.png";
 import { UserContext } from "../context/UserContext";
 import axios from "axios";
-import App from '../App'
-import io from 'socket.io-client';
+import App from "../App";
+import io from "socket.io-client";
 const Register = (props) => {
+           const transition = () => {
+            document.addEventListener("DOMContentLoaded", function () {
+                setTimeout(function () {
+                    var replacers = document.querySelectorAll("[data-replace]");
+                    for (var i = 0; i < replacers.length; i++) {
+                        let replaceClasses = JSON.parse(
+                            replacers[i].dataset.replace.replace(/'/g, '"')
+                        );
+                        Object.keys(replaceClasses).forEach(function (key) {
+                            replacers[i].classList.remove(key);
+                            replacers[i].classList.add(replaceClasses[key]);
+                        });
+                    }
+                }, 1);
+            });
+        };
     const { setUser } = useContext(UserContext);
     const navigate = useNavigate();
     const [state, setState] = useState({
@@ -29,32 +45,35 @@ const Register = (props) => {
             register: { ...state.register, [e.target.name]: e.target.value },
         });
     };
-const handleRegistration = (e) => {
-    e.preventDefault();
+    const handleRegistration = (e) => {
+        e.preventDefault();
 
-    axios
-        .post("http://localhost:8000/api/users/register", register, {
-            withCredentials: true,
-        })
-        .then((res) => {
-            console.log(res);
-            setUser({
-                // id: res.data.user.id,
-                screenName: res.data.user.screenName,
-                email: res.data.user.email,
-                password: res.data.user.passord,
-                // room: "",
-            });
-            alert(`Hey, thanks for registering, ${res.data.user.screenName}! Please sign in to get started.`)
-            navigate("/");
-        })
-        .catch((err) => console.log(err));
-        setErrors.push("Something went wrong with the registration!")
-    setErrors([]);
-};
+        axios
+            .post("http://localhost:8000/api/users/register", register, {
+                withCredentials: true,
+            })
+            .then((res) => {
+                console.log(res);
+                setUser({
+                    // id: res.data.user.id,
+                    screenName: res.data.user.screenName,
+                    email: res.data.user.email,
+                    password: res.data.user.passord,
+                    // room: "",
+                });
+                alert(
+                    `Hey, thanks for registering, ${res.data.user.screenName}! Please sign in to get started.`
+                );
+                navigate("/");
+            })
+            .catch((err) => console.log(err));
+        setErrors.push("Something went wrong with the registration!");
+        setErrors([]);
+
+    };
     return (
-        <>
-            <div className="">
+        <> 
+            <div className=" animate-pulse ">
                 <nav className=" whitespace-nowrap m-2 border-gray-200 px-2 sm:px-4 py-2.5 rounded-sm shadow-lg fill-indigo-400border-2 bg-blue-400">
                     <div className="container flex flex-wrap items-center justify-between mx-auto">
                         <div className="flex items-center">
@@ -64,7 +83,7 @@ const handleRegistration = (e) => {
                                 alt="Flowbite Logo"
                             />
                             <h1 className="text-4xl content-centerfont-extrabold text-white dark:text-white">
-                                SAIM - MESSENGER -REGISTRATION 💬 ✍️ 
+                                SAIM - MESSENGER -REGISTRATION 💬 ✍️
                             </h1>
                         </div>
                         <p className="tracking-tighter text-gray-900 md:text-lg dark:text-gray-900">
@@ -103,7 +122,7 @@ const handleRegistration = (e) => {
                                     placeholder="you@example.com"
                                 />
                             </label>
-                        </div>                        
+                        </div>
                         <div className="mb-6 mt-0">
                             <label className="block">
                                 <span className="after:content-['*'] after:ml-0.5 after:text-red-500 flex text-sm font-medium text-slate-700">
@@ -131,7 +150,7 @@ const handleRegistration = (e) => {
                                     placeholder="Create Password"
                                 />
                             </label>
-                        </div>                        
+                        </div>
                         <div>
                             <label className="block">
                                 <span className="after:content-['*'] after:ml-0.5 after:text-red-500 block text-sm font-medium text-slate-700 mt-2">

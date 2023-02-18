@@ -8,6 +8,7 @@ module.exports = (app) => {
     app.post("/api/users/register", UserController.register);
     // app.put('/api/users/:id', UserController.updateUser);
     app.post("/api/users/login", UserController.login);
+    app.put("/api/users/update/:id", UserController.updateUser);
 
     /* login api */
 };

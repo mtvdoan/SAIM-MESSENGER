@@ -4,6 +4,7 @@ import React, {useState} from 'react';
 import {UserProvider} from './context/UserContext';
 import Login from './components/Login';
 import Register from './components/Register';
+import AwayMessagesList from './components/AwayMessagesList';
 import CreateAwayMessage from './components/CreateAwayMessage';
 import UpdateAwayMessage from './components/UpdateAwayMessage';
 import ViewAwayMessage from './components/ViewAwayMessage';
@@ -22,7 +23,7 @@ function App() {
                             <Route index element={<Login authorized= {authorized} setAuthorized={setAuthorized}/>}/>
                             <Route path="/register" element={<Register authorized= {authorized} setAuthorized={setAuthorized}/>}/>
                             <Route path="/chat" element={<Chat authorized= {authorized} setAuthorized={setAuthorized}/>}/>
-
+                            <Route path="/AwayMessagesList" element={<AwayMessagesList authorized= {authorized} setAuthorized={setAuthorized}/>}/>
                         </Route>
                     </Routes>
                 </UserProvider>
