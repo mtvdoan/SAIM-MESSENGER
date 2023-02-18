@@ -7,7 +7,7 @@ import Register from './components/Register';
 import AwayMessagesList from './components/AwayMessagesList';
 import CreateAwayMessage from './components/CreateAwayMessage';
 import UpdateAwayMessage from './components/UpdateAwayMessage';
-import ViewAwayMessage from './components/ViewAwayMessage';
+import AwayMessageModal from './components/AwayMessageModal';
 import Chat from './components/Chat';
 import io from 'socket.io-client';
 
@@ -23,7 +23,7 @@ function App() {
                             <Route index element={<Login authorized= {authorized} setAuthorized={setAuthorized}/>}/>
                             <Route path="/register" element={<Register authorized= {authorized} setAuthorized={setAuthorized}/>}/>
                             <Route path="/chat" element={<Chat authorized= {authorized} setAuthorized={setAuthorized}/>}/>
-                            <Route path="/awayMessages/:_id" element={<ViewAwayMessage authorized= {authorized} setAuthorized={setAuthorized}/>}/>
+                            <Route path="/awayMessages/:id/" element={<AwayMessageModal/>}/>
                             <Route path="/awayMessages" element={<AwayMessagesList authorized= {authorized} setAuthorized={setAuthorized}/>}/>
                         </Route>
                     </Routes>

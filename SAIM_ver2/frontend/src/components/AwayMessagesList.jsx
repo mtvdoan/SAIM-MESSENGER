@@ -6,7 +6,9 @@ import aolemoji from "../images/aolemoji.png";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import LikeButton from "./LikeButton";
+import AwayMessageModal from "./AwayMessageModal";
 const AwayMessagesList = (props) => {
+    const [showModal, setShowModal] = React.useState(false);
     const [awayMessagesList, setAwayMessagesList] = useState([]);
     const [usersList, setUsersList] = useState([]);
     const { user, setUser, socket } = useContext(UserContext);
@@ -42,7 +44,7 @@ const AwayMessagesList = (props) => {
                     "Something went wrong trying to delete the away message",
                     err
                 )
-        );
+            );
     };
 
     const removeFromDom = (awayMessageId) => {
@@ -93,7 +95,14 @@ const AwayMessagesList = (props) => {
                                     <h1 className=" text-5xl font-extrabold text-white dark:text-white mt-10">
                                         @ {userScreenName}
                                     </h1>
-                                        <img src={aolemoji} alt="aolemoji" style={{height:"150px", width:"200px"}} />
+                                    <img
+                                        src={aolemoji}
+                                        alt="aolemoji"
+                                        style={{
+                                            height: "150px",
+                                            width: "200px",
+                                        }}
+                                    />
                                 </mark>
                             </p>
                         </div>
@@ -125,7 +134,7 @@ const AwayMessagesList = (props) => {
                 <div className="p-4">
                     <div
                         className="rounded-lg shadow-2xl m-auto p-2 grid grid-col-2 content-center"
-                        style={{ width: "1500px" }}
+                        style={{ width: "2000px" }}
                     >
                         <div
                             className="border-1 border-black bg-gray-300 m-2"
@@ -160,30 +169,30 @@ const AwayMessagesList = (props) => {
                                         }}
                                     >
                                         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-                                            <table className="w-full text-3xl text-left bg-white text-black">
+                                            <table className="m-4 text-xl text-left bg-white text-black" style={{width:"1800px"}}>
                                                 <thead className="text-3xl text-center text-gray-700 uppercase bg-white text-black">
-                                                    <tr>
+                                                    <tr className="">
                                                         <th
                                                             scope="col"
-                                                            className="px-6 py-3"
                                                         >
                                                             Away Message
                                                         </th>
                                                         <th
                                                             scope="col"
-                                                            className="px-6 py-3"
+
                                                         >
                                                             Creator
                                                         </th>
                                                         <th
                                                             scope="col"
-                                                            className=" p-6 py-3"
+                                                            className="whitespace-nowrap"
+                                                            script={{width:"500px"}}
                                                         >
                                                             Likes
                                                         </th>
                                                         <th
                                                             scope="col"
-                                                            className="px-6 py-3"
+
                                                         >
                                                             Action
                                                         </th>
@@ -203,31 +212,79 @@ const AwayMessagesList = (props) => {
                                                                     }
                                                                     className="bg-white border-b bg-white dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-blue-300"
                                                                 >
-                                                                    <td className="px-6 py-4">
-                                                                        <Link
-                                                                            className="link-primary"
-                                                                            to={
-                                                                                "/awayMessages/" +
-                                                                                awayMessage._id
-                                                                            }
-                                                                        >
-                                                                            
-                                                                            <h6>
+                                                                    <td className="">
+                                                                        <div className="flex items-center justify-center">
+                                                                            <button
+                                                                                className="px-6 py-3 text-purple-100 bg-purple-600 rounded-md"
+                                                                                type="button"
+                                                                                onClick={() =>
+                                                                                    setShowModal(
+                                                                                        true
+                                                                                    )
+                                                                                }
+                                                                            >
                                                                                 {
                                                                                     awayMessage.awayMessageLabel
                                                                                 }
-                                                                            </h6>
-                                                                        </Link>
+                                                                            </button>
+                                                                        </div>
+                                                                        {showModal ? (
+                                                                            <div className="fixed inset-0 z-10 overflow-y-auto">
+                                                                                <div
+                                                                                    className="fixed inset-0 w-full h-full bg-transparent blur-2xl"
+                                                                                    onClick={() =>
+                                                                                        setShowModal(
+                                                                                            false
+                                                                                        )
+                                                                                    }
+                                                                                ></div>
+                                                                                <div className="flex items-center min-h-screen px-4 py-8">
+                                                                                    <div className="relative w-full max-w-lg p-4 mx-auto bg-white rounded-md shadow-lg text-center">
+                                                                                        <div className="">
+                                                                                            <h1 className="text-center w-full text-4xl font-extrabold leading-none tracking-tight text-black">
+                                                                                                "
+                                                                                                {
+                                                                                                    awayMessage.awayMessage
+                                                                                                }
+
+                                                                                                "
+                                                                                            </h1>
+                                                                                        </div>
+
+                                                                                        -
+                                                                                        {
+                                                                                            awayMessage.awayMessageCreator
+                                                                                        }
+                                                                                        <div className="mt-3 sm:flex">
+                                                                                            <div className="mt-2 text-center sm:ml-4 sm:text-left">
+                                                                                                <div className="items-center gap-2 mt-3 sm:flex">
+                                                                                                    <button
+                                                                                                        className="w-full mt-2 p-2.5 flex-1 text-white bg-red-600"
+                                                                                                        onClick={() =>
+                                                                                                            setShowModal(
+                                                                                                                false
+                                                                                                            )
+                                                                                                        }
+                                                                                                    >
+                                                                                                        Close
+                                                                                                    </button>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        ) : null}
                                                                     </td>
-                                                                    <td className="px-6 py-4">
+                                                                    <td className="">
                                                                         {
                                                                             awayMessage.awayMessageCreator
                                                                         }
                                                                     </td>
-                                                                    <td className="px-6 py-4">
-                                                                        <LikeButton/>
+                                                                    <td className="" style={{}} >
+                                                                        <LikeButton />
                                                                     </td>
-                                                                    <td className=" px-20 py-4">
+                                                                    <td className="">
                                                                         {(() => {
                                                                             console.log(
                                                                                 "what is my creator for reaturn",
@@ -237,30 +294,29 @@ const AwayMessagesList = (props) => {
                                                                                 "what is my userScreenName value for return",
                                                                                 userScreenName
                                                                             );
-                                                                            return awayMessage.awayMessageCreator == userScreenName 
-                                                                                ? (
-                                                                                    <>
-                                                                                        <button className="bg-yellow-500 hover:bg-blue-700 text-white font-bold py-2 px-2 border border-blue-700 rounded">
-                                                                                            <Link
-                                                                                                to={
-                                                                                                    "/awayMessages/update"
-                                                                                                }
-                                                                                            >
-                                                                                                Edit
-                                                                                            </Link>
-                                                                                        </button>
-                                                                                        <button className="bg-red-500 hover:bg-blue-700 text-white font-bold py-2 px-2 border border-blue-700 rounded">
-                                                                                            <Link
-                                                                                                to={
-                                                                                                    "/awayMessages/delete"
-                                                                                                }
-                                                                                            >
-                                                                                                Delete
-                                                                                            </Link>
-                                                                                        </button>
-                                                                                    </>
-                                                                                ) 
-                                                                                : null;
+                                                                            return awayMessage.awayMessageCreator ==
+                                                                                userScreenName ? (
+                                                                                <>
+                                                                                    <button className="bg-yellow-500 hover:bg-blue-700 text-white font-bold py-2 px-2 border border-blue-700 rounded">
+                                                                                        <Link
+                                                                                            to={
+                                                                                                "/awayMessages/update"
+                                                                                            }
+                                                                                        >
+                                                                                            Edit
+                                                                                        </Link>
+                                                                                    </button>
+                                                                                    <button className="bg-red-500 hover:bg-blue-700 text-white font-bold py-2 px-2 border border-blue-700 rounded">
+                                                                                        <Link
+                                                                                            to={
+                                                                                                "/awayMessages/delete"
+                                                                                            }
+                                                                                        >
+                                                                                            Delete
+                                                                                        </Link>
+                                                                                    </button>
+                                                                                </>
+                                                                            ) : null;
                                                                         })()}
                                                                     </td>
                                                                 </tr>
