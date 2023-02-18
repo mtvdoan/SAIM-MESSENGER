@@ -8,22 +8,6 @@ import axios from "axios";
 import App from "../App";
 import io from "socket.io-client";
 const Register = (props) => {
-           const transition = () => {
-            document.addEventListener("DOMContentLoaded", function () {
-                setTimeout(function () {
-                    var replacers = document.querySelectorAll("[data-replace]");
-                    for (var i = 0; i < replacers.length; i++) {
-                        let replaceClasses = JSON.parse(
-                            replacers[i].dataset.replace.replace(/'/g, '"')
-                        );
-                        Object.keys(replaceClasses).forEach(function (key) {
-                            replacers[i].classList.remove(key);
-                            replacers[i].classList.add(replaceClasses[key]);
-                        });
-                    }
-                }, 1);
-            });
-        };
     const { setUser } = useContext(UserContext);
     const navigate = useNavigate();
     const [state, setState] = useState({
@@ -36,8 +20,6 @@ const Register = (props) => {
     });
     const [errors, setErrors] = useState([]);
     const { register } = state;
-
-    // //*Registration
     const handleRegInputs = (e) => {
         props.setAuthorized("");
         setState({
@@ -69,10 +51,9 @@ const Register = (props) => {
             .catch((err) => console.log(err));
         setErrors.push("Something went wrong with the registration!");
         setErrors([]);
-
     };
     return (
-        <> 
+        <>
             <div className=" animate-pulse ">
                 <nav className=" whitespace-nowrap m-2 border-gray-200 px-2 sm:px-4 py-2.5 rounded-sm shadow-lg fill-indigo-400border-2 bg-blue-400">
                     <div className="container flex flex-wrap items-center justify-between mx-auto">
@@ -180,7 +161,7 @@ const Register = (props) => {
                         <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">
                             © 2023{" "}
                             <a
-                                href="https://flowbite.com/"
+                                href="https://r.mtdv.me/kysmDOGUOK"
                                 className="hover:underline"
                             >
                                 SAIM MESSENGER™

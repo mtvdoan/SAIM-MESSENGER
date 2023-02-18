@@ -5,19 +5,12 @@ import Chat from "./Chat";
 import man from "../images/aolemoji.png";
 import { UserContext } from "../context/UserContext";
 import axios from "axios";
-import App from '../App'
-import io from 'socket.io-client';
+import App from "../App";
+import io from "socket.io-client";
 const Login = (props) => {
     const { setUser } = useContext(UserContext);
     const navigate = useNavigate();
-    // const name = localStorage.getItem("screenName");
     const [state, setState] = useState({
-        // register: {
-        //     screenName: "",
-        //     email: "",
-        //     password: "",
-        //     confirmPassword: "",
-        // },
         login: {
             email: "",
             password: "",
@@ -25,38 +18,6 @@ const Login = (props) => {
     });
     const [errors, setErrors] = useState([]);
     const { login } = state;
-
-    // //*Registration
-    // const handleRegInputs = (e) => {
-    //     props.setAuthorized("");
-    //     setState({
-    //         ...state,
-    //         register: { ...state.register, [e.target.name]: e.target.value },
-    //     });
-    // };
-// const handleRegistration = (e) => {
-//     e.preventDefault();
-
-//     axios
-//         .post("http://localhost:8000/api/users/register", register, {
-//             withCredentials: true,
-//         })
-//         .then((res) => {
-//             console.log(res);
-//             setUser({
-//                 id: res.data.user.id,
-//                 screenName: res.data.user.screenName,
-//                 // room: "",
-//             });
-//             navigate("/users");
-//         })
-//         .catch((err) => console.log(err));
-
-//     // Clear errors
-//     setErrors([]);
-// };
-
-    //LOGIN
     const handleLoginInputs = (e) => {
         props.setAuthorized("");
         setState({
@@ -67,7 +28,7 @@ const Login = (props) => {
 
     const handleLogin = (e) => {
         e.preventDefault();
-        const errorArr=[];
+        const errorArr = [];
         axios
             .post("http://localhost:8000/api/users/login", login, {
                 withCredentials: true,
@@ -83,29 +44,17 @@ const Login = (props) => {
                 navigate("/chat");
             })
             .catch((err) => {
-                
                 console.log("is it even catching an error?", err);
-                const errorResponse = err.response.data; // Get the errors from err.response.data
- // Define a temp error array to push the messages in
-                    console.log("errorArr", errorArr);
-                    console.log("errorResponse", errorResponse)
-                errorArr.push("Ooops, something went wrong with logging in.  Try again!")
-                // for (const key of Object.keys(errorResponse)) {
-                //     console.log("printingkeys", key)
-                //     console.log("errorResponse", errorResponse)
-                //     console.log("printingkeys objectkeys", Object.keys)
-                //     // Loop through all errors and get the messages
-                //     errorArr.push(errorResponse[key].message);
-                //     console.log("tell me the key", key);
-                //     console.log("printing errors object errorResponse[key]", errorResponse[key].message)
-                // }
-                // Set Errors
+                const errorResponse = err.response.data;
+                console.log("errorArr", errorArr);
+                console.log("errorResponse", errorResponse);
+                errorArr.push(
+                    "Ooops, something went wrong with logging in.  Try again!"
+                );
                 setErrors(errorArr);
-
-                console.log("what is my error arr?", errorArr)
+                console.log("what is my error arr?", errorArr);
             });
     };
-
     return (
         <>
             <div className="">
@@ -157,7 +106,12 @@ const Login = (props) => {
                                     className="mt-1 px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1"
                                     placeholder="you@example.com"
                                 />
-                                <Link className=" text-blue-700 underline" to={"/register"}>No account?  Sign Up!</Link>
+                                <Link
+                                    className=" text-blue-700 underline"
+                                    to={"/register"}
+                                >
+                                    No account? Sign Up!
+                                </Link>
                             </label>
                         </div>
                         <div>

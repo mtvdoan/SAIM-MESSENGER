@@ -5,6 +5,7 @@ import logo1 from "../images/logo1.png";
 import aolemoji from "../images/aolemoji.png";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
+import LikeButton from "./LikeButton";
 const AwayMessagesList = (props) => {
     const [awayMessagesList, setAwayMessagesList] = useState([]);
     const [usersList, setUsersList] = useState([]);
@@ -19,33 +20,15 @@ const AwayMessagesList = (props) => {
         );
     console.log("is this printing the loop awaylist", creator);
     const userScreenName = user["screenName"];
-    // usersList.length > 0 &&
-    // usersList.map(
-    //     (user, index) => user.screenName
-    // );
     console.log("Is this loop printing my userList?", userScreenName);
     console.log("who's the creator", creator);
     console.log("awaymessages creators", creator);
-    useEffect(() => {
-        console.log("wheeeeeee4e");
-        socket.on("private_message_response", (data) => {
-            console.log("what is my socket", socket);
-            console.log("Got your message");
-            console.log(
-                "user should have have received data and confirm",
-                data
-            );
-        });
-        console.log("what is my socket.id", socket.id);
-        return () => setUser({ ...user });
-    }, []);
     const navigate = useNavigate();
     const handleLogOutClick = () => {
         console.log(`${user.screenName} has been logged out.`);
         alert(`${user.screenName} has been successfully logged out! 👋`);
         navigate("/");
     };
-
     const deleteAwayMessage = (awayMessageId) => {
         axios
             .delete("http://localhost:8000/api/awayMessages/" + awayMessageId)
@@ -59,7 +42,7 @@ const AwayMessagesList = (props) => {
                     "Something went wrong trying to delete the away message",
                     err
                 )
-            );
+        );
     };
 
     const removeFromDom = (awayMessageId) => {
@@ -80,14 +63,6 @@ const AwayMessagesList = (props) => {
             )
             .catch((err) => console.log(err));
     }, []);
-
-    // const actionButton = () => {
-    //     if (user == creator) {
-    //         return <p>yes i am</p>;
-    //     } else {
-    //         return <p>NOPE</p>;
-    //     }
-    // };
 
     useEffect(() => {
         axios
@@ -114,10 +89,11 @@ const AwayMessagesList = (props) => {
                             </div>
 
                             <p className="tracking-tighter text-gray-900 md:text-lg dark:text-gray-400">
-                                <mark className="flex m-auto m-4 p-4 bg-blue-800 rounded-xl shadow-lg">
-                                    <h1 className=" text-5xl font-extrabold text-white dark:text-white">
+                                <mark className="grid grid-cols-2 content-center m-auto m-4 p-4 bg-blue-800 rounded-xl shadow-lg h-28 w-80">
+                                    <h1 className=" text-5xl font-extrabold text-white dark:text-white mt-10">
                                         @ {userScreenName}
                                     </h1>
+                                        <img src={aolemoji} alt="aolemoji" style={{height:"150px", width:"200px"}} />
                                 </mark>
                             </p>
                         </div>
@@ -126,7 +102,7 @@ const AwayMessagesList = (props) => {
                 <div className="max-w-screen-md mx-auto text-center justify-center content-center m-auto inline">
                     <svg
                         aria-hidden="true"
-                        class="w-12 h-12 mx-auto mb-3 text-gray-400 dark:text-gray-600"
+                        className="w-12 h-12 mx-auto mb-3 text-gray-400 dark:text-gray-600"
                         viewBox="0 0 24 27"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
@@ -137,18 +113,16 @@ const AwayMessagesList = (props) => {
                         />
                     </svg>
 
-                    <h1 class="text-center max-w-full w-full text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-black">
+                    <h1 className="text-center max-w-full w-full text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-black">
                         <span>🤔</span>
                         Rember
-                        <mark class="px-2 text-black bg-blue-600 rounded dark:bg-yellow-400 m-6">
+                        <mark className="px-2 text-black bg-blue-600 rounded dark:bg-yellow-400 m-6">
                             Away 💨
                         </mark>
                         Messages?"
                     </h1>
                 </div>
                 <div className="p-4">
-                    <div></div>
-
                     <div
                         className="rounded-lg shadow-2xl m-auto p-2 grid grid-col-2 content-center"
                         style={{ width: "1500px" }}
@@ -185,35 +159,33 @@ const AwayMessagesList = (props) => {
                                             maxHeight: "500px",
                                         }}
                                     >
-                                        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                                            <table class="w-full text-sm text-left bg-white text-black">
-                                                <thead class="text-xs text-gray-700 uppercase bg-white text-black">
+                                        <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
+                                            <table className="w-full text-3xl text-left bg-white text-black">
+                                                <thead className="text-3xl text-center text-gray-700 uppercase bg-white text-black">
                                                     <tr>
                                                         <th
                                                             scope="col"
-                                                            class="px-6 py-3"
+                                                            className="px-6 py-3"
                                                         >
                                                             Away Message
                                                         </th>
                                                         <th
                                                             scope="col"
-                                                            class="px-6 py-3"
+                                                            className="px-6 py-3"
                                                         >
                                                             Creator
                                                         </th>
                                                         <th
                                                             scope="col"
-                                                            class="px-6 py-3"
+                                                            className=" p-6 py-3"
                                                         >
                                                             Likes
                                                         </th>
                                                         <th
                                                             scope="col"
-                                                            class="px-6 py-3"
+                                                            className="px-6 py-3"
                                                         >
-                                                            <span class="sr-only">
-                                                                Edit
-                                                            </span>
+                                                            Action
                                                         </th>
                                                     </tr>
                                                 </thead>
@@ -239,6 +211,7 @@ const AwayMessagesList = (props) => {
                                                                                 awayMessage._id
                                                                             }
                                                                         >
+                                                                            
                                                                             <h6>
                                                                                 {
                                                                                     awayMessage.awayMessageLabel
@@ -252,7 +225,7 @@ const AwayMessagesList = (props) => {
                                                                         }
                                                                     </td>
                                                                     <td className="px-6 py-4">
-                                                                        likes
+                                                                        <LikeButton/>
                                                                     </td>
                                                                     <td className=" px-20 py-4">
                                                                         {(() => {
@@ -296,8 +269,6 @@ const AwayMessagesList = (props) => {
                                                 </tbody>
                                             </table>
                                         </div>
-
-                                        {/* Add content */}
                                     </div>
                                 </div>
                             </div>
