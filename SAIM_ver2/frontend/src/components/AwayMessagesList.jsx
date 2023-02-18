@@ -1,9 +1,327 @@
-import React from 'react'
-
+import { UserContext } from "../context/UserContext";
+import React, { useState, useEffect, useContext } from "react";
+import Chat from "./Chat";
+import logo1 from "../images/logo1.png";
+import aolemoji from "../images/aolemoji.png";
+import { useNavigate, Link } from "react-router-dom";
+import axios from "axios";
 const AwayMessagesList = (props) => {
-  return (
-    <div>AwayMessagesList</div>
-  )
-}
+    const [awayMessagesList, setAwayMessagesList] = useState([]);
+    const [usersList, setUsersList] = useState([]);
+    const { user, setUser, socket } = useContext(UserContext);
+    console.log("What is my socket", socket);
+    console.log("what is my user", user);
+    console.log("whatis set user?", setUser);
+    const creator =
+        awayMessagesList.length > 0 &&
+        awayMessagesList.map(
+            (awayMessage, index) => awayMessage.awayMessageCreator
+        );
+    console.log("is this printing the loop awaylist", creator);
+    const userScreenName = user["screenName"];
+    // usersList.length > 0 &&
+    // usersList.map(
+    //     (user, index) => user.screenName
+    // );
+    console.log("Is this loop printing my userList?", userScreenName);
+    console.log("who's the creator", creator);
+    console.log("awaymessages creators", creator);
+    useEffect(() => {
+        console.log("wheeeeeee4e");
+        socket.on("private_message_response", (data) => {
+            console.log("what is my socket", socket);
+            console.log("Got your message");
+            console.log(
+                "user should have have received data and confirm",
+                data
+            );
+        });
+        console.log("what is my socket.id", socket.id);
+        return () => setUser({ ...user });
+    }, []);
+    const navigate = useNavigate();
+    const handleLogOutClick = () => {
+        console.log(`${user.screenName} has been logged out.`);
+        alert(`${user.screenName} has been successfully logged out! 👋`);
+        navigate("/");
+    };
 
-export default AwayMessagesList
+    const deleteAwayMessage = (awayMessageId) => {
+        axios
+            .delete("http://localhost:8000/api/awayMessages/" + awayMessageId)
+            .then(() => {
+                console.log("Successfully deleted away message from backend");
+                alert(`Away message has been deleted`);
+                removeFromDom(awayMessageId);
+            })
+            .catch((err) =>
+                console.log(
+                    "Something went wrong trying to delete the away message",
+                    err
+                )
+            );
+    };
+
+    const removeFromDom = (awayMessageId) => {
+        setAwayMessagesList(
+            awayMessagesList.filter((a) => a._id !== awayMessageId)
+        );
+    };
+
+    useEffect(() => {
+        axios
+            .get("http://localhost:8000/api/awayMessages/")
+            .then((response) =>
+                setAwayMessagesList(
+                    response.data,
+                    response.data.awayMessageCreator,
+                    console.log("All Away Messages:", response.data)
+                )
+            )
+            .catch((err) => console.log(err));
+    }, []);
+
+    // const actionButton = () => {
+    //     if (user == creator) {
+    //         return <p>yes i am</p>;
+    //     } else {
+    //         return <p>NOPE</p>;
+    //     }
+    // };
+
+    useEffect(() => {
+        axios
+            .get("http://localhost:8000/api/users/")
+            .then((response) =>
+                setUsersList(
+                    response.data,
+                    response.data.screenName,
+                    console.log("All users:", response.data)
+                )
+            )
+            .catch((err) => console.log(err));
+    }, []);
+    return (
+        <>
+            <div>
+                <div className="">
+                    <nav className="whitespace-nowrap m-2 border-gray-200 px-2 sm:px-4 py-10 rounded-2xl shadow-2xl fill-indigo-400border-2  bg-blue-400">
+                        <div className="container flex flex-wrap items-center justify-between mx-auto">
+                            <div className="flex items-center justify">
+                                <h1 className="text-5xl mr-44 font-extrabold text-white dark:text-white">
+                                    SAIM - MESSENGER
+                                </h1>
+                            </div>
+
+                            <p className="tracking-tighter text-gray-900 md:text-lg dark:text-gray-400">
+                                <mark className="flex m-auto m-4 p-4 bg-blue-800 rounded-xl shadow-lg">
+                                    <h1 className=" text-5xl font-extrabold text-white dark:text-white">
+                                        @ {userScreenName}
+                                    </h1>
+                                </mark>
+                            </p>
+                        </div>
+                    </nav>
+                </div>
+                <div className="max-w-screen-md mx-auto text-center justify-center content-center m-auto inline">
+                    <svg
+                        aria-hidden="true"
+                        class="w-12 h-12 mx-auto mb-3 text-gray-400 dark:text-gray-600"
+                        viewBox="0 0 24 27"
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path
+                            d="M14.017 18L14.017 10.609C14.017 4.905 17.748 1.039 23 0L23.995 2.151C21.563 3.068 20 5.789 20 8H24V18H14.017ZM0 18V10.609C0 4.905 3.748 1.038 9 0L9.996 2.151C7.563 3.068 6 5.789 6 8H9.983L9.983 18L0 18Z"
+                            fill="currentColor"
+                        />
+                    </svg>
+
+                    <h1 class="text-center max-w-full w-full text-4xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-black">
+                        <span>🤔</span>
+                        Rember
+                        <mark class="px-2 text-black bg-blue-600 rounded dark:bg-yellow-400 m-6">
+                            Away 💨
+                        </mark>
+                        Messages?"
+                    </h1>
+                </div>
+                <div className="p-4">
+                    <div></div>
+
+                    <div
+                        className="rounded-lg shadow-2xl m-auto p-2 grid grid-col-2 content-center"
+                        style={{ width: "1500px" }}
+                    >
+                        <div
+                            className="border-1 border-black bg-gray-300 m-2"
+                            style={{ width: "auto", height: "700px" }}
+                        >
+                            <div
+                                className="text-xl h-12 p-4 font-extrabold dark:text-white bg-blue-500 border-black border-2"
+                                style={{ width: "auto" }}
+                            ></div>
+                            <div
+                                className=""
+                                style={{
+                                    maxHeight: "400px",
+                                    width: "auto",
+                                    height: "800px",
+                                }}
+                            >
+                                <div
+                                    className="border-2 whitespace-normal border-black overflow-auto p-2 m-4 bg-white"
+                                    id="messages"
+                                    style={{ maxHeight: "900px" }}
+                                >
+                                    <div
+                                        className="rt-body whitespace-normal m-2 card overflow-y-auto border-1 border-black"
+                                        style={{
+                                            width: "auto",
+                                            height: "1500px",
+                                            overflow: "visible",
+                                            scrollbarWidth: "700px",
+                                            whitespace: "wrap",
+                                            maxHeight: "500px",
+                                        }}
+                                    >
+                                        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                                            <table class="w-full text-sm text-left bg-white text-black">
+                                                <thead class="text-xs text-gray-700 uppercase bg-white text-black">
+                                                    <tr>
+                                                        <th
+                                                            scope="col"
+                                                            class="px-6 py-3"
+                                                        >
+                                                            Away Message
+                                                        </th>
+                                                        <th
+                                                            scope="col"
+                                                            class="px-6 py-3"
+                                                        >
+                                                            Creator
+                                                        </th>
+                                                        <th
+                                                            scope="col"
+                                                            class="px-6 py-3"
+                                                        >
+                                                            Likes
+                                                        </th>
+                                                        <th
+                                                            scope="col"
+                                                            class="px-6 py-3"
+                                                        >
+                                                            <span class="sr-only">
+                                                                Edit
+                                                            </span>
+                                                        </th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    {awayMessagesList.length >
+                                                        0 &&
+                                                        awayMessagesList.map(
+                                                            (
+                                                                awayMessage,
+                                                                index
+                                                            ) => (
+                                                                <tr
+                                                                    key={
+                                                                        awayMessage.id
+                                                                    }
+                                                                    className="bg-white border-b bg-white dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-blue-300"
+                                                                >
+                                                                    <td className="px-6 py-4">
+                                                                        <Link
+                                                                            className="link-primary"
+                                                                            to={
+                                                                                "/awayMessages/" +
+                                                                                awayMessage._id
+                                                                            }
+                                                                        >
+                                                                            <h6>
+                                                                                {
+                                                                                    awayMessage.awayMessageLabel
+                                                                                }
+                                                                            </h6>
+                                                                        </Link>
+                                                                    </td>
+                                                                    <td className="px-6 py-4">
+                                                                        {
+                                                                            awayMessage.awayMessageCreator
+                                                                        }
+                                                                    </td>
+                                                                    <td className="px-6 py-4">
+                                                                        likes
+                                                                    </td>
+                                                                    <td className=" px-20 py-4">
+                                                                        {(() => {
+                                                                            console.log(
+                                                                                "what is my creator for reaturn",
+                                                                                creator
+                                                                            );
+                                                                            console.log(
+                                                                                "what is my userScreenName value for return",
+                                                                                userScreenName
+                                                                            );
+                                                                            return awayMessage.awayMessageCreator == userScreenName 
+                                                                                ? (
+                                                                                    <>
+                                                                                        <button className="bg-yellow-500 hover:bg-blue-700 text-white font-bold py-2 px-2 border border-blue-700 rounded">
+                                                                                            <Link
+                                                                                                to={
+                                                                                                    "/awayMessages/update"
+                                                                                                }
+                                                                                            >
+                                                                                                Edit
+                                                                                            </Link>
+                                                                                        </button>
+                                                                                        <button className="bg-red-500 hover:bg-blue-700 text-white font-bold py-2 px-2 border border-blue-700 rounded">
+                                                                                            <Link
+                                                                                                to={
+                                                                                                    "/awayMessages/delete"
+                                                                                                }
+                                                                                            >
+                                                                                                Delete
+                                                                                            </Link>
+                                                                                        </button>
+                                                                                    </>
+                                                                                ) 
+                                                                                : null;
+                                                                        })()}
+                                                                    </td>
+                                                                </tr>
+                                                            )
+                                                        )}{" "}
+                                                </tbody>
+                                            </table>
+                                        </div>
+
+                                        {/* Add content */}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="flex justify-center">
+                        <a
+                            href
+                            onClick={handleLogOutClick}
+                            className=" cursor-pointer relative inline-flex items-center justify-start px-6 py-3 overflow-hidden font-medium transition-all bg-red-500 rounded-xl group"
+                        >
+                            <span className="absolute top-0 right-0 inline-block w-4 h-4 transition-all duration-500 ease-in-out bg-red-700 rounded group-hover:-mr-4 group-hover:-mt-4">
+                                <span className="absolute top-0 right-0 w-5 h-5 rotate-45 translate-x-1/2 -translate-y-1/2 bg-white"></span>
+                            </span>
+                            <span className="absolute bottom-0 left-0 w-full h-full transition-all duration-500 ease-in-out delay-200 -translate-x-full translate-y-full bg-red-600 rounded-2xl group-hover:mb-12 group-hover:translate-x-0"></span>
+                            <span className="relative w-full text-left text-white transition-colors duration-200 ease-in-out group-hover:text-white">
+                                Log Out
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </>
+    );
+};
+
+export default AwayMessagesList;
