@@ -302,14 +302,22 @@ const AwayMessagesList = (props) => {
                                                                             return awayMessage.awayMessageCreator ==
                                                                                 userScreenName ? (
                                                                                 <>
-                                                                                    <UpdateAwayMessage 
-                                                                                        label={awayMessage.awayMessageLabel}
-                                                                                        creator={awayMessage.awayMessageCreator} 
-                                                                                        message={awayMessage.awayMessage} 
-                                                                                        id={awayMessage._id}
+                                                                                    <UpdateAwayMessage
+                                                                                        label={
+                                                                                            awayMessage.awayMessageLabel
+                                                                                        }
+                                                                                        creator={
+                                                                                            awayMessage.awayMessageCreator
+                                                                                        }
+                                                                                        message={
+                                                                                            awayMessage.awayMessage
+                                                                                        }
+                                                                                        id={
+                                                                                            awayMessage._id
+                                                                                        }
                                                                                         test="ale4xbutt"
                                                                                     />
-                                                                                    
+
                                                                                     <Boop
                                                                                         rotation={
                                                                                             30
@@ -318,14 +326,10 @@ const AwayMessagesList = (props) => {
                                                                                             200
                                                                                         }
                                                                                     >
-                                                                                        <button className="bg-red-500 hover:bg-blue-700 text-white font-bold py-2 px-2 border border-blue-700 rounded">
-                                                                                            <Link
-                                                                                                to={
-                                                                                                    "/awayMessages/delete"
-                                                                                                }
-                                                                                            >
-                                                                                                Delete
-                                                                                            </Link>
+                                                                                        <button 
+                                                                                            onClick = {() => deleteAwayMessage(awayMessage._id)}
+                                                                                            className="bg-red-500 hover:bg-blue-700 text-white font-bold py-2 px-2 border border-blue-700 rounded">
+                                                                                            Delete
                                                                                         </button>
                                                                                     </Boop>
                                                                                 </>
@@ -348,7 +352,7 @@ const AwayMessagesList = (props) => {
                             <div className="m-auto">
                                 <Boop rotation={"5"} timing={"200"}>
                                     <button className=" mr-40 bg-yellow-700 rounded-2xl hover:bg-yellow-900 text-black text-5xl font-extrabold rounded">
-                                        Go Back
+                                        <Link to={"/chat"}>Go Back</Link>
                                     </button>
                                 </Boop>
                                 <div></div>
