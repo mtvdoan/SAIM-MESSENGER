@@ -1,58 +1,91 @@
-import React, { useState, useEffect, useContext } from "react";
-import {UserContext} from '../context/UserContext';
-import {useNavigate, useParams} from 'react-router-dom';
-import axios from 'axios';
-const AwayMessageModal = (props) => {
-      const { id } = useParams();
-    const { user, setUser, socket } = useContext(UserContext);
-    const [awayMessage, setAwayMessage] = useState({});
-    const [awayMessagesList, setAwayMessagesList] = useState([]);
-    const [showModal, setShowModal] = useState(true);
-    const navigate = useNavigate();
+import { Fragment, useState, useEffect, useContext } from "react";
+import {
+    Button,
+    Dialog,
+    DialogHeader,
+    DialogBody,
+    DialogFooter,
+} from "@material-tailwind/react";
+import { UserContext } from "../context/UserContext";
+import { useParams } from "react-router-dom";
+import { animated } from "react-spring";
+import axios from "axios";
+import Boop from "./Boop";
+import aolemoji from "../images/aolemoji.png";
 
-     useEffect(() => {
+const AwayMessageModal = (props) => {
+    const helper=(message, object)=>{
+      console.log(message, object);
+      return object;
+    }
+    const { label, message, creator } = props;
+    console.log( label, message, creator )
+    const { user, socket } = useContext(UserContext);
+    const [open, setOpen] = useState(false);
+    const [awayMessagesList, setAwayMessagesList] = useState([]);
+    const handleOpen = () => setOpen(!open);
+
+    useEffect(() => {
         axios
-            .get("http://localhost:8000/api/awayMessages/" + id)
-            .then((res) => setAwayMessage(res.data))
+            .get("http://localhost:8000/api/awayMessages/")
+            .then((response) => {
+                setAwayMessagesList(response.data);
+            })
             .catch((err) => console.log(err));
     }, []);
-  return (
-    <>
-          <div
-            className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
-          >
-            <div className="relative w-auto my-6 mx-auto max-w-6xl">
-              {/*content*/}
-              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
-                {/*header*/}
-                <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
-                  <h3 className="text-3xl font-semibold">
-                    Modal Title
-                  </h3>
 
+    return (
+      <>
+        <div className="grid grid-cols-1 content-center">
+            <Fragment>
+                <div className="m-2 text-center">
+                    <Boop rotation={"2"} timing={"200"}>
+                        <Button
+                            onClick={handleOpen}
+                            variant="gradient"
+                            color="purple"
+                            size="lg"
+                        >
+                            <div className="text-sm font-extrabold">
+                                {label}
+                            </div>
+                        </Button>
+                    </Boop>
                 </div>
-                {/*body*/}
-                    
-                <div className="relative p-6 flex-auto">
-                  <p className="my-4 text-slate-500 text-lg leading-relaxed">
-                  </p>
-                </div>
-                {/*footer*/}
-                <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
-                  
-                  <button
-                    className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                    type="button"
-                    onClick={() => setShowModal(false)}
-                  >
-                    Close
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
-    </>
-  );
-}
+                <Dialog open={open} handler={handleOpen}>
+                    <DialogHeader
+                        className="text-3xl whitespace-normal"
+                        style={{ maxWidth: "1000px" }}
+                    >
+                        {label}
+                        <Boop rotation={"5"} timing={"200"}>
+                            <img
+                                src={aolemoji}
+                                style={{ height: "100px", width: "150px" }}
+                                alt="aolemoji"
+                            />
+                        </Boop>
+                    </DialogHeader>
+                    <DialogBody divider className="whitespace-normal">
+                        <div className="text-2xl">"{message}"</div>
+                    </DialogBody>
+                    <DialogFooter>
+                        <div className="">
+                            <Button
+                                variant="text"
+                                color="red"
+                                onClick={handleOpen}
+                                className="mr-1"
+                            >
+                                <span>Cancel</span>
+                            </Button>
+                        </div>
+                    </DialogFooter>
+                </Dialog>
+            </Fragment>
+        </div>
+      </>
+    );
+};
+
 export default AwayMessageModal;

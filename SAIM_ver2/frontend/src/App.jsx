@@ -6,7 +6,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import AwayMessagesList from './components/AwayMessagesList';
 import CreateAwayMessage from './components/CreateAwayMessage';
-import UpdateAwayMessage from './components/UpdateAwayMessage';
+import UpdateAwayMessage from './components/UpdateAwayMessageModal';
 import AwayMessageModal from './components/AwayMessageModal';
 import Chat from './components/Chat';
 import io from 'socket.io-client';

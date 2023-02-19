@@ -8,7 +8,8 @@ import axios from "axios";
 import App from "../App";
 import io from "socket.io-client";
 const Login = (props) => {
-    const { setUser } = useContext(UserContext);
+    const { user, setUser, socket } = useContext(UserContext);
+
     const navigate = useNavigate();
     const [state, setState] = useState({
         login: {

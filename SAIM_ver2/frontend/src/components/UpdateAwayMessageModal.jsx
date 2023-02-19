@@ -12,7 +12,7 @@ import axios from "axios";
 import { UserContext } from "../context/UserContext";
 import { useParams } from "react-router-dom";
 import Boop from "./Boop";
-import { animated } from 'react-spring';
+import { animated } from "react-spring";
 const UpdateAwayMessage = (props) => {
     console.log("pros", props);
     // const { id } = useParams();
@@ -20,7 +20,6 @@ const UpdateAwayMessage = (props) => {
     console.log(awayMessageLabel);
     const [awayMessage, setAwayMessage] = useState(props.message);
     const [awayMessageCreator, setAwayMessageCreator] = useState(props.creator);
-
 
     const helper = (message, object) => {
         console.log(message, object);
@@ -36,7 +35,7 @@ const UpdateAwayMessage = (props) => {
 
     const [errors, setErrors] = useState([]);
 
-        useEffect(() => {
+    useEffect(() => {
         axios
             .get("http://localhost:8000/api/awayMessages/")
             .then((response) =>
@@ -49,32 +48,22 @@ const UpdateAwayMessage = (props) => {
             .catch((err) => console.log(err));
     }, []);
 
-
-    // useEffect(() => {
-    //     axios
-    //         .get("http://localhost:8000/api/awayMessages/" + props.id)
-    //         .then((response) =>{
-    //             setAwayMessageLabel(response.data.awayMessageLabel)
-    //             setAwayMessage(response.data.awayMessage)
-    //             setAwayMessageCreator(response.data.awayMessageCreator)
-    //         }
-    //         )
-    //         .catch((err) => console.log(err));
-            
-    // }, []);
-
-        const newAwayMessage = {
-            awayMessageLabel: awayMessageLabel,
-            awayMessageCreator: user.screenName,
-            awayMessage: awayMessage,
-        }
+    const newAwayMessage = {
+        awayMessageLabel: awayMessageLabel,
+        awayMessageCreator: user.screenName,
+        awayMessage: awayMessage,
+    };
     const onSubmitHandler = (e) => {
         e.preventDefault();
         axios
-            .put("http://localhost:8000/api/awayMessages/" + helper("id", props.id), newAwayMessage)
+            .put(
+                "http://localhost:8000/api/awayMessages/" +
+                    helper("id", props.id),
+                newAwayMessage
+            )
             .then(() => {
-              console.log("Creation successful on backend")
-              alert("Away Message has been updated!")
+                console.log("Creation successful on backend");
+                alert("Away Message has been updated!");
             })
             .catch((err) => {
                 console.log(err);
@@ -100,12 +89,14 @@ const UpdateAwayMessage = (props) => {
                                 color="green"
                                 size="lg"
                             >
-                                <div className="text-sm font-extrabold">Update Away Message</div>
+                                <div className="text-sm font-extrabold">
+                                    Update Away Message
+                                </div>
                             </Button>
                         </Boop>
                     </div>
                     <Dialog open={open} handler={handleOpen}>
-                        <DialogHeader>
+                        <DialogHeader className="text-4xl whitespace-normal">
                             Update an Away Message
                             <img
                                 src={aolemoji}
@@ -113,20 +104,28 @@ const UpdateAwayMessage = (props) => {
                                 alt="aolemoji"
                             />
                         </DialogHeader>
-                        <DialogBody divider>
+                        <DialogBody
+                            className=""
+                            style={{ height: "300px", width:"300px"}}
+                            divider
+                        >
                             <div>
-                                
                                 <form onSubmit={onSubmitHandler}>
-                                    {
-                        errors.length > 0 && errors.map((error, i)=>(
-                            <>
-                                <p key ={i} className="text-danger">{error}</p>
-                            </>
-                        ))
-                    }
+                                    {errors.length > 0 &&
+                                        errors.map((error, i) => (
+                                            <>
+                                                <p
+                                                    key={i}
+                                                    className="text-danger"
+                                                >
+                                                    {error}
+                                                </p>
+                                            </>
+                                        ))}
                                     <div className="flex w-72 flex-col gap-6">
                                         <Input
                                             type="text"
+                                            className=""
                                             color="purple"
                                             label="Away Message Title"
                                             value={awayMessageLabel}
@@ -136,41 +135,48 @@ const UpdateAwayMessage = (props) => {
                                                 )
                                             }
                                         />
-                                        <Input
-                                            type="text"
-                                            color="indigo"
-                                            value={awayMessage}
+
+                                        <label
+                                            for="message"
+                                            class="block text-sm font-medium text-gray-900 dark:text-white"
+                                        >
+                                            Your message
+                                        </label>
+                                        <textarea
+                                            id="message"
+                                            rows="4"
+                                            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                    value={awayMessage}
                                             label="Away Message"
                                             onChange={(e) =>
                                                 setAwayMessage(e.target.value)
                                             }
-                                        />
-                                    </div>
-                                    <div className="m-4 animate-bounce">
-                                        <Boop rotation={"15"} timing={"200"}>
-                                            <Button
-                                                type="submit"
-                                                variant="gradient"
-                                                color="green"
-                                            >
-                                                <span>Update!</span>
-                                            </Button>
-                                        </Boop>
-
+                                        ></textarea>
                                     </div>
                                 </form>
                             </div>
                         </DialogBody>
                         <DialogFooter>
+                            <div className="m-4 animate-bounce">
+                                <Boop rotation={"15"} timing={"200"}>
+                                    <Button
+                                        type="submit"
+                                        variant="gradient"
+                                        color="green"
+                                    >
+                                        <span>Update!</span>
+                                    </Button>
+                                </Boop>
+                            </div>
                             <div className="">
-                            <Button
-                                variant="text"
-                                color="red"
-                                onClick={handleOpen}
-                                className="mr-1"
-                            >
-                                <span>Cancel</span>
-                            </Button>
+                                <Button
+                                    variant="text"
+                                    color="red"
+                                    onClick={handleOpen}
+                                    className="mr-1"
+                                >
+                                    <span>Cancel</span>
+                                </Button>
                             </div>
                         </DialogFooter>
                     </Dialog>

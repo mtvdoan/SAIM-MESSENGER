@@ -7,6 +7,7 @@ import aolemoji from "../images/aolemoji.png";
 import "../App.css";
 import SvgComponent from "./SvgComponent";
 import Boop from "./Boop";
+import UsersList from "./UsersList";
 const Chat = (props) => {
     function helper(message, object) {
         console.log(message, object);
@@ -98,29 +99,7 @@ const Chat = (props) => {
                                 style={{height:'', width:'800px'}}
                                 alt="logo1"
                             />
-                            <div className="m-2 border-2 border-black-400 overflow-y-auto" style={{height:"400px"}}>
-                                <p>Buddies</p>
-                            </div>
-                            <div class="text-center">
-                                <a
-                                    href="#_"
-                                    class="relative inline-block text-lg group"
-                                >
-                                    <span class="relative z-10 block px-5 py-3 overflow-hidden font-medium leading-tight text-gray-800 transition-colors duration-300 ease-out border-2 border-gray-900 rounded-lg group-hover:text-black">
-                                        <span class="absolute inset-0 w-full h-full px-5 py-3 rounded-lg bg-gray-50"></span>
-                                        <span class="absolute left-0 w-48 h-48 -ml-2 transition-all duration-300 origin-top-right -rotate-90 -translate-x-full translate-y-12 bg-yellow-500 group-hover:-rotate-180 ease"></span>
-                                        <span class="relative">
-                                            <Link to="/awayMessages">
-                                                Away Messages
-                                            </Link>
-                                        </span>
-                                    </span>
-                                    <span
-                                        class="absolute bottom-0 right-0 w-full h-12 -mb-1 -mr-1 transition-all duration-200 ease-linear bg-gray-900 rounded-lg group-hover:mb-0 group-hover:mr-0"
-                                        data-rounded="rounded-lg"
-                                    ></span>
-                                </a>
-                            </div>
+                          <UsersList/>
                         </span>
                         <div className="flex justify-center m-4">
                             <Boop rotation={"25"} timing={"100"}>
@@ -145,11 +124,11 @@ const Chat = (props) => {
                         style={{ width: "800px" }}
                     >
                         <div
-                            className="border-1 border-black bg-gray-300 m-2"
-                            style={{ width: "auto", height: "700px" }}
+                            className="border-1 border-black bg-gray-300"
+                            style={{ width: "auto", height: "750px" }}
                         >
                             <h2
-                                className="text-xl h-12 p-4 font-extrabold dark:text-white bg-blue-500 border-black border-2"
+                                className="text-3xl p-4 tracking-widest font-extrabold dark:text-white bg-blue-500 border-black border-2"
                                 style={{ width: "auto" }}
                             >
                                 {user.screenName} is chatting...
