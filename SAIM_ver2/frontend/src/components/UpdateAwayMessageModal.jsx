@@ -26,6 +26,7 @@ const UpdateAwayMessage = (props) => {
         return object;
     };
 
+    const handleOpen = () => setOpen(!open);
     const [open, setOpen] = useState(false);
     const [awayMessagesList, setAwayMessagesList] = useState([]);
     console.log("awaymlist", awayMessagesList);
@@ -55,11 +56,12 @@ const UpdateAwayMessage = (props) => {
     };
     const onSubmitHandler = (e) => {
         e.preventDefault();
+        console.log("getting into axios");
         axios
             .put(
                 "http://localhost:8000/api/awayMessages/" +
                     helper("id", props.id),
-                newAwayMessage
+                helper("newawaymessage", newAwayMessage)
             )
             .then(() => {
                 console.log("Creation successful on backend");
@@ -75,7 +77,10 @@ const UpdateAwayMessage = (props) => {
                 setErrors(errorArray);
             });
     };
-    const handleOpen = () => setOpen(!open);
+
+    const sample = () => {
+        console.log("blah");
+    };
 
     return (
         <>
@@ -106,7 +111,7 @@ const UpdateAwayMessage = (props) => {
                         </DialogHeader>
                         <DialogBody
                             className=""
-                            style={{ height: "300px", width:"300px"}}
+                            style={{ height: "300px", width: "300px" }}
                             divider
                         >
                             <div>
@@ -146,28 +151,28 @@ const UpdateAwayMessage = (props) => {
                                             id="message"
                                             rows="4"
                                             class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                    value={awayMessage}
+                                            value={awayMessage}
                                             label="Away Message"
                                             onChange={(e) =>
                                                 setAwayMessage(e.target.value)
                                             }
                                         ></textarea>
                                     </div>
+                                    <div className="m-4 animate-bounce">
+                                        <Boop rotation={"15"} timing={"200"}>
+                                            <Button
+                                                type="submit"
+                                                variant="gradient"
+                                                color="green"
+                                            >
+                                                <span>Update!</span>
+                                            </Button>
+                                        </Boop>
+                                    </div>
                                 </form>
                             </div>
                         </DialogBody>
                         <DialogFooter>
-                            <div className="m-4 animate-bounce">
-                                <Boop rotation={"15"} timing={"200"}>
-                                    <Button
-                                        type="submit"
-                                        variant="gradient"
-                                        color="green"
-                                    >
-                                        <span>Update!</span>
-                                    </Button>
-                                </Boop>
-                            </div>
                             <div className="">
                                 <Button
                                     variant="text"
