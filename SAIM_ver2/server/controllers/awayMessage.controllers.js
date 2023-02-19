@@ -15,12 +15,13 @@ module.exports = {
             .catch((err) => res.status(400).json({message: 'Something went wrong while trying to find details of a awayMessage', error: err}))
     },
     createAwayMessage: (req, res) => {
-        // console.log("what is away req.body", req.body)
+        console.log("what is away req.body", req.body)
         AwayMessage
             .create(req.body)
             .then((newAwayMessage) => res.json(newAwayMessage))
             .catch((err) =>
                 res.status(400).json({message: 'Something went wrong while trying to create', error:err}))
+            console.log(req.body);
     },
 
     updateAwayMessage: (req, res) => {

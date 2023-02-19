@@ -4,3 +4,11 @@
 .rt-tr-group:nth-of-type(even){
   background: rgb(172, 172, 206);
 }
+.App {
+  min-height: 100vh;
+  font-family: sans-serif;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

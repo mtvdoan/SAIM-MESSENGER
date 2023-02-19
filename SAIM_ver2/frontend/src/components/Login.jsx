@@ -82,7 +82,7 @@ const Login = (props) => {
                 </nav>
             </div>
             <div className="items-center flexm-2">
-                <span className=" block max-w-xs max-h-sm p-2 scale-90 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:border-gray-700 mt-2 m-auto">
+                <span className=" block max-w-xs max-h-sm p-2 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:border-gray-700 mt-2 m-auto">
                     <img src={logo1} style={{}} alt="logo1" />
                     <hr />
                     <form onSubmit={handleLogin}>

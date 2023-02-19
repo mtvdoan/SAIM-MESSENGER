@@ -5,6 +5,8 @@ import io from "socket.io-client";
 import { useNavigate, Link } from "react-router-dom";
 import aolemoji from "../images/aolemoji.png";
 import "../App.css";
+import SvgComponent from "./SvgComponent";
+import Boop from "./Boop";
 const Chat = (props) => {
     function helper(message, object) {
         console.log(message, object);
@@ -60,29 +62,33 @@ const Chat = (props) => {
         <>
             <div>
                 <div className="">
-                    <div className=" flex-row flex-1 content-center rounded-xl p-4 container shadow-xl m-4 bg-blue-400 m-auto">
-                        <div class="inline-flex">
-                            <h1 class="mb-4 text-5xl font-extrabold leading-none tracking-tight text-gray-900 md:text-5xl lg:text-6xl dark:text-white">
-                                SAIM
-                            </h1>
-                            <mark class="m-8 p-4 text-black font-extrabold text-2xl rounded-lg">
-                                MESSENGER
-                            </mark>
-
-                            <div className="">
-                                <img
-                                    src={aolemoji}
-                                    alt="aolemoji"
-                                    style={{
-                                        height: "150px",
-                                        width: "200px",
-                                        marginTop: "0",
-                                    }}
-                                />
+                    <nav className="whitespace-nowrap m-2 border-gray-200 px-2 sm:px-4 py-10 rounded-2xl shadow-2xl fill-indigo-400border-2  bg-blue-400">
+                        <div className="container flex flex-wrap items-center justify-between mx-auto">
+                            <div className="flex items-center justify">
+                                <h1 className="text-5xl mr-44 font-extrabold text-white dark:text-white">
+                                    SAIM - MESSENGER
+                                </h1>
                             </div>
+                            <Boop rotation={"10"} timing={"100"}>
+                                <p className="tracking-tighter text-gray-900 md:text-lg dark:text-gray-400">
+                                    <mark className="grid grid-cols-2 content-center m-auto m-4 p-4 bg-blue-800 rounded-xl shadow-lg h-28 w-80">
+                                        <h1 className=" text-5xl font-extrabold text-white dark:text-white mt-10">
+                                            @ {user.screenName}
+                                        </h1>
+                                        <img
+                                            src={aolemoji}
+                                            alt="aolemoji"
+                                            style={{
+                                                height: "150px",
+                                                width: "200px",
+                                            }}
+                                        />
+                                    </mark>
+                                </p>
+                            </Boop>
                         </div>
-                    </div>
-                    <hr />
+                    </nav>
+                </div>
                     <div className="grid grid-cols-2 content-center p-4">
                         <div>
                             <span className=" block max-w-xs max-h-sm p-2 scale-90 bg-white rounded-lg shadow-2xl hover:bg-gray-100  dark:border-gray-700 mt-2 m-auto">
@@ -228,7 +234,6 @@ const Chat = (props) => {
                             </div>
                         </div>
                     </div>
-                </div>
             </div>
         </>
     );

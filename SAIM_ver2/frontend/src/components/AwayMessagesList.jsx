@@ -7,6 +7,10 @@ import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import LikeButton from "./LikeButton";
 import AwayMessageModal from "./AwayMessageModal";
+import UpdateAwayMessage from "./UpdateAwayMessage";
+import CreateAwayMessage from "./CreateAwayMessage";
+import SvgComponent from "./SvgComponent";
+import Boop from "./Boop";
 const AwayMessagesList = (props) => {
     const [showModal, setShowModal] = React.useState(false);
     const [awayMessagesList, setAwayMessagesList] = useState([]);
@@ -89,22 +93,23 @@ const AwayMessagesList = (props) => {
                                     SAIM - MESSENGER
                                 </h1>
                             </div>
-
-                            <p className="tracking-tighter text-gray-900 md:text-lg dark:text-gray-400">
-                                <mark className="grid grid-cols-2 content-center m-auto m-4 p-4 bg-blue-800 rounded-xl shadow-lg h-28 w-80">
-                                    <h1 className=" text-5xl font-extrabold text-white dark:text-white mt-10">
-                                        @ {userScreenName}
-                                    </h1>
-                                    <img
-                                        src={aolemoji}
-                                        alt="aolemoji"
-                                        style={{
-                                            height: "150px",
-                                            width: "200px",
-                                        }}
-                                    />
-                                </mark>
-                            </p>
+                            <Boop rotation={"10"} timing={"100"}>
+                                <p className="tracking-tighter text-gray-900 md:text-lg dark:text-gray-400">
+                                    <mark className="grid grid-cols-2 content-center m-auto m-4 p-4 bg-blue-800 rounded-xl shadow-lg h-28 w-80">
+                                        <h1 className=" text-5xl font-extrabold text-white dark:text-white mt-10">
+                                            @ {userScreenName}
+                                        </h1>
+                                        <img
+                                            src={aolemoji}
+                                            alt="aolemoji"
+                                            style={{
+                                                height: "150px",
+                                                width: "200px",
+                                            }}
+                                        />
+                                    </mark>
+                                </p>
+                            </Boop>
                         </div>
                     </nav>
                 </div>
@@ -169,31 +174,28 @@ const AwayMessagesList = (props) => {
                                         }}
                                     >
                                         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
-                                            <table className="m-4 text-xl text-left bg-white text-black" style={{width:"1800px"}}>
+                                            <table
+                                                className="m-4 text-xl text-left bg-white text-black"
+                                                style={{ width: "1800px" }}
+                                            >
                                                 <thead className="text-3xl text-center text-gray-700 uppercase bg-white text-black">
                                                     <tr className="">
-                                                        <th
-                                                            scope="col"
-                                                        >
+                                                        <th scope="col">
                                                             Away Message
                                                         </th>
-                                                        <th
-                                                            scope="col"
-
-                                                        >
+                                                        <th scope="col">
                                                             Creator
                                                         </th>
                                                         <th
                                                             scope="col"
                                                             className="whitespace-nowrap"
-                                                            script={{width:"500px"}}
+                                                            script={{
+                                                                width: "500px",
+                                                            }}
                                                         >
                                                             Likes
                                                         </th>
-                                                        <th
-                                                            scope="col"
-
-                                                        >
+                                                        <th scope="col">
                                                             Action
                                                         </th>
                                                     </tr>
@@ -281,7 +283,10 @@ const AwayMessagesList = (props) => {
                                                                             awayMessage.awayMessageCreator
                                                                         }
                                                                     </td>
-                                                                    <td className="" style={{}} >
+                                                                    <td
+                                                                        className=""
+                                                                        style={{}}
+                                                                    >
                                                                         <LikeButton />
                                                                     </td>
                                                                     <td className="">
@@ -297,24 +302,25 @@ const AwayMessagesList = (props) => {
                                                                             return awayMessage.awayMessageCreator ==
                                                                                 userScreenName ? (
                                                                                 <>
-                                                                                    <button className="bg-yellow-500 hover:bg-blue-700 text-white font-bold py-2 px-2 border border-blue-700 rounded">
-                                                                                        <Link
-                                                                                            to={
-                                                                                                "/awayMessages/update"
-                                                                                            }
-                                                                                        >
-                                                                                            Edit
-                                                                                        </Link>
-                                                                                    </button>
-                                                                                    <button className="bg-red-500 hover:bg-blue-700 text-white font-bold py-2 px-2 border border-blue-700 rounded">
-                                                                                        <Link
-                                                                                            to={
-                                                                                                "/awayMessages/delete"
-                                                                                            }
-                                                                                        >
-                                                                                            Delete
-                                                                                        </Link>
-                                                                                    </button>
+                                                                                    <UpdateAwayMessage />
+                                                                                    <Boop
+                                                                                        rotation={
+                                                                                            30
+                                                                                        }
+                                                                                        timing={
+                                                                                            200
+                                                                                        }
+                                                                                    >
+                                                                                        <button className="bg-red-500 hover:bg-blue-700 text-white font-bold py-2 px-2 border border-blue-700 rounded">
+                                                                                            <Link
+                                                                                                to={
+                                                                                                    "/awayMessages/delete"
+                                                                                                }
+                                                                                            >
+                                                                                                Delete
+                                                                                            </Link>
+                                                                                        </button>
+                                                                                    </Boop>
                                                                                 </>
                                                                             ) : null;
                                                                         })()}
@@ -329,21 +335,33 @@ const AwayMessagesList = (props) => {
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div className="flex justify-center">
-                        <a
-                            href
-                            onClick={handleLogOutClick}
-                            className=" cursor-pointer relative inline-flex items-center justify-start px-6 py-3 overflow-hidden font-medium transition-all bg-red-500 rounded-xl group"
-                        >
-                            <span className="absolute top-0 right-0 inline-block w-4 h-4 transition-all duration-500 ease-in-out bg-red-700 rounded group-hover:-mr-4 group-hover:-mt-4">
-                                <span className="absolute top-0 right-0 w-5 h-5 rotate-45 translate-x-1/2 -translate-y-1/2 bg-white"></span>
-                            </span>
-                            <span className="absolute bottom-0 left-0 w-full h-full transition-all duration-500 ease-in-out delay-200 -translate-x-full translate-y-full bg-red-600 rounded-2xl group-hover:mb-12 group-hover:translate-x-0"></span>
-                            <span className="relative w-full text-left text-white transition-colors duration-200 ease-in-out group-hover:text-white">
-                                Log Out
-                            </span>
-                        </a>
+
+                        <div className="grid grid-cols-3 content-center text-4xl">
+                            <CreateAwayMessage />
+                            <div className="m-auto">
+                                <Boop rotation={"5"} timing={"200"}>
+                                    <button className=" mr-40 bg-yellow-700 rounded-2xl hover:bg-yellow-900 text-black text-5xl font-extrabold rounded">
+                                        Go Back
+                                    </button>
+                                </Boop>
+                                <div></div>
+                            </div>
+                            <div className="m-auto">
+                                <a
+                                    href
+                                    onClick={handleLogOutClick}
+                                    className=" cursor-pointer relative inline-flex items-center justify-start px-6 py-3 overflow-hidden font-medium transition-all bg-red-500 rounded-xl group"
+                                >
+                                    <span className="absolute top-0 right-0 inline-block w-4 h-4 transition-all duration-500 ease-in-out bg-red-700 rounded group-hover:-mr-4 group-hover:-mt-4">
+                                        <span className="absolute top-0 right-0 w-5 h-5 rotate-45 translate-x-1/2 -translate-y-1/2 bg-white"></span>
+                                    </span>
+                                    <span className="absolute bottom-0 left-0 w-full h-full transition-all duration-500 ease-in-out delay-200 -translate-x-full translate-y-full bg-red-600 rounded-2xl group-hover:mb-12 group-hover:translate-x-0"></span>
+                                    <span className="relative w-full text-left text-white transition-colors duration-200 ease-in-out group-hover:text-white">
+                                        Log Out
+                                    </span>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
