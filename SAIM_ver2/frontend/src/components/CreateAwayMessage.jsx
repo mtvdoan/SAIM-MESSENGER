@@ -14,8 +14,6 @@ import { useParams } from "react-router-dom";
 import Boop from "./Boop";
 import { animated } from 'react-spring';
 const CreateAwayMessage = (props) => {
-
-
     const helper = (message, object) => {
         console.log(message, object);
         return object;
@@ -53,6 +51,9 @@ const CreateAwayMessage = (props) => {
                 awayMessage,
             })
             .then(() => console.log("Creation successful on backend"))
+            alert("An Away Message has been successfully created.")
+            setOpen(false)
+
             .catch((err) => {
                 console.log(err);
                 const errorRes = err.response.data.error.errors;
