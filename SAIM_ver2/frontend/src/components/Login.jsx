@@ -97,7 +97,7 @@ const Login = (props) => {
                         <div className="mb-6 mt-0">
                             <label className="block">
                                 <span className="after:content-['*'] after:ml-0.5 after:text-red-500 flex text-sm font-medium text-slate-700">
-                                    eMail!
+                                    eMail! 🔑
                                 </span>
                                 <input
                                     onChange={handleLoginInputs}

@@ -26,7 +26,7 @@ function App() {
                             <Route path="/awayMessages/:id/" element={<AwayMessageModal/>}/>
                             <Route path="/awayMessages" element={<AwayMessagesList authorized= {authorized} setAuthorized={setAuthorized}/>}/>
                             <Route path="/awayMessages" element={<CreateAwayMessage authorized= {authorized} setAuthorized={setAuthorized}/>}/>
-                            <Route path="/awayMessages/:id" element={<UpdateAwayMessage authorized= {authorized} setAuthorized={setAuthorized}/>}/>
+                            <Route path="/awayMessages/:id/" element={<UpdateAwayMessage authorized= {authorized} setAuthorized={setAuthorized}/>}/>
                             
                         </Route>
                     </Routes>

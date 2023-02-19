@@ -14,24 +14,29 @@ import { useParams } from "react-router-dom";
 import Boop from "./Boop";
 import { animated } from 'react-spring';
 const UpdateAwayMessage = (props) => {
+    console.log("pros", props);
+    // const { id } = useParams();
+    const [awayMessageLabel, setAwayMessageLabel] = useState(props.label);
+    console.log(awayMessageLabel);
+    const [awayMessage, setAwayMessage] = useState(props.message);
+    const [awayMessageCreator, setAwayMessageCreator] = useState(props.creator);
 
 
     const helper = (message, object) => {
         console.log(message, object);
         return object;
     };
-    const { id } = useParams();
+
     const [open, setOpen] = useState(false);
     const [awayMessagesList, setAwayMessagesList] = useState([]);
+    console.log("awaymlist", awayMessagesList);
     const [usersList, setUsersList] = useState([]);
     const { user, setUser, socket } = useContext(UserContext);
     const userScreenName = user["screenName"];
-    const [awayMessageLabel, setAwayMessageLabel] = useState("");
-    const [awayMessage, setAwayMessage] = useState("");
-    const [awayMessageCreator, setAwayMessageCreator] = useState("");
 
     const [errors, setErrors] = useState([]);
-    useEffect(() => {
+
+        useEffect(() => {
         axios
             .get("http://localhost:8000/api/awayMessages/")
             .then((response) =>
@@ -44,15 +49,29 @@ const UpdateAwayMessage = (props) => {
             .catch((err) => console.log(err));
     }, []);
 
-    const onSubmitHandler = (e) => {
-        e.preventDefault();
+
+    // useEffect(() => {
+    //     axios
+    //         .get("http://localhost:8000/api/awayMessages/" + props.id)
+    //         .then((response) =>{
+    //             setAwayMessageLabel(response.data.awayMessageLabel)
+    //             setAwayMessage(response.data.awayMessage)
+    //             setAwayMessageCreator(response.data.awayMessageCreator)
+    //         }
+    //         )
+    //         .catch((err) => console.log(err));
+            
+    // }, []);
+
         const newAwayMessage = {
             awayMessageLabel: awayMessageLabel,
-            awayMessageCreator: awayMessageCreator,
+            awayMessageCreator: user.screenName,
             awayMessage: awayMessage,
         }
+    const onSubmitHandler = (e) => {
+        e.preventDefault();
         axios
-            .put("http://localhost:8000/api/awayMessages/" + id, newAwayMessage)
+            .put("http://localhost:8000/api/awayMessages/" + helper("id", props.id), newAwayMessage)
             .then(() => {
               console.log("Creation successful on backend")
               alert("Away Message has been updated!")
@@ -108,10 +127,9 @@ const UpdateAwayMessage = (props) => {
                                     <div className="flex w-72 flex-col gap-6">
                                         <Input
                                             type="text"
-                                            value={awayMessageLabel}
                                             color="purple"
                                             label="Away Message Title"
-                                            placeholder={awayMessage.awayMessageTitle}
+                                            value={awayMessageLabel}
                                             onChange={(e) =>
                                                 setAwayMessageLabel(
                                                     e.target.value
@@ -122,7 +140,6 @@ const UpdateAwayMessage = (props) => {
                                             type="text"
                                             color="indigo"
                                             value={awayMessage}
-                                            placeholder={awayMessage.awayMessage}
                                             label="Away Message"
                                             onChange={(e) =>
                                                 setAwayMessage(e.target.value)

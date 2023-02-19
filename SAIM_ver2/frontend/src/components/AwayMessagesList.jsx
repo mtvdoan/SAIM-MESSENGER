@@ -302,7 +302,14 @@ const AwayMessagesList = (props) => {
                                                                             return awayMessage.awayMessageCreator ==
                                                                                 userScreenName ? (
                                                                                 <>
-                                                                                    <UpdateAwayMessage />
+                                                                                    <UpdateAwayMessage 
+                                                                                        label={awayMessage.awayMessageLabel}
+                                                                                        creator={awayMessage.awayMessageCreator} 
+                                                                                        message={awayMessage.awayMessage} 
+                                                                                        id={awayMessage._id}
+                                                                                        test="ale4xbutt"
+                                                                                    />
+                                                                                    
                                                                                     <Boop
                                                                                         rotation={
                                                                                             30
