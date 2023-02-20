@@ -12,7 +12,7 @@ import axios from "axios";
 import { UserContext } from "../context/UserContext";
 import { useParams } from "react-router-dom";
 import Boop from "./Boop";
-import { animated } from 'react-spring';
+import { animated } from "react-spring";
 const CreateAwayMessage = (props) => {
     const helper = (message, object) => {
         console.log(message, object);
@@ -21,9 +21,10 @@ const CreateAwayMessage = (props) => {
     const { id } = useParams();
     const [open, setOpen] = useState(false);
     const [awayMessagesList, setAwayMessagesList] = useState([]);
-    const [usersList, setUsersList] = useState([]);
+    // const [usersList, setUsersList] = useState([]);
     const { user, setUser, socket } = useContext(UserContext);
     const userScreenName = user["screenName"];
+    console.log("userScreenName", userScreenName);
     const [awayMessageLabel, setAwayMessageLabel] = useState("");
     const [awayMessage, setAwayMessage] = useState("");
     const [awayMessageCreator, setAwayMessageCreator] = useState("");
@@ -46,24 +47,15 @@ const CreateAwayMessage = (props) => {
         e.preventDefault();
         axios
             .post("http://localhost:8000/api/awayMessages/", {
-                withCredentials: true,
                 awayMessageLabel,
-                awayMessageCreator: userScreenName,
+                awayMessageCreator,
                 awayMessage,
             })
-            .then((response) => 
-            
-                setAwayMessage({
-                    awayMessageLabel: response.data.awayMessage.awayMessageLabel,
-                    awayMessageCreator: response.data.awayMessageCreator,
-                    awayMessage: response.data.awayMessage.awayMessage
-                }
-                )
-            )
-            
-                
-            alert("An Away Message has been successfully created.")
-            // setOpen(false)
+            .then(() => {
+                console.log("Creation successful on backend");
+                alert("An Away Message has been successfully created.");
+                setOpen(false);
+            })
 
             .catch((err) => {
                 console.log(err);
@@ -89,7 +81,9 @@ const CreateAwayMessage = (props) => {
                                 color="green"
                                 size="lg"
                             >
-                                <div className="text-3xl">Create Away Message</div>
+                                <div className="text-3xl">
+                                    Create Away Message
+                                </div>
                             </Button>
                         </Boop>
                     </div>
@@ -105,15 +99,18 @@ const CreateAwayMessage = (props) => {
                         </DialogHeader>
                         <DialogBody divider>
                             <div>
-                                
                                 <form onSubmit={onSubmitHandler}>
-                                    {
-                        errors.length > 0 && errors.map((error, i)=>(
-                            <>
-                                <p key ={i} className="text-danger">{error}</p>
-                            </>
-                        ))
-                    }
+                                    {errors.length > 0 &&
+                                        errors.map((error, i) => (
+                                            <>
+                                                <p
+                                                    key={i}
+                                                    className="text-danger"
+                                                >
+                                                    {error}
+                                                </p>
+                                            </>
+                                        ))}
                                     <div className="flex w-72 flex-col gap-6">
                                         <Input
                                             type="text"
@@ -133,6 +130,17 @@ const CreateAwayMessage = (props) => {
                                                 setAwayMessage(e.target.value)
                                             }
                                         />
+                                        <Input
+                                            type="text"
+                                            color="blue"
+                                            label="Away Message Creator"
+                                            value={userScreenName}
+                                            onChange={(e) =>
+                                                setAwayMessageCreator(
+                                                    e.target.value
+                                                )
+                                            }
+                                        />
                                     </div>
                                     <div className="m-4 animate-bounce">
                                         <Boop rotation={"15"} timing={"200"}>
@@ -144,21 +152,20 @@ const CreateAwayMessage = (props) => {
                                                 <span>Create!</span>
                                             </Button>
                                         </Boop>
-
                                     </div>
                                 </form>
                             </div>
                         </DialogBody>
                         <DialogFooter>
                             <div className="">
-                            <Button
-                                variant="text"
-                                color="red"
-                                onClick={handleOpen}
-                                className="mr-1"
-                            >
-                                <span>Cancel</span>
-                            </Button>
+                                <Button
+                                    variant="text"
+                                    color="red"
+                                    onClick={handleOpen}
+                                    className="mr-1"
+                                >
+                                    <span>Cancel</span>
+                                </Button>
                             </div>
                         </DialogFooter>
                     </Dialog>

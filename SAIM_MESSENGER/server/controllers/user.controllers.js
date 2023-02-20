@@ -34,12 +34,10 @@ module.exports = {
                 })
             )
             .catch((err) =>
-                res
-                    .status(400)
-                    .json({
-                        message: "Something went wrong while user update.",
-                        error: err,
-                    })
+                res.status(400).json({
+                    message: "Something went wrong while user update.",
+                    error: err,
+                })
             );
     },
     findOneUser: (req, res) => {
@@ -133,7 +131,7 @@ module.exports = {
 
         // note that the response object allows chained calls to cookie and json
         res.cookie("usertoken", userToken, {
-//  expires: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 hours
+            //  expires: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 hours
             httpOnly: true,
             // secure: true,
             // sameSite:'none'
