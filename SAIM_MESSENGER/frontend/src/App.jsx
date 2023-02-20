@@ -23,7 +23,7 @@ function App() {
                             <Route index element={<Login authorized= {authorized} setAuthorized={setAuthorized}/>}/>
                             <Route path="/register" element={<Register authorized= {authorized} setAuthorized={setAuthorized}/>}/>
                             <Route path="/chat" element={<Chat authorized= {authorized} setAuthorized={setAuthorized}/>}/>
-                            <Route path="/awayMessages/:id/" element={<AwayMessageModal/>}/>
+                            <Route path="/awayMessages/:id/" element={<AwayMessageModal authorized= {authorized} setAuthorized={setAuthorized}/>}/>
                             <Route path="/awayMessages" element={<AwayMessagesList authorized= {authorized} setAuthorized={setAuthorized}/>}/>
                             <Route path="/awayMessages" element={<CreateAwayMessage authorized= {authorized} setAuthorized={setAuthorized}/>}/>
                             <Route path="/awayMessages/:id/" element={<UpdateAwayMessage authorized= {authorized} setAuthorized={setAuthorized}/>}/>

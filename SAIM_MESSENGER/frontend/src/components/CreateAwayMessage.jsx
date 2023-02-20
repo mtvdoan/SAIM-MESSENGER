@@ -66,9 +66,19 @@ const CreateAwayMessage = (props) => {
                 }
                 setErrors(errorArray);
             });
+        window.location.reload();
     };
-    const handleOpen = () => setOpen(!open);
 
+    const handleOpen = () => {
+        setOpen(true);
+
+        // window.location.reload()
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+    // window.location.reload();
     return (
         <>
             <div className="grid grid-cols-1 content-center m-10">
@@ -162,10 +172,10 @@ const CreateAwayMessage = (props) => {
                                 <Button
                                     variant="text"
                                     color="red"
-                                    onClick={handleOpen}
+                                    onClick={handleClose}
                                     className="mr-1"
                                 >
-                                    <span>Cancel</span>
+                                    <span>Close</span>
                                 </Button>
                             </div>
                         </DialogFooter>

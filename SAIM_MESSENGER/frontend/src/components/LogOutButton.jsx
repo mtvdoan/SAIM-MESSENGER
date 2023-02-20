@@ -24,6 +24,7 @@ const LogOutButton = () => {
         return () => setUser({ ...user });
     }, []);
     const handleLogOutClick = () => {
+        
         console.log(`${user.screenName} has been logged out.`);
         alert(`${user.screenName} has been successfully logged out! 👋`);
         navigate("/");

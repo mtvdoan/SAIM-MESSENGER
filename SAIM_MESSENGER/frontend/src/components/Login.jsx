@@ -27,13 +27,15 @@ const Login = (props) => {
         });
     };
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
         const errorArr = [];
         axios
             .post("http://localhost:8000/api/users/login", login, {
                 withCredentials: true,
+
             })
+                   
             .then((res) => {
                 console.log(res);
                 setUser({
@@ -41,6 +43,7 @@ const Login = (props) => {
                     screenName: res.data.userInfo.screenName,
                     // room: ""
                 });
+                
                 console.log("User has been successfully logged in");
                 navigate("/chat");
             })
