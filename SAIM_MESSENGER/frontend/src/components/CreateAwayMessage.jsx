@@ -48,7 +48,7 @@ const CreateAwayMessage = (props) => {
         axios
             .post("http://localhost:8000/api/awayMessages/", {
                 awayMessageLabel,
-                awayMessageCreator,
+                awayMessageCreator: userScreenName,
                 awayMessage,
             })
             .then(() => {
@@ -130,6 +130,7 @@ const CreateAwayMessage = (props) => {
                                                 setAwayMessage(e.target.value)
                                             }
                                         />
+
                                         <Input
                                             type="text"
                                             color="blue"

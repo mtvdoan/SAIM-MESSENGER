@@ -21,8 +21,8 @@ const UserModal = (props) => {
     // const { email, screenName } = props;
     const [open, setOpen] = useState(false);
     const { user, socket } = useContext(UserContext);
-    const [screenName, setScreenName] = useState(props.sn);
-    const [email, setEmail] = useState(props.email);
+    console.log("whatis user", user);
+
 
     const [usersList, setUsersList] = useState([]);
     const handleOpen = () => setOpen(!open);
@@ -61,7 +61,7 @@ const UserModal = (props) => {
                                         className="text-3xl whitespace-normal"
                                         style={{ maxWidth: "1000px" }}
                                     >
-                                        user sn will go here
+                                        
                                         <Boop rotation={"5"} timing={"200"}>
                                             <img
                                                 src={aolemoji}
@@ -78,7 +78,7 @@ const UserModal = (props) => {
                                         className="whitespace-normal"
                                     >
                                         <div className="text-2xl">
-                                            {}
+                                           jinfo go here
                                         </div>
                                     </DialogBody>
                                     <DialogFooter>
