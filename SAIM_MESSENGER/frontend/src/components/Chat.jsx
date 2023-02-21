@@ -133,7 +133,7 @@ const Chat = (props) => {
                                 alt="logo1"
                             />
                             <div className="text-left">
-                                <h1 className="text-4xl font-extrabold m-4">
+                                <h1 className="text-4xl font-extrabold m-4 text-black">
                                     Buddies:
                                 </h1>
                                 <UserModal

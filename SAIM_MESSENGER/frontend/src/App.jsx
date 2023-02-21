@@ -11,12 +11,15 @@ import ViewAwayMessageModal from './components/ViewAwayMessageModal';
 import Chat from './components/Chat';
 import UserModal from './components/UserModal';
 import io from 'socket.io-client';
+import './App.css';
 
 function App() {
     const [authorized, setAuthorized] = useState("");
     
     return (
         <>
+        <div className="bg_image">
+
             <BrowserRouter>
                 <UserProvider>
                     <Routes>
@@ -35,6 +38,7 @@ function App() {
                     </Routes>
                 </UserProvider>
             </BrowserRouter>
+        </div>
         </>
     );
 }

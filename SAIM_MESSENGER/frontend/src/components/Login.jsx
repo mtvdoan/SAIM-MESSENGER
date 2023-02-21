@@ -105,7 +105,7 @@ const handleLogin = async (e) => {
                             ))}
                         <div className="mb-6 mt-0">
                             <label className="block">
-                                <span className="after:content-['*'] after:ml-0.5 after:text-red-500 flex text-sm font-medium text-slate-700">
+                                <span className="after:content-['*'] after:ml-0.5 after:text-red-500 flex text-sm font-medium text-black">
                                     eMail! 🔑
                                 </span>
                                 <input
@@ -125,7 +125,7 @@ const handleLogin = async (e) => {
                         </div>
                         <div>
                             <label className="block">
-                                <span className="after:content-['*'] after:ml-0.5 after:text-red-500 block text-sm font-medium text-slate-700">
+                                <span className="after:content-['*'] after:ml-0.5 after:text-red-500 block text-sm font-medium text-black">
                                     PaSsWoRd:
                                 </span>
                                 <input

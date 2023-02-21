@@ -110,7 +110,7 @@ const Register = (props) => {
                                     ))}
                                 <div className="mb-6 mt-0">
                                     <label className="block">
-                                        <span className="after:content-['*'] after:ml-0.5 after:text-red-500 flex text-sm font-medium text-slate-700">
+                                        <span className="after:content-['*'] after:ml-0.5 after:text-red-500 flex text-sm font-medium text-black">
                                             eMail!
                                         </span>
                                         <input
@@ -124,7 +124,7 @@ const Register = (props) => {
                                 </div>
                                 <div className="mb-6 mt-0">
                                     <label className="block">
-                                        <span className="after:content-['*'] after:ml-0.5 after:text-red-500 flex text-sm font-medium text-slate-700">
+                                        <span className="after:content-['*'] after:ml-0.5 after:text-red-500 flex text-sm font-medium text-black">
                                             ScreenName!
                                         </span>
                                         <input
@@ -138,7 +138,7 @@ const Register = (props) => {
                                 </div>
                                 <div>
                                     <label className="block">
-                                        <span className="after:content-['*'] after:ml-0.5 after:text-red-500 block text-sm font-medium text-slate-700">
+                                        <span className="after:content-['*'] after:ml-0.5 after:text-red-500 block text-sm font-medium text-black">
                                             PaSsWoRd:
                                         </span>
                                         <input
@@ -152,7 +152,7 @@ const Register = (props) => {
                                 </div>
                                 <div>
                                     <label className="block">
-                                        <span className="after:content-['*'] after:ml-0.5 after:text-red-500 block text-sm font-medium text-slate-700 mt-2">
+                                        <span className="after:content-['*'] after:ml-0.5 after:text-red-500 block text-sm font-medium text-black mt-2">
                                             CoNFiRmPassW0rd:
                                         </span>
                                         <input
