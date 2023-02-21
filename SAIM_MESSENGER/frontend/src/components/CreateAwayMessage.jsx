@@ -75,8 +75,8 @@ const CreateAwayMessage = (props) => {
 
     const handleClose = () => {
         setOpen(false);
+    window.location.reload();
     };
-
     return (
         <>
             <div className="grid grid-cols-1 content-center m-10">

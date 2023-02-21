@@ -212,7 +212,7 @@ const AwayMessagesList = (props) => {
                                                 className="m-4 text-xl text-left bg-white text-black"
                                                 style={{ width: "1800px" }}
                                             >
-                                                <thead className="text-3xl text-center text-gray-700 uppercase bg-white text-black">
+                                                <thead className="text-3xl text-center text-gray-700 bg-white text-black">
                                                     <tr className="">
                                                         <th scope="col">
                                                             Away Message

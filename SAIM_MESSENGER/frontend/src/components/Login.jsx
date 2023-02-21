@@ -9,7 +9,7 @@ import App from "../App";
 import io from "socket.io-client";
 const Login = (props) => {
     const { user, setUser, socket } = useContext(UserContext);
-
+    const [userToken, setuserToken] = useState("");
     const navigate = useNavigate();
     const [state, setState] = useState({
         login: {
@@ -27,38 +27,43 @@ const Login = (props) => {
         });
     };
 
-    const handleLogin = async (e) => {
-        e.preventDefault();
-        const errorArr = [];
-        axios
-            .post("http://localhost:8000/api/users/login", login, {
-                withCredentials: true,
-            })
+const handleLogin = async (e) => {
+    e.preventDefault();
+    const errorArr = [];
+    axios
+        .post("http://localhost:8000/api/users/login", login, {
+            withCredentials: true,
+        })
+        .then((res,req) => {          
+            setUser({
+                id: res.data.userInfo.id,
+                screenName: res.data.userInfo.screenName,
 
-            .then((res,req) => {
-                console.log(res);
-                //    req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000; // Cookie expires after 30 days
-                setUser({
-                    id: res.data.userInfo.id,
-                    screenName: res.data.userInfo.screenName,
-                    // room: ""
-                });
-
-                console.log("User has been successfully logged in");
-                navigate("/chat");
-            })
-            .catch((err) => {
-                console.log("is it even catching an error?", err);
-                const errorResponse = err.response.data;
-                console.log("errorArr", errorArr);
-                console.log("errorResponse", errorResponse);
-                errorArr.push(
-                    "Ooops, something went wrong with logging in.  Try again!"
-                );
-                setErrors(errorArr);
-                console.log("what is my error arr?", errorArr);
             });
+            console.log("Printing out res.data during login", res.data);
+            console.log("User has been successfully logged in");
+
+            console.log("What is my token?", res.data.token);
+            navigate("/chat");
+        })
+        .catch((err) => {
+            console.log("is it even catching an error?", err);
+            const errorResponse = err.response.data;
+            console.log("errorArr", errorArr);
+            console.log("errorResponse", errorResponse);
+            errorArr.push(
+                "Ooops, something went wrong with logging in.  Try again!"
+            );
+            setErrors(errorArr);
+            console.log("what is my error arr?", errorArr);
+        });
+
+
+
+            
     };
+    
+
     return (
         <>
             <div className="">

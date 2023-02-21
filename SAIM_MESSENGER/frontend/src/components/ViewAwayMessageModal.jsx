@@ -77,7 +77,7 @@ const AwayMessageModal = (props) => {
                                 onClick={handleOpen}
                                 className="mr-1"
                             >
-                                <span>Cancel</span>
+                                <span>Close</span>
                             </Button>
                         </div>
                     </DialogFooter>

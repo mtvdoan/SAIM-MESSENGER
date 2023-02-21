@@ -9,7 +9,6 @@ const LogOutButton = (props) => {
     useEffect(() => {
         axios.get("http://localhost:8000/api/logout", {withCredentials:true})
             .then(() => {
-                localStorage.removeItem("userDetails");
                 console.log("Logged out!")
                 socket.disconnect();
                 navigate("/")
