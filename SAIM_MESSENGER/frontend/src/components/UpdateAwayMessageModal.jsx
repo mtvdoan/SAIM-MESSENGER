@@ -64,8 +64,25 @@ const UpdateAwayMessageModal = (props) => {
                 helper("newawaymessage", newAwayMessage)
             )
             .then(() => {
+                
                 console.log("Creation successful on backend");
                 alert("Away Message has been updated!");
+
+                // ALEX'S
+                /*
+                            .then((res) => {
+                const index = props.awayMessageList.findIndex((awayMessage) => {
+                    return awayMessage._id == props.id
+                });
+                const newArray = props.awayMessageList.slice(0, index).concat(
+                    [res.data], 
+                    props.awayMessageList.slice(index+1, props.awayMessageList.length));
+                props.setAwayMessageList(newArray);
+                console.log("thisres",res)
+                console.log("Creation successful on backend");
+                alert("Away Message has been updated!");
+            })
+                 */
             })
             .catch((err) => {
                 console.log(err);
@@ -77,10 +94,7 @@ const UpdateAwayMessageModal = (props) => {
                 setErrors(errorArray);
             });
             setOpen(false);
-    };
-
-    const sample = () => {
-        console.log("blah");
+                // window.location.reload();
     };
 
     return (

@@ -14,6 +14,8 @@ import Boop from "./Boop";
 import aolemoji from "../images/aolemoji.png";
 
 const UserModal = (props) => {
+    // const[email, setEmail] =useState(props.userEmail)
+    // const[screenName, setScreenName] =useState(props.userScreenName)
     const helper = (message, object) => {
         console.log(message, object);
         return object;
@@ -22,7 +24,6 @@ const UserModal = (props) => {
     const [open, setOpen] = useState(false);
     const { user, socket } = useContext(UserContext);
     console.log("whatis user", user);
-
 
     const [usersList, setUsersList] = useState([]);
     const handleOpen = () => setOpen(!open);
@@ -35,6 +36,7 @@ const UserModal = (props) => {
             })
             .catch((err) => console.log(err));
     }, []);
+ 
 
     return (
         <>
@@ -56,12 +58,12 @@ const UserModal = (props) => {
                                         </Button>
                                     </Boop>
                                 </div>
-                                <Dialog open={open} handler={handleOpen}>
+                                <Dialog open={open} onClose={handleOpen}>
                                     <DialogHeader
                                         className="text-3xl whitespace-normal"
                                         style={{ maxWidth: "1000px" }}
                                     >
-                                        
+                                        {user["screenName"]}
                                         <Boop rotation={"5"} timing={"200"}>
                                             <img
                                                 src={aolemoji}
@@ -78,7 +80,7 @@ const UserModal = (props) => {
                                         className="whitespace-normal"
                                     >
                                         <div className="text-2xl">
-                                           jinfo go here
+                                           Email: {user.email}
                                         </div>
                                     </DialogBody>
                                     <DialogFooter>
@@ -89,7 +91,7 @@ const UserModal = (props) => {
                                                 onClick={handleOpen}
                                                 className="mr-1"
                                             >
-                                                <span>Cancel</span>
+                                                <span>Close</span>
                                             </Button>
                                         </div>
                                     </DialogFooter>

@@ -93,11 +93,12 @@ module.exports = {
     },
     //CODING DOJO METHOD
     login: async (req, res) => {
-        const user = await User.findOne({ email: req.body.email });
+        const user = await User.findOne({  email: req.body.email });
 
         if (user === null) {
             // email not found in users collection
             return res
+                
                 .sendStatus(400)
                 .json({ message: "Invalid email address" });
         }
@@ -131,7 +132,7 @@ module.exports = {
 
         // note that the response object allows chained calls to cookie and json
         res.cookie("usertoken", userToken, {
-             expires: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 hours
+            //  expires: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 hours
             httpOnly: true,
             // secure: true,
             // sameSite:'none'
@@ -145,6 +146,7 @@ module.exports = {
     },
 
     logout: (req, res) => {
+        // localStorage.removeItem('userDetails');
         res.clearCookie("usertoken");
         res.sendStatus(200).json({ message: "You have logged out!" });
     },

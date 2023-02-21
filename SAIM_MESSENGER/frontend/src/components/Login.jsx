@@ -33,17 +33,17 @@ const Login = (props) => {
         axios
             .post("http://localhost:8000/api/users/login", login, {
                 withCredentials: true,
-
             })
-                   
-            .then((res) => {
+
+            .then((res,req) => {
                 console.log(res);
+                //    req.session.cookie.maxAge = 30 * 24 * 60 * 60 * 1000; // Cookie expires after 30 days
                 setUser({
                     id: res.data.userInfo.id,
                     screenName: res.data.userInfo.screenName,
                     // room: ""
                 });
-                
+
                 console.log("User has been successfully logged in");
                 navigate("/chat");
             })

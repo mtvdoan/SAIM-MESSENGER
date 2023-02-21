@@ -10,15 +10,21 @@ import Boop from "./Boop";
 import UserModal from "./UserModal";
 import UsersList from "./UsersList";
 import axios from "axios";
+import LogOutButton from './LogOutButton';
 const Chat = (props) => {
     function helper(message, object) {
         console.log(message, object);
         return object;
     }
+
     const [usersList, setUsersList] = useState([]);
     const { user, setUser, socket } = useContext(UserContext);
+    console.log("whatis ", user, socket)
+    console.log("what my sn", user.screenName)
+    console.log("what is socket", socket)
     const [messages, setMessages] = useState([]);
     const [currentMessage, setCurrentMessage] = useState("");
+   
     useEffect(() => {
         console.log("wheeeeeee4e");
         socket.on("private_message_response", (data) => {
@@ -64,13 +70,14 @@ const Chat = (props) => {
         );
         window.scrollTo(0, document.body.scrollHeight);
     };
-    const awayMessageButtonHandler = () => {
-        navigate("/awayMessages");
-    };
+
     const handleLogOutClick = () => {
+        localStorage.removeItem("userDetails");
+        socket.disconnect();
         console.log(`${user.screenName} has been logged out.`);
         alert(`${user.screenName} has been successfully logged out! 👋`);
         navigate("/");
+
     };
 
     return (

@@ -25,10 +25,9 @@ const CreateAwayMessage = (props) => {
     const { user, setUser, socket } = useContext(UserContext);
     const userScreenName = user["screenName"];
     console.log("userScreenName", userScreenName);
-    const [awayMessageLabel, setAwayMessageLabel] = useState("");
-    const [awayMessage, setAwayMessage] = useState("");
-    const [awayMessageCreator, setAwayMessageCreator] = useState("");
-
+    const [awayMessageLabel, setAwayMessageLabel] = useState(props.label);
+    const [awayMessageCreator, setAwayMessageCreator] = useState(props.creator);
+    const [awayMessage, setAwayMessage] = useState(props.awayMessage);
     const [errors, setErrors] = useState([]);
     useEffect(() => {
         axios
@@ -51,10 +50,10 @@ const CreateAwayMessage = (props) => {
                 awayMessageCreator: userScreenName,
                 awayMessage,
             })
-            .then(() => {
-                console.log("Creation successful on backend");
+            .then((res) => {
+                setAwayMessage(res.data)
+                console.log("Creation successful on backend", res.data);
                 alert("An Away Message has been successfully created.");
-                setOpen(false);
             })
 
             .catch((err) => {
@@ -66,19 +65,18 @@ const CreateAwayMessage = (props) => {
                 }
                 setErrors(errorArray);
             });
-        window.location.reload();
+        handleClose();
     };
+
 
     const handleOpen = () => {
         setOpen(true);
-
-        // window.location.reload()
     };
 
     const handleClose = () => {
         setOpen(false);
     };
-    // window.location.reload();
+
     return (
         <>
             <div className="grid grid-cols-1 content-center m-10">

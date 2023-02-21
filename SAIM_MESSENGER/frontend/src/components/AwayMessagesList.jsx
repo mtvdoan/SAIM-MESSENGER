@@ -6,12 +6,15 @@ import aolemoji from "../images/aolemoji.png";
 import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import LikeButton from "./LikeButton";
-import AwayMessageModal from "./AwayMessageModal";
-import UpdateAwayMessage from "./UpdateAwayMessageModal";
+import ViewAwayMesssageModal from "./ViewAwayMessageModal";
+import UpdateAwayMessageModal from "./UpdateAwayMessageModal";
 import CreateAwayMessage from "./CreateAwayMessage";
 import SvgComponent from "./SvgComponent";
 import Boop from "./Boop";
 const AwayMessagesList = (props) => {
+    const [awayMessage, setAwayMessage] = useState("");
+    const [awayMessageLabel, setAwayMessageLabel] = useState("");
+    const [awayMessageCreator, setAwayMessageCreator] = useState("");
     const [showModal, setShowModal] = React.useState(false);
     const [awayMessagesList, setAwayMessagesList] = useState([]);
     const [usersList, setUsersList] = useState([]);
@@ -82,6 +85,37 @@ const AwayMessagesList = (props) => {
             )
             .catch((err) => console.log(err));
     }, []);
+        useEffect(() => {
+        axios
+            .get("http://localhost:8000/api/awayMessages/")
+            .then((response) =>
+                setAwayMessagesList(
+                    response.data,
+                    response.data.awayMessageCreator,
+                    console.log("All Away Messages:", response.data)
+                )
+            )
+            .catch((err) => console.log(err));
+    }, []);
+
+        useEffect(() => {
+            axios
+            .post("http://localhost:8000/api/awayMessages/", {
+                awayMessageLabel,
+                awayMessageCreator: userScreenName,
+                awayMessage,
+            })
+            .then((res) => {
+                setAwayMessage(res.data)
+                console.log("Creation successful on backend", res.data);
+                alert("An Away Message has been successfully created.");
+            })
+
+            .catch((err) => {
+                console.log(err);
+            });
+        }, []);
+
     return (
         <>
             <div>
@@ -139,7 +173,7 @@ const AwayMessagesList = (props) => {
                 <div className="p-4">
                     <div
                         className="rounded-lg shadow-2xl m-auto"
-                        style={{ width: "1500px" }}
+                        style={{ width: "2000px" }}
                     >
                         <div
                             className="border-1 border-black bg-gray-300 m-2"
@@ -220,7 +254,7 @@ const AwayMessagesList = (props) => {
                                                                     }
                                                                     className="bg-white border-b bg-white dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-blue-300"
                                                                 >
-                                                                    <AwayMessageModal
+                                                                    <ViewAwayMesssageModal
                                                                         label={
                                                                             awayMessage.awayMessageLabel
                                                                         }
@@ -259,7 +293,7 @@ const AwayMessagesList = (props) => {
                                                                             return awayMessage.awayMessageCreator ==
                                                                                 userScreenName ? (
                                                                                 <>
-                                                                                    <UpdateAwayMessage
+                                                                                    <UpdateAwayMessageModal
                                                                                         label={
                                                                                             awayMessage.awayMessageLabel
                                                                                         }
@@ -272,7 +306,8 @@ const AwayMessagesList = (props) => {
                                                                                         id={
                                                                                             awayMessage._id
                                                                                         }
-                                                                                        test="ale4xbutt"
+                                                                                        setAwayMessagesList = {setAwayMessagesList}
+                                                                                        awayMessageList = {awayMessagesList}
                                                                                     />
 
                                                                                     <Boop
