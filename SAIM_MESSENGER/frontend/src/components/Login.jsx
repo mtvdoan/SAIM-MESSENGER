@@ -7,7 +7,9 @@ import { UserContext } from "../context/UserContext";
 import axios from "axios";
 import App from "../App";
 import io from "socket.io-client";
+import Boop from './Boop'
 const Login = (props) => {
+
     const { user, setUser, socket } = useContext(UserContext);
     const [userToken, setuserToken] = useState("");
     const navigate = useNavigate();
@@ -29,7 +31,19 @@ const Login = (props) => {
 
 const handleLogin = async (e) => {
     e.preventDefault();
-    const errorArr = [];
+const errors = [];
+    if (!login.email.trim()) {
+        errors.push('Email is required');
+    }
+    if (!login.password.trim()) {
+        errors.push('Password is required');
+    }
+    if (errors.length > 0) {
+        setErrors(errors);
+        return;
+    }
+
+
     axios
         .post("http://localhost:8000/api/users/login", login, {
             withCredentials: true,
@@ -47,36 +61,36 @@ const handleLogin = async (e) => {
             navigate("/chat");
         })
         .catch((err) => {
-            console.log("is it even catching an error?", err);
-            const errorResponse = err.response.data;
-            console.log("errorArr", errorArr);
-            console.log("errorResponse", errorResponse);
-            errorArr.push(
-                "Ooops, something went wrong with logging in.  Try again!"
-            );
-            setErrors(errorArr);
-            console.log("what is my error arr?", errorArr);
+         const errorRes = err.response.data.error.errors;
+                const errorArray = [];
+                for (const key of Object.keys(errorRes)) {
+                    errorArray.push(errorRes[key].message);
+                }
+                setErrors(errorArray);
+        
         });
-
-
-
             
     };
     
-
     return (
         <>
             <div className="">
                 <nav className=" whitespace-nowrap m-2 border-gray-200 px-2 sm:px-4 py-2.5 rounded-sm shadow-lg fill-indigo-400border-2 bg-blue-400">
                     <div className="container flex flex-wrap items-center justify-between mx-auto">
                         <div className="flex items-center">
-                            <img
-                                src={man}
-                                className=" h-20 w-25"
-                                alt="Flowbite Logo"
-                            />
+                            <Boop rotation={"5"} timing={"100"}>
+                                <img
+                                    src={man}
+                                    className=" h-20 w-25"
+                                    alt="Flowbite Logo"
+                                />
+                            </Boop>
                             <h1 className="text-4xl content-centerfont-extrabold text-white dark:text-white">
-                                SAIM - MESSENGER 👋
+                                <Boop rotation={"3"} timing={"100"}>
+                                SAIM - MESSENGER 
+
+                                👋
+                                </Boop>
                             </h1>
                         </div>
                         <p className="tracking-tighter text-gray-900 md:text-lg dark:text-gray-900">
@@ -112,7 +126,7 @@ const handleLogin = async (e) => {
                                     onChange={handleLoginInputs}
                                     type="email"
                                     name="email"
-                                    className="mt-1 px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1"
+                                    className="mt-1 px-3 py-2 text-black bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1"
                                     placeholder="you@example.com"
                                 />
                                 <Link
@@ -130,9 +144,9 @@ const handleLogin = async (e) => {
                                 </span>
                                 <input
                                     onChange={handleLoginInputs}
-                                    type="text"
+                                    type="password"
                                     name="password"
-                                    className="mt-1 px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1"
+                                    className="mt-1 px-3 text-black py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1"
                                     placeholder="Enter Your Password"
                                 />
                             </label>

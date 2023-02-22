@@ -10,7 +10,7 @@ import {
 import aolemoji from "../images/aolemoji.png";
 import axios from "axios";
 import { UserContext } from "../context/UserContext";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Boop from "./Boop";
 import { animated } from "react-spring";
 const UpdateAwayMessageModal = (props) => {
@@ -20,7 +20,6 @@ const UpdateAwayMessageModal = (props) => {
     console.log(awayMessageLabel);
     const [awayMessage, setAwayMessage] = useState(props.message);
     const [awayMessageCreator, setAwayMessageCreator] = useState(props.creator);
-
     const helper = (message, object) => {
         console.log(message, object);
         return object;
@@ -33,21 +32,8 @@ const UpdateAwayMessageModal = (props) => {
     const [usersList, setUsersList] = useState([]);
     const { user, setUser, socket } = useContext(UserContext);
     const userScreenName = user["screenName"];
-
+    const navigate = useNavigate();
     const [errors, setErrors] = useState([]);
-
-    useEffect(() => {
-        axios
-            .get("http://localhost:8000/api/awayMessages/")
-            .then((response) =>
-                setAwayMessagesList(
-                    response.data,
-                    response.data.awayMessageCreator,
-                    console.log("All Away Messages:", response.data)
-                )
-            )
-            .catch((err) => console.log(err));
-    }, []);
 
     const newAwayMessage = {
         awayMessageLabel: awayMessageLabel,
@@ -63,26 +49,12 @@ const UpdateAwayMessageModal = (props) => {
                     helper("id", props.id),
                 helper("newawaymessage", newAwayMessage)
             )
-            .then(() => {
-                
-                console.log("Creation successful on backend");
+            .then((res) => {
+                console.log("Update successful on backend", res.data);
+                setAwayMessagesList()
+                navigate("/chat");
                 alert("Away Message has been updated!");
 
-                // ALEX'S
-                /*
-                            .then((res) => {
-                const index = props.awayMessageList.findIndex((awayMessage) => {
-                    return awayMessage._id == props.id
-                });
-                const newArray = props.awayMessageList.slice(0, index).concat(
-                    [res.data], 
-                    props.awayMessageList.slice(index+1, props.awayMessageList.length));
-                props.setAwayMessageList(newArray);
-                console.log("thisres",res)
-                console.log("Creation successful on backend");
-                alert("Away Message has been updated!");
-            })
-                 */
             })
             .catch((err) => {
                 console.log(err);
@@ -93,8 +65,8 @@ const UpdateAwayMessageModal = (props) => {
                 }
                 setErrors(errorArray);
             });
-            setOpen(false);
-                // window.location.reload();
+        setOpen(false);
+        // window.location.reload();
     };
 
     return (
@@ -195,7 +167,7 @@ const UpdateAwayMessageModal = (props) => {
                                     onClick={handleOpen}
                                     className="mr-1"
                                 >
-                                    <span>Cancel</span>
+                                    <span>Close</span>
                                 </Button>
                             </div>
                         </DialogFooter>

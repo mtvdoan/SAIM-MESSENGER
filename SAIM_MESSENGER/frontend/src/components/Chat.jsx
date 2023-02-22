@@ -71,7 +71,7 @@ const Chat = (props) => {
                 console.log(response);
             }
         );
-        window.scrollTo(0, document.body.scrollHeight);
+   
     };
 
     const handleLogOutClick = () => {
@@ -94,15 +94,18 @@ const Chat = (props) => {
             <div>
                 <div className="">
                     <nav className="whitespace-nowrap m-2 border-gray-200 px-2 sm:px-4 py-10 rounded-2xl shadow-2xl fill-indigo-400border-2  bg-blue-400">
-                        <div className="container flex flex-wrap items-center justify-between mx-auto">
+                        <div className="container grid grid-cols-2 content-center flex flex-wrap items-center justify-between mx-auto">
                             <div className="flex items-center justify">
                                 <h1 className="text-5xl mr-44 font-extrabold text-white dark:text-white">
                                     SAIM - MESSENGER
                                 </h1>
                             </div>
+                                <div className="grid grid-1 contents-center ">
+
                             <Boop rotation={"10"} timing={"100"}>
+
                                 <p className="tracking-tighter text-gray-900 md:text-lg dark:text-gray-400">
-                                    <mark className="grid grid-cols-2 content-center m-auto m-4 p-4 bg-blue-800 rounded-xl shadow-lg h-28 w-80">
+                                    <mark className="grid w-auto grid-cols-2 content-center m-auto m-4 p-4 bg-blue-800 rounded-xl shadow-lg h-28 w-80">
                                         <h1 className=" text-5xl font-extrabold text-white dark:text-white mt-10">
                                             @ {user.screenName}
                                         </h1>
@@ -113,10 +116,12 @@ const Chat = (props) => {
                                                 height: "150px",
                                                 width: "200px",
                                             }}
+                                            className=" ml-36"
                                         />
                                     </mark>
                                 </p>
                             </Boop>
+                                </div>
                         </div>
                     </nav>
                 </div>
@@ -226,7 +231,7 @@ const Chat = (props) => {
                                         >
                                             {messages.map((m, i) => (
                                                 <div
-                                                    className="whitespace-normal rt-tr-group overflow-auto"
+                                                    className="whitespace-normal text-black rt-tr-group overflow-auto"
                                                     style={{
                                                         fontSize: "24px",
                                                         display: "flex",
@@ -236,7 +241,7 @@ const Chat = (props) => {
                                                 >
                                                     <div
                                                         style={{}}
-                                                        className="font-extrabold mr-4 whitespace-normal "
+                                                        className="font-extrabold text-black mr-4 whitespace-normal "
                                                     >
                                                         {m.user}:
                                                     </div>

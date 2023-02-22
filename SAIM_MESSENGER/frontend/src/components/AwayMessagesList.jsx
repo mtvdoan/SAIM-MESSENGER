@@ -11,8 +11,7 @@ import UpdateAwayMessageModal from "./UpdateAwayMessageModal";
 import CreateAwayMessage from "./CreateAwayMessage";
 import SvgComponent from "./SvgComponent";
 import Boop from "./Boop";
-const AwayMessagesList = (props) => {
-    const [awayMessage, setAwayMessage] = useState("");
+const AwayMessagesList = ({ awayMessage, setAwayMessage }) => {
     const [awayMessageLabel, setAwayMessageLabel] = useState("");
     const [awayMessageCreator, setAwayMessageCreator] = useState("");
     const [showModal, setShowModal] = React.useState(false);
@@ -45,6 +44,7 @@ const AwayMessagesList = (props) => {
                 console.log("Successfully deleted away message from backend");
                 alert(`Away message has been deleted`);
                 removeFromDom(awayMessageId);
+                navigate("/chat");
             })
             .catch((err) =>
                 console.log(
@@ -85,7 +85,7 @@ const AwayMessagesList = (props) => {
             )
             .catch((err) => console.log(err));
     }, []);
-        useEffect(() => {
+    useEffect(() => {
         axios
             .get("http://localhost:8000/api/awayMessages/")
             .then((response) =>
@@ -98,15 +98,15 @@ const AwayMessagesList = (props) => {
             .catch((err) => console.log(err));
     }, []);
 
-        useEffect(() => {
-            axios
+    useEffect(() => {
+        axios
             .post("http://localhost:8000/api/awayMessages/", {
                 awayMessageLabel,
                 awayMessageCreator: userScreenName,
                 awayMessage,
             })
             .then((res) => {
-                setAwayMessage(res.data)
+                setAwayMessage(res.data);
                 console.log("Creation successful on backend", res.data);
                 alert("An Away Message has been successfully created.");
             })
@@ -114,22 +114,24 @@ const AwayMessagesList = (props) => {
             .catch((err) => {
                 console.log(err);
             });
-        }, []);
+    }, []);
 
     return (
         <>
             <div>
                 <div className="">
                     <nav className="whitespace-nowrap m-2 border-gray-200 px-2 sm:px-4 py-10 rounded-2xl shadow-2xl fill-indigo-400border-2  bg-blue-400">
-                        <div className="container flex flex-wrap items-center justify-between mx-auto">
+                        <div className="container grid grid-cols-2 content-center flex flex-wrap items-center justify-between mx-auto">
                             <div className="flex items-center justify">
                                 <h1 className="text-5xl mr-44 font-extrabold text-white dark:text-white">
                                     SAIM - MESSENGER
                                 </h1>
                             </div>
+                            <div>
+
                             <Boop rotation={"10"} timing={"100"}>
                                 <p className="tracking-tighter text-gray-900 md:text-lg dark:text-gray-400">
-                                    <mark className="grid grid-cols-2 content-center m-auto m-4 p-4 bg-blue-800 rounded-xl shadow-lg h-28 w-80">
+                                    <mark className="w-auto grid grid-cols-2 content-center m-auto m-4 p-4 bg-blue-800 rounded-xl shadow-lg h-28" style={{width:"800px"}}>
                                         <h1 className=" text-5xl font-extrabold text-white dark:text-white mt-10">
                                             @ {userScreenName}
                                         </h1>
@@ -144,6 +146,7 @@ const AwayMessagesList = (props) => {
                                     </mark>
                                 </p>
                             </Boop>
+                            </div>
                         </div>
                     </nav>
                 </div>
@@ -306,8 +309,12 @@ const AwayMessagesList = (props) => {
                                                                                         id={
                                                                                             awayMessage._id
                                                                                         }
-                                                                                        setAwayMessagesList = {setAwayMessagesList}
-                                                                                        awayMessageList = {awayMessagesList}
+                                                                                        setAwayMessagesList={
+                                                                                            setAwayMessagesList
+                                                                                        }
+                                                                                        awayMessageList={
+                                                                                            awayMessagesList
+                                                                                        }
                                                                                     />
 
                                                                                     <Boop

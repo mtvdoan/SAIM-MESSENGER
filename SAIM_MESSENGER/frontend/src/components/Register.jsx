@@ -30,7 +30,28 @@ const Register = (props) => {
     };
     const handleRegistration = (e) => {
         e.preventDefault();
+// Validate required fields
+  const errors = [];
+  if (!register.screenName.trim()) {
+    errors.push('Screen name is required');
+  }
+  if (!register.email.trim()) {
+    errors.push('Email is required');
+  }
+  if (!register.password.trim()) {
+    errors.push('Password is required');
+  }
+  if (!register.confirmPassword.trim()) {
+    errors.push('Confirm password is required');
+  }
+  if (register.password !== register.confirmPassword) {
+    errors.push('Passwords do not match');
+  }
 
+  if (errors.length > 0) {
+    setErrors(errors);
+    return;
+  }
         axios
             .post("http://localhost:8000/api/users/register", register, {
                 withCredentials: true,
@@ -49,9 +70,17 @@ const Register = (props) => {
                 );
                 navigate("/");
             })
-            .catch((err) => console.log(err));
-        setErrors.push("Something went wrong with the registration!");
-        setErrors([]);
+           .catch((err) => {
+                console.log(err)
+                const errorRes = err.response.data.error.errors;
+                const errorArray = [];
+
+                for(const key of Object.keys(errorRes)) {
+                    errorArray.push(errorRes[key].message);
+                }
+                setErrors(errorArray);
+            });
+    
     };
     return (
         <>
@@ -117,7 +146,7 @@ const Register = (props) => {
                                             onChange={handleRegInputs}
                                             type="email"
                                             name="email"
-                                            className="mt-1 px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1"
+                                            className="mt-1 text-black px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1"
                                             placeholder="you@example.com"
                                         />
                                     </label>
@@ -131,7 +160,7 @@ const Register = (props) => {
                                             onChange={handleRegInputs}
                                             type="text"
                                             name="screenName"
-                                            className="mt-1 px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1"
+                                            className="mt-1 px-3 py-2 text-black bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1"
                                             placeholder="Choose Your ScreenName!"
                                         />
                                     </label>
@@ -143,9 +172,9 @@ const Register = (props) => {
                                         </span>
                                         <input
                                             onChange={handleRegInputs}
-                                            type="text"
+                                            type="password"
                                             name="password"
-                                            className="mt-1 px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1"
+                                            className="mt-1 px-3 py-2 text-black bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1"
                                             placeholder="Create Password"
                                         />
                                     </label>
@@ -157,9 +186,9 @@ const Register = (props) => {
                                         </span>
                                         <input
                                             onChange={handleRegInputs}
-                                            type="text"
+                                            type="password"
                                             name="confirmPassword"
-                                            className="mt-1 px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1"
+                                            className="mt-1 px-3 py-2 text-black bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1"
                                             placeholder="Confirm Password"
                                         />
                                     </label>

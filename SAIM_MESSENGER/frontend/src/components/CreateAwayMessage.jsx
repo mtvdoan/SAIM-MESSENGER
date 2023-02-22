@@ -10,7 +10,7 @@ import {
 import aolemoji from "../images/aolemoji.png";
 import axios from "axios";
 import { UserContext } from "../context/UserContext";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Boop from "./Boop";
 import { animated } from "react-spring";
 const CreateAwayMessage = (props) => {
@@ -29,6 +29,7 @@ const CreateAwayMessage = (props) => {
     const [awayMessageCreator, setAwayMessageCreator] = useState(props.creator);
     const [awayMessage, setAwayMessage] = useState(props.awayMessage);
     const [errors, setErrors] = useState([]);
+    const navigate = useNavigate();
     useEffect(() => {
         axios
             .get("http://localhost:8000/api/awayMessages/")
@@ -51,9 +52,10 @@ const CreateAwayMessage = (props) => {
                 awayMessage,
             })
             .then((res) => {
-                setAwayMessage(res.data)
+                setAwayMessagesList([...awayMessagesList, res.data]);
                 console.log("Creation successful on backend", res.data);
                 alert("An Away Message has been successfully created.");
+                navigate("/chat")
             })
 
             .catch((err) => {
@@ -75,7 +77,7 @@ const CreateAwayMessage = (props) => {
 
     const handleClose = () => {
         setOpen(false);
-    window.location.reload();
+    // window.location.reload();
     };
     return (
         <>
@@ -113,7 +115,7 @@ const CreateAwayMessage = (props) => {
                                             <>
                                                 <p
                                                     key={i}
-                                                    className="text-danger"
+                                                    className=" text-red-700"
                                                 >
                                                     {error}
                                                 </p>
