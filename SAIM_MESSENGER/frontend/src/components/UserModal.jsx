@@ -22,10 +22,11 @@ const UserModal = (props) => {
     };
     // const { email, screenName } = props;
     const [open, setOpen] = useState(false);
-    const { user, socket } = useContext(UserContext);
+    const { user, setUser, socket } = useContext(UserContext);
     console.log("whatis user", user);
-
     const [usersList, setUsersList] = useState([]);
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [modalData, setModalData] = useState(null);
     const handleOpen = () => setOpen(!open);
     useEffect(() => {
         axios
@@ -33,10 +34,19 @@ const UserModal = (props) => {
             .then((response) => {
                 setUsersList(response.data.allUsers);
                 console.log("allusers in usermodal", response.data.allUsers);
+                console.log("buuuupr");
             })
             .catch((err) => console.log(err));
     }, []);
- 
+
+    const findOneUser = (userId) => {
+        axios
+            .get("http://localhost:8000/api/users/" + userId)
+            .then((response) => {
+                setUser(response.data);
+            })
+            .catch((err) => console.log(err));
+    };
 
     return (
         <>
@@ -48,7 +58,10 @@ const UserModal = (props) => {
                                 <div className="m-2 text-center flex flex-col m">
                                     <Boop rotation={"2"} timing={"200"}>
                                         <Button
-                                            onClick={handleOpen}
+                                            onClick={() => {
+                                                setModalData(user);
+                                                setModalIsOpen(true);
+                                            }}
                                             color="white"
                                             size="lg"
                                         >
@@ -58,47 +71,42 @@ const UserModal = (props) => {
                                         </Button>
                                     </Boop>
                                 </div>
-                                <Dialog open={open} onClose={handleOpen}>
-                                    <DialogHeader
-                                        className="text-3xl whitespace-normal"
-                                        style={{ maxWidth: "1000px" }}
-                                    >
-                                        {user["screenName"]}
-                                        <Boop rotation={"5"} timing={"200"}>
-                                            <img
-                                                src={aolemoji}
-                                                style={{
-                                                    height: "100px",
-                                                    width: "150px",
-                                                }}
-                                                alt="aolemoji"
-                                            />
-                                        </Boop>
-                                    </DialogHeader>
-                                    <DialogBody
-                                        divider
-                                        className="whitespace-normal"
-                                    >
-                                        <div className="text-2xl">
-                                           Email: {user.email}
-                                        </div>
-                                    </DialogBody>
-                                    <DialogFooter>
-                                        <div className="">
-                                            <Button
-                                                variant="text"
-                                                color="red"
-                                                onClick={handleOpen}
-                                                className="mr-1"
-                                            >
-                                                <span>Close</span>
-                                            </Button>
-                                        </div>
-                                    </DialogFooter>
-                                </Dialog>
                             </Fragment>
                         </div>
                     ))}
+                <Dialog open={modalIsOpen} onClose={() => setModalIsOpen(false)}>
+                    <DialogHeader
+                        className="text-3xl whitespace-normal"
+                        style={{ maxWidth: "1000px" }}
+                    >
+                        {modalData ? modalData.screenName : "nothing"} 
+                        <Boop rotation={"5"} timing={"200"}>
+                            <img
+                                src={aolemoji}
+                                style={{
+                                    height: "100px",
+                                    width: "150px",
+                                }}
+                                alt="aolemoji"
+                            />
+                        </Boop>
+                    </DialogHeader>
+                    <DialogBody divider className="whitespace-normal">
+                        <div className="text-2xl">Email:{modalData ? modalData.email: "nothing"}</div>
+                    </DialogBody>
+                    <DialogFooter>
+                        <div className="">
+                            <Button
+                                variant="text"
+                                color="red"
+                                onClick={() => setModalIsOpen(false)}
+                                className="mr-1"
+                            >
+                                <span>Close</span>
+                            </Button>
+                        </div>
+                    </DialogFooter>
+                </Dialog>
             </div>
         </>
     );

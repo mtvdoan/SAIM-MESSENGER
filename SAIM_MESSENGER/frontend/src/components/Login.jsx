@@ -9,68 +9,53 @@ import App from "../App";
 import io from "socket.io-client";
 import Boop from './Boop'
 const Login = (props) => {
-
-    const { user, setUser, socket } = useContext(UserContext);
-    const [userToken, setuserToken] = useState("");
-    const navigate = useNavigate();
+    const {setUser} = useContext(UserContext);
     const [state, setState] = useState({
         login: {
             email: "",
             password: "",
         },
     });
-    const [errors, setErrors] = useState([]);
     const { login } = state;
-    const handleLoginInputs = (e) => {
+    const [errors, setErrors] = useState("");
+    const navigate = useNavigate();
+
+   const handleLoginInputs = (e) => {
         props.setAuthorized("");
-        setState({
-            ...state,
-            login: { ...state.login, [e.target.name]: e.target.value },
-        });
-    };
-
-const handleLogin = async (e) => {
-    e.preventDefault();
-const errors = [];
-    if (!login.email.trim()) {
-        errors.push('Email is required');
-    }
-    if (!login.password.trim()) {
-        errors.push('Password is required');
-    }
-    if (errors.length > 0) {
-        setErrors(errors);
-        return;
+        setState({...state, login: {...state.login, [e.target.name]: e.target.value}})
     }
 
 
-    axios
-        .post("http://localhost:8000/api/users/login", login, {
-            withCredentials: true,
-        })
-        .then((res,req) => {          
-            setUser({
-                id: res.data.userInfo.id,
-                screenName: res.data.userInfo.screenName,
-
-            });
-            console.log("Printing out res.data during login", res.data);
-            console.log("User has been successfully logged in");
-
-            console.log("What is my token?", res.data.token);
-            navigate("/chat");
-        })
-        .catch((err) => {
-         const errorRes = err.response.data.error.errors;
-                const errorArray = [];
-                for (const key of Object.keys(errorRes)) {
-                    errorArray.push(errorRes[key].message);
-                }
-                setErrors(errorArray);
-        
-        });
+    const handleLogin = (e) => {
+        e.preventDefault()
+        axios.post('http://localhost:8000/api/users/login', login , { withCredentials: true })
+            .then ( res => {
+                console.log('user', res.data.user);
+                setUser(res.data.user)
+                navigate("/chat");
+            })
+            .catch( err => {console.log(err.response.data); setErrors(err.response.data.errors)} )
             
-    };
+    }
+
+    // const handleLogin = (e) => {
+    //     e.preventDefault();
+    //     axios.post("http://localhost:8000/api/users/login", login, {withCredentials:true})
+    //         .then(res => {
+    //             console.log(res)
+    //             setUser({
+    //                 // id: res.data.userInfo.id,
+    //                 screenName: res.data.user.screenName,
+    //                 email: res.data.user.email,
+
+    //             })
+    //             navigate("/chat")
+    //         })
+    //         .catch((err) => {
+    //             console.log(err.response.data.errors);
+    //         setErrors(err.response.data.errors)
+    //         })
+    // }
     
     return (
         <>
@@ -109,14 +94,18 @@ const errors = [];
                     <img src={logo1} style={{}} alt="logo1" />
                     <hr />
                     <form onSubmit={handleLogin}>
-                        {errors.length > 0 &&
+                        <p className="text-red-600">
+                           {/* {errors}  */}
+                                   {errors && <span className='accent'>{errors}📸</span>}
+                        </p>
+                        {/* {errors.length > 0 &&
                             errors.map((error, i) => (
                                 <>
                                     <p className=" text-red-600" key={i}>
                                         {error}
                                     </p>
                                 </>
-                            ))}
+                            ))} */}
                         <div className="mb-6 mt-0">
                             <label className="block">
                                 <span className="after:content-['*'] after:ml-0.5 after:text-red-500 flex text-sm font-medium text-black">

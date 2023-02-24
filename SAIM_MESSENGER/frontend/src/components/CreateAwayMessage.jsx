@@ -55,7 +55,8 @@ const CreateAwayMessage = (props) => {
                 setAwayMessagesList([...awayMessagesList, res.data]);
                 console.log("Creation successful on backend", res.data);
                 alert("An Away Message has been successfully created.");
-                navigate("/chat")
+
+             navigate("/chat")
             })
 
             .catch((err) => {
@@ -77,11 +78,10 @@ const CreateAwayMessage = (props) => {
 
     const handleClose = () => {
         setOpen(false);
-    // window.location.reload();
     };
     return (
         <>
-            <div className="grid grid-cols-1 content-center m-10">
+            <div className="h-auto grid grid-cols-1 content-center m-10">
                 <Fragment>
                     <div>
                         <Boop rotation={"2"} timing={"200"}>

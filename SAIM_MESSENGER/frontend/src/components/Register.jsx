@@ -10,7 +10,6 @@ import io from "socket.io-client";
 import Boop from "./Boop";
 const Register = (props) => {
     const { setUser } = useContext(UserContext);
-    const navigate = useNavigate();
     const [state, setState] = useState({
         register: {
             screenName: "",
@@ -19,7 +18,10 @@ const Register = (props) => {
             confirmPassword: "",
         },
     });
-    const [errors, setErrors] = useState([]);
+    const navigate = useNavigate();
+
+    const [errors, setErrors] = useState("");
+
     const { register } = state;
     const handleRegInputs = (e) => {
         props.setAuthorized("");
@@ -28,60 +30,69 @@ const Register = (props) => {
             register: { ...state.register, [e.target.name]: e.target.value },
         });
     };
+
     const handleRegistration = (e) => {
         e.preventDefault();
-// Validate required fields
-  const errors = [];
-  if (!register.screenName.trim()) {
-    errors.push('Screen name is required');
-  }
-  if (!register.email.trim()) {
-    errors.push('Email is required');
-  }
-  if (!register.password.trim()) {
-    errors.push('Password is required');
-  }
-  if (!register.confirmPassword.trim()) {
-    errors.push('Confirm password is required');
-  }
-  if (register.password !== register.confirmPassword) {
-    errors.push('Passwords do not match');
-  }
-
-  if (errors.length > 0) {
-    setErrors(errors);
-    return;
-  }
+        console.log("register form");
         axios
             .post("http://localhost:8000/api/users/register", register, {
                 withCredentials: true,
             })
             .then((res) => {
-                console.log(res);
-                setUser({
-                    // id: res.data.user.id,
-                    screenName: res.data.user.screenName,
-                    email: res.data.user.email,
-                    password: res.data.user.password,
-                    // room: "",
-                });
-                alert(
-                    `Hey, thanks for registering, ${res.data.user.screenName}! Please sign in to get started.`
-                );
-                navigate("/");
-            })
-           .catch((err) => {
-                console.log(err)
-                const errorRes = err.response.data.error.errors;
-                const errorArray = [];
+                setUser(res.data.user);
 
-                for(const key of Object.keys(errorRes)) {
-                    errorArray.push(errorRes[key].message);
-                }
-                setErrors(errorArray);
-            });
-    
+                // setUser({
+                //     screenName: res.data.user.screenName,
+                //     email: res.data.user.email,
+                //     password: res.data.user.password,
+                //     confirmPassword: res.data.user.confirmPassword,
+                // });
+                navigate("/chat");
+            })
+            .catch((res) => {
+                setErrors(res.response.data.errors);
+                console.log(
+                    "Printing list of errors",
+                    res.response.data.errors
+                );
+            })
+            .catch((res) => setErrors(res.response.data.errors));
     };
+
+    // const handleRegistration = (e) => {
+    //     e.preventDefault();
+
+    //     axios
+    //         .post("http://localhost:8000/api/users/register", register, {
+    //             withCredentials: true,
+    //         })
+    //         .then((res) => {
+    //             console.log("i'm here");
+    //             console.log(res);
+    //             setUser({
+    //                 // id: res.data.user.id,
+    //                 screenName: res.data.user.screenName,
+    //                 email: res.data.user.email,
+    //                 password: res.data.user.password,
+    //                 // room: "",
+    //             });
+    //             alert(
+    //                 `Hey, thanks for registering, ${res.data.user.screenName}! Please sign in to get started.`
+    //             );
+    //             navigate("/");
+    //         })
+    //         .catch((err) => {
+    //             console.log(err);
+    //             // const errorRes = err.response.data.error.errors;
+    //             // const errorArray = [];
+
+    //             // for(const key of Object.keys(errorRes)) {
+    //             //     errorArray.push(errorRes[key].message);
+    //             // }
+    //             // setErrors(errorArray);
+    //         });
+    // };
+
     return (
         <>
             <div className="grid grid-cols-1 content-center">
@@ -121,11 +132,19 @@ const Register = (props) => {
                     <div className="items-center flexm-2">
                         <span className=" grid grid-cols-1  block max-w-lg items-center max-h-sm p-2 scale-90 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:border-gray-700 mt-2 m-auto">
                             <div>
-
-                            <img src={logo1} className="justify-center m-auto p-4 " style={{}} alt="logo1" />
+                                <img
+                                    src={logo1}
+                                    className="justify-center m-auto p-4 "
+                                    style={{}}
+                                    alt="logo1"
+                                />
                             </div>
                             <hr />
-                            <form onSubmit={handleRegistration}>
+                            <form
+                                className="text-black"
+                                onSubmit={handleRegistration}
+                            >
+                                {/* {errors}
                                 {errors.length > 0 &&
                                     errors.map((error, i) => (
                                         <>
@@ -136,7 +155,29 @@ const Register = (props) => {
                                                 {error}
                                             </p>
                                         </>
-                                    ))}
+                                    ))} */}
+                                <div className="text-red-900">
+                                    {errors.screenName && (
+                                        <p className="accent">
+                                            {errors.screenName.message}
+                                        </p>
+                                    )}
+                                    {errors.email && (
+                                        <p className="accent">
+                                            {errors.email.message}
+                                        </p>
+                                    )}
+                                    {errors.password && (
+                                        <p className="accent">
+                                            {errors.password.message}
+                                        </p>
+                                    )}
+                                    {errors.confirmPassword && (
+                                        <p className="accent">
+                                            {errors.confirmPassword.message}
+                                        </p>
+                                    )}
+                                </div>
                                 <div className="mb-6 mt-0">
                                     <label className="block">
                                         <span className="after:content-['*'] after:ml-0.5 after:text-red-500 flex text-sm font-medium text-black">
@@ -144,7 +185,7 @@ const Register = (props) => {
                                         </span>
                                         <input
                                             onChange={handleRegInputs}
-                                            type="email"
+                                            type="text"
                                             name="email"
                                             className="mt-1 text-black px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1"
                                             placeholder="you@example.com"
@@ -194,23 +235,26 @@ const Register = (props) => {
                                     </label>
                                 </div>
                                 <div className="inline-flex m-auto grid grid-cols-2 content-center">
-                                <button type="submit" className="m-8 flex">
-                                    <a
-                                        href="#_"
-                                        className="relative px-6 py-3 font-bold text-black group"
-                                        type="submit"
-                                    >
-                                        <span className="absolute inset-0 w-full h-full transition duration-300 ease-out transform -translate-x-2 -translate-y-2 bg-blue-300 group-hover:translate-x-0 group-hover:translate-y-0"></span>
-                                        <span className="absolute inset-0 w-full h-full border-4 border-black"></span>
-                                        <span className="relative">
-                                            Sign Up
-                                        </span>
-                                    </a>
-                                </button>
+                                    <button type="submit" className="m-8 flex">
+                                        <a
+                                            href="#_"
+                                            className="relative px-6 py-3 font-bold text-black group"
+                                            type="submit"
+                                        >
+                                            <span className="absolute inset-0 w-full h-full transition duration-300 ease-out transform -translate-x-2 -translate-y-2 bg-blue-300 group-hover:translate-x-0 group-hover:translate-y-0"></span>
+                                            <span className="absolute inset-0 w-full h-full border-4 border-black"></span>
+                                            <span className="relative">
+                                                Sign Up
+                                            </span>
+                                        </a>
+                                    </button>
                                     <Boop rotation={"3"} timing={"100"}>
-                                <button className=" whitespace-normaltext-m tracking-tighter m-auto text-blue-700  cursor-pointer text-center">
-                                        <Link className="" to="/">Already have an account?  Login here!</Link>
-                                </button>
+                                        <button className=" whitespace-normaltext-m tracking-tighter m-auto text-blue-700  cursor-pointer text-center">
+                                            <Link className="" to="/">
+                                                Already have an account? Login
+                                                here!
+                                            </Link>
+                                        </button>
                                     </Boop>
                                 </div>
                                 <hr />

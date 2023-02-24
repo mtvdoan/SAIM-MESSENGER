@@ -71,24 +71,18 @@ const Chat = (props) => {
                 console.log(response);
             }
         );
-   
+        document.getElementById('message').value='';
+        
     };
+
 
     const handleLogOutClick = () => {
-        // setUser({});
-        // setScreenName("");
-        // setPassword("");
-        // localStorage.clear();
-
-    //Coding Dojo
-    localStorage.removeItem("userDetails");
-    localStorage.clear();
-    socket.disconnect();
-    console.log(`${user.screenName} has been logged out.`);
-    alert(`${user.screenName} has been successfully logged out! 👋`);
-    navigate("/");
-
+        socket.disconnect();
+        console.log(`${user.screenName} has been logged out.`);
+        alert(`${user.screenName} has been successfully logged out! 👋`);
+        navigate("/");
     };
+
     return (
         <>
             <div>
@@ -100,28 +94,26 @@ const Chat = (props) => {
                                     SAIM - MESSENGER
                                 </h1>
                             </div>
-                                <div className="grid grid-1 contents-center ">
-
-                            <Boop rotation={"10"} timing={"100"}>
-
-                                <p className="tracking-tighter text-gray-900 md:text-lg dark:text-gray-400">
-                                    <mark className="grid w-auto grid-cols-2 content-center m-auto m-4 p-4 bg-blue-800 rounded-xl shadow-lg h-28 w-80">
-                                        <h1 className=" text-5xl font-extrabold text-white dark:text-white mt-10">
-                                            @ {user.screenName}
-                                        </h1>
-                                        <img
-                                            src={aolemoji}
-                                            alt="aolemoji"
-                                            style={{
-                                                height: "150px",
-                                                width: "200px",
-                                            }}
-                                            className=" ml-36"
-                                        />
-                                    </mark>
-                                </p>
-                            </Boop>
-                                </div>
+                            <div className="grid grid-1 contents-center ">
+                                <Boop rotation={"10"} timing={"100"}>
+                                    <p className="tracking-tighter text-gray-900 md:text-lg dark:text-gray-400">
+                                        <mark className="grid w-auto grid-cols-2 content-center m-auto m-4 p-4 bg-blue-800 rounded-xl shadow-lg h-28 w-80">
+                                            <h1 className=" text-5xl font-extrabold text-white dark:text-white mt-10">
+                                                @ {user.screenName}
+                                            </h1>
+                                            <img
+                                                src={aolemoji}
+                                                alt="aolemoji"
+                                                style={{
+                                                    height: "150px",
+                                                    width: "200px",
+                                                }}
+                                                className=" ml-36"
+                                            />
+                                        </mark>
+                                    </p>
+                                </Boop>
+                            </div>
                         </div>
                     </nav>
                 </div>
@@ -188,15 +180,15 @@ const Chat = (props) => {
                         </span>
                     </div>
                     <div
-                        className="rounded-lg shadow-2xl m-auto p-2 grid grid-col-2 content-center"
+                        className="rounded-xl mt-0 m-auto shadow-2xl text-xlp-2 grid grid-col-2 content-center"
                         style={{ width: "800px" }}
                     >
                         <div
-                            className="border-1 border-black bg-gray-300"
+                            className="border-1 rounded-xl border-black bg-gray-300"
                             style={{ width: "auto", height: "750px" }}
                         >
                             <h2
-                                className="text-3xl p-4 tracking-widest font-extrabold dark:text-white bg-blue-500 border-black border-2"
+                                className=" rounded-t-lg text-3xl p-4 tracking-widest font-extrabold dark:text-white bg-blue-500 border-black border-2"
                                 style={{ width: "auto" }}
                             >
                                 {user.screenName} is chatting...
@@ -226,7 +218,7 @@ const Chat = (props) => {
                                         }}
                                     >
                                         <div
-                                            className="overflow-auto border-1 border-black m-4"
+                                            className="overflow-auto border-1 text-3xl border-black m-4"
                                             style={{ height: "400px" }}
                                         >
                                             {messages.map((m, i) => (
@@ -241,7 +233,7 @@ const Chat = (props) => {
                                                 >
                                                     <div
                                                         style={{}}
-                                                        className="font-extrabold text-black mr-4 whitespace-normal "
+                                                        className="font-extrabold text-black mr-4 whitespace-normal text-xl "
                                                     >
                                                         {m.user}:
                                                     </div>
@@ -257,15 +249,19 @@ const Chat = (props) => {
                                         >
                                             <input
                                                 type="text"
+                                                id="message"
                                                 onChange={(e) =>
                                                     setCurrentMessage(
                                                         e.target.value
                                                     )
                                                 }
-                                                className="form-control bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                className="text-xl form-control bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                             />
                                             <div className="">
-                                                <button className="m-2 relative inline-block text-lg group grid grid-col-1 content-center">
+                                                <button
+                                                    
+                                                    className="m-2 relative inline-block text-lg group grid grid-col-1 content-center"
+                                                >
                                                     <span className="relative z-10 block px-5 py-3 overflow-hidden font-medium leading-tight text-gray-800 transition-colors duration-300 ease-out border-2 border-gray-900 rounded-lg group-hover:text-white">
                                                         <span className="absolute inset-0 w-full h-full px-5 py-3 rounded-lg bg-gray-50"></span>
                                                         <span className="absolute left-0 w-48 h-48 -ml-2 transition-all duration-300 origin-top-right -rotate-90 -translate-x-full translate-y-12 bg-gray-900 group-hover:-rotate-180 ease"></span>

@@ -176,7 +176,7 @@ const AwayMessagesList = ({ awayMessage, setAwayMessage }) => {
                 <div className="p-4">
                     <div
                         className="rounded-lg shadow-2xl m-auto"
-                        style={{ width: "2000px" }}
+                        style={{ width: "1800px" }}
                     >
                         <div
                             className="border-1 border-black bg-gray-300 m-2"

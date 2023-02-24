@@ -1,61 +1,62 @@
+const mongoose = require('mongoose')
+const bcrypt = require('bcrypt')
 
-const mongoose = require('mongoose');
-const bcrypt = require('bcrypt');
-// const Schema=mongoose.Schema;
-// const validator = require('validator')
+const Schema = new mongoose.Schema({
+    screenName: {
+        type: String,
+        required: [true, 'Gimme a screen name'],
+        minLength: [2, 'Gimme some more🦄']
+    },
+    email: {
+        type: String,
+        required: [true, 'Gimme an email'],
+        minLength: [2, 'Gimme some more🦄']
+    },
+    password: {
+        type: String,
+        required: [true, 'Password required!'],
+        minLength: [2, 'Gimme some more🦄']
+    }
+}, {timestamps: true} )
 
-const UserSchema = new mongoose.Schema({
-  screenName: {
-    type: String,
-    unique: true
-  },
-  email: {
-    type: String,
-    required: [true, "Email is required"],
-    unique: true,
-    validate: {
-  validator: val => /^([\w-\.]+@([\w-]+\.)+[\w-]+)?$/.test(val),
-  message: "Please enter a valid email"
-}
-
-
-
-  },
-  password: {
-    type: String,
-    required: [true, "Password is required"],
-    minlength: [2, "Password must be 2 characters or longer"]
-  }
-}, {timestamps: true});
-
-UserSchema.pre('validate', function(next) {
-  if (this.password !== this.confirmPassword) {
-    this.invalidate('confirmPassword', 'Password must match confirm password');
-  }
-  next();
-});
-
-// add this after UserSchema is defined
-
-UserSchema.virtual('confirmPassword')
-  .get( () => this._confirmPassword )
-  .set( value => this._confirmPassword = value );
-
-UserSchema.pre("validate", function(next) {
+// MongoDB schema provides virtual
+// short term value
+Schema.virtual('confirmPassword')
+    .get( () => this._confirmPassword )
+    .set( e => this._confirmPassword = e );
+// pre or post middleware
+Schema.pre('validate', function(next){
     if (this.password !== this.confirmPassword) {
-        this.invalidate("confirmPassword", "Password must match confirm password")
-    } else {
+        this.invalidate('confirmPassword', 'Passwords must match💜💜!!')
+    }
+    // otherwise call next middleware
+    // alwasy call next middleware
+    next()
+})
+
+// check confirm email.  Optional...
+// Schema.virtual('confirmE')
+//     .get( () => this._confirmE )
+//     .set( e => this._confirmE = e);
+// Schema.pre('validate', function(next){
+//     if (this.email !== this.confirmE) {
+//         this.invalidate('confirmE', 'Emails must match💜💜!!')
+//     }
+//     next()
+// })
+
+
+// SAVE ENCRYPTED PASSWORD
+Schema.pre('save', async function (next) {
+    try {
+        // hash the password, 10 times
+        const hashedPassword = await bcrypt.hash(this.password, 10)
+        // update password with hashed password
+        this.password = hashedPassword
         next()
+    } catch (err) {
+        console.log('ERROR IN SAVE: ', err)
     }
 })
 
-UserSchema.pre("save", function(next) {
-    bcrypt.hash(this.password, 10)
-        .then(hash => {
-            this.password = hash
-            next();
-        })
-})
-
-const User = mongoose.model("User", UserSchema);
-module.exports = User;
+module.exports = mongoose.model('User', Schema)
