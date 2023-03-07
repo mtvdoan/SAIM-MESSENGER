@@ -14,7 +14,6 @@ const socketio = require('socket.io')
 require('./config/mongoose.config')
 
 app.use(cors({credentials: true, origin: 'http://localhost:3000'})); 
-
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
@@ -39,13 +38,22 @@ io.on("connection", (socket) => {
     console.log(" server io ...on")
     console.log("Socket:", socket.id, "connected to the server");
     console.log(`Message sent from ${socket.id}: ${socket}`);
-    // console.log("Is io on from server printing data?", data);
     socket.on("send_message", (data) => {
         io.emit("message_received", data)
         console.log("io:", io);
         console.log("emit:", emit);
     })
-
+    
+    //Communication for video call
+socket.on("disconnectCall", () => {
+		socket.broadcast.emit("callEnded")
+	});
+    socket.on("callUser", ({ userToCall, signalData, from, name }) => {
+		io.to(userToCall).emit("callUser", { signal: signalData, from, name });
+	});
+    socket.on("answerCall", (data) => {
+		io.to(data.to).emit("callAccepted", data.signal)
+	});
     // socket.on("join_room", (data) => {
     //     console.log("Joined room:", data);
     //     socket.join(data)
