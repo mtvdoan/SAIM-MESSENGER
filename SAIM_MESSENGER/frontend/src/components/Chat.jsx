@@ -11,22 +11,20 @@ import UserModal from "./UserModal";
 import UsersList from "./UsersList";
 import axios from "axios";
 import LogOutButton from "./LogOutButton";
+import useSound from "use-sound";
+import WindowsXpShutDown from "../sounds/WindowsXpShutDown.mp3";
 const Chat = (props) => {
-    function helper(message, object) {
-        console.log(message, object);
-        return object;
-    }
-
     const [usersList, setUsersList] = useState([]);
     const { user, setUser, socket } = useContext(UserContext);
     const [screenName, setScreenName] = useState("");
     const [password, setPassword] = useState("");
-
+    const [play] = useSound(WindowsXpShutDown);
     console.log("whatis ", user, socket);
     console.log("what my sn", user.screenName);
     console.log("what is socket", socket);
     const [messages, setMessages] = useState([]);
     const [currentMessage, setCurrentMessage] = useState("");
+    const navigate = useNavigate();
 
     useEffect(() => {
         console.log("wheeeeeee4e");
@@ -55,34 +53,23 @@ const Chat = (props) => {
             .catch((err) => console.log(err));
     }, []);
     console.log("console io", io);
-    const navigate = useNavigate();
 
     const sendMessage = (e) => {
         e.preventDefault();
         console.log("Sending private message");
         socket.emit(
             "private_message",
-            helper("testing send", {
+            {
                 user: user.screenName,
                 // room: user.room,
                 message: currentMessage,
-            }),
+            },
             (response) => {
                 console.log(response);
             }
         );
         document.getElementById("message").value = "";
     };
-
-    // const handleLogOutClick = (e) => {
-    //     e.preventDefault();
-    //     socket.disconnect();
-    //     console.log(`${user.screenName} has been logged out.`);
-    //     alert(`${user.screenName} has been successfully logged out! 👋`);
-    //     setUser(null);
-    //     navigate("/");
-    //     window.location.reload(); //this removed a cookie...
-    // };
 
     const handleLogOutClick = () => {
         axios
@@ -93,15 +80,13 @@ const Chat = (props) => {
                 console.log("Logged out!");
                 socket.disconnect();
                 // window.location.reload(false);
-                setUser({
-                    id: 0,
-                    screenName: "",
-                    // email: "",
-                });
+                setUser(null);
                 // res.cookie.clear();
+                alert(`Logging ${user.screenName} out. Bye!`);
                 navigate("/");
-                window.location.reload(); //this seems to be needed to be able to sign in and out and chat
+                window.location.reload(); //Help users sign in and out without closing windows.
             });
+        play(WindowsXpShutDown);
     };
 
     return (
@@ -140,16 +125,33 @@ const Chat = (props) => {
                 </div>
                 <div className="grid grid-cols-2 content-center p-4">
                     <div>
-                        <span
+                        <div
                             className=" block max-h-sm p-2 bg-white rounded-lg shadow-2xl hover:bg-gray-100  dark:border-gray-700 mt-2 m-auto"
                             style={{ width: "600px" }}
                         >
-                            <img
-                                className="mb-6"
-                                src={logo1}
-                                style={{ height: "", width: "800px" }}
-                                alt="logo1"
-                            />
+                            <div className="border-2 flex flex-col  border-black rounded-lg bg-blue-700 max-h-96 max-w-96">
+                                <p className="p-2 font-extrabold tracking-tighter text-white text-4xl -mt-30">
+                                    SAIM - MESSENGER
+                                </p>
+                                <div className="flex justify-center flex-row">
+                                    <p className="font-extrabold text-6xl">"</p>
+                                    <div>
+                                        <Boop
+                                            rotation={"20"}
+                                            duration={"2000"}
+                                            className=""
+                                        >
+                                            <img
+                                                src={aolemoji}
+                                                alt="aolemoji"
+                                                className="-mt-10"
+                                                // style={{height: "200px"}}
+                                            />
+                                        </Boop>
+                                    </div>
+                                    <p className="font-extrabold text-6xl">"</p>
+                                </div>
+                            </div>
                             <div className="text-left">
                                 <h1 className="text-4xl font-extrabold m-4 text-black">
                                     Buddies:
@@ -202,7 +204,7 @@ const Chat = (props) => {
                                     </Link>
                                 </div>
                             </div>
-                        </span>
+                        </div>
                     </div>
                     <div
                         className="rounded-xl mt-0 m-auto shadow-2xl text-xlp-2 grid grid-col-2 content-center"
@@ -256,14 +258,16 @@ const Chat = (props) => {
                                                     style={{
                                                         fontSize: "24px",
                                                         display: "flex",
-                                                        maxWidth: "400px",
+                                                        maxWidth: "500px",
                                                     }}
                                                     key={i}
                                                 >
                                                     <div
                                                         style={{
-                                                            maxWidth: "400px",
+                                                            maxWidth: "500px",
                                                             color: "red",
+                                                            wordWrap:
+                                                                "break-word", // set word-wrap to break-word
                                                         }}
                                                         className="whitespace-normal font-extrabold text-black mr-4 text-xl "
                                                     >
@@ -272,8 +276,8 @@ const Chat = (props) => {
                                                     <p
                                                         className=""
                                                         style={{
-                                                            overflowWrap:
-                                                                "break-word",
+                                                            wordBreak:
+                                                                "break-all", // set word-break to break-all
                                                         }}
                                                     >
                                                         {m.message}
@@ -282,50 +286,6 @@ const Chat = (props) => {
                                             ))}
                                         </div>
                                     </div>
-
-                                    {/* <div
-                                        className="rt-body whitespace-normal m-2 card overflow-y-auto border-1 border-black"
-                                        style={{
-                                            width: "auto",
-                                            height: "300px",
-                                            overflow: "visible",
-
-                                            whitespace: "wrap",
-                                        }}
-                                    >
-                                        <div
-                                            className="overflow-y-auto border-1 text-3xl whitespace-normal border-black m-4 overflow-x-hidden"
-                                            style={{
-                                                height: "300px",
-                                                whiteSpace: "wrap",
-                                            }}
-                                        >
-                                            {messages.map((m, i) => (
-                                                <div
-                                                    className=" text-black rt-tr-group"
-                                                    style={{
-                                                        fontSize: "24px",
-                                                        display: "flex",
-                                                        whitespace: "wrap",
-                                                        maxWidth: "400px",
-                                                    }}
-                                                    key={i}
-                                                >
-                                                    <div
-                                                        style={{
-                                                            maxWidth: "400px",
-                                                        }}
-                                                        className="whitespace-normal font-extrabold text-black mr-4 text-xl "
-                                                    >
-                                                        {m.user}:
-                                                    </div>
-                                                    <p className="">
-                                                        {m.message}
-                                                    </p>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div> */}
                                     <div className="mb-6 m-2">
                                         <form
                                             id="chatEntry"

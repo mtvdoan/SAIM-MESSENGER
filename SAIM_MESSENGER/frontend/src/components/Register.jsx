@@ -8,6 +8,7 @@ import axios from "axios";
 import App from "../App";
 import io from "socket.io-client";
 import Boop from "./Boop";
+import aolemoji from "../images/aolemoji.png";
 const Register = (props) => {
     const { setUser } = useContext(UserContext);
     const [state, setState] = useState({
@@ -19,9 +20,7 @@ const Register = (props) => {
         },
     });
     const navigate = useNavigate();
-
     const [errors, setErrors] = useState("");
-
     const { register } = state;
     const handleRegInputs = (e) => {
         props.setAuthorized("");
@@ -58,40 +57,6 @@ const Register = (props) => {
             })
             .catch((res) => setErrors(res.response.data.errors));
     };
-
-    // const handleRegistration = (e) => {
-    //     e.preventDefault();
-
-    //     axios
-    //         .post("http://localhost:8000/api/users/register", register, {
-    //             withCredentials: true,
-    //         })
-    //         .then((res) => {
-    //             console.log("i'm here");
-    //             console.log(res);
-    //             setUser({
-    //                 // id: res.data.user.id,
-    //                 screenName: res.data.user.screenName,
-    //                 email: res.data.user.email,
-    //                 password: res.data.user.password,
-    //                 // room: "",
-    //             });
-    //             alert(
-    //                 `Hey, thanks for registering, ${res.data.user.screenName}! Please sign in to get started.`
-    //             );
-    //             navigate("/");
-    //         })
-    //         .catch((err) => {
-    //             console.log(err);
-    //             // const errorRes = err.response.data.error.errors;
-    //             // const errorArray = [];
-
-    //             // for(const key of Object.keys(errorRes)) {
-    //             //     errorArray.push(errorRes[key].message);
-    //             // }
-    //             // setErrors(errorArray);
-    //         });
-    // };
 
     return (
         <>
@@ -131,13 +96,31 @@ const Register = (props) => {
                 <Boop rotation={"3"} timing={"100"}>
                     <div className="items-center flexm-2">
                         <span className=" grid grid-cols-1  block max-w-lg items-center max-h-sm p-2 scale-90 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:border-gray-700 mt-2 m-auto">
-                            <div>
-                                <img
-                                    src={logo1}
-                                    className="justify-center m-auto p-4 "
-                                    style={{}}
-                                    alt="logo1"
-                                />
+                            <div className="border-2  border-black rounded-lg bg-blue-700 h-auto max-w-76">
+                                <p className="p-2 tracking-tighter font-extrabold text-white text-3xl">
+                                    Do you remember AIM?
+                                </p>
+                                <div className="flex justify-center flex-row">
+                                    <p className="font-extrabold text-6xl">"</p>
+                                    <div>
+                                        <Boop
+                                            rotation={"20"}
+                                            duration={"2000"}
+                                            className=""
+                                        >
+                                            <img
+                                                src={aolemoji}
+                                                alt="aolemoji"
+                                                className="-mt-10 mb-10"
+                                                // style={{height: "200px"}}
+                                            />
+                                        </Boop>
+                                    </div>
+                                    <p className="font-extrabold text-6xl">"</p>
+                                </div>
+                                <p className="p-2 font-extrabold tracking-tighter text-white text-3xl -mt-10">
+                                    It's 'still' the SAIM-MESSENGER
+                                </p>
                             </div>
                             <hr />
                             <form
@@ -250,7 +233,7 @@ const Register = (props) => {
                                     </button>
                                     <Boop rotation={"3"} timing={"100"}>
                                         <button className=" whitespace-normaltext-m tracking-tighter m-auto text-blue-700  cursor-pointer text-center">
-                                            <Link className="" to="/">
+                                            <Link className="hover:underline cursor-pointer" to="/">
                                                 Already have an account? Login
                                                 here!
                                             </Link>

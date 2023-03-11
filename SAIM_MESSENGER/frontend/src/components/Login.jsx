@@ -10,10 +10,10 @@ import io from "socket.io-client";
 import Boop from "./Boop";
 import useSound from "use-sound";
 import windowXp from "../sounds/windowXp.mp3";
+import aolemoji from "../images/aolemoji.png";
 const Login = (props) => {
     const { setUser } = useContext(UserContext);
     const [play] = useSound(windowXp);
-
     const [state, setState] = useState({
         login: {
             email: "",
@@ -42,7 +42,7 @@ const Login = (props) => {
                 console.log("user", res.data.user);
                 setUser(res.data.user);
                 alert(`Thanks for logging in, ${res.data.user.screenName}`);
-                play({windowXp})
+                play({ windowXp });
                 navigate("/chat");
             })
             .catch((err) => {
@@ -50,25 +50,6 @@ const Login = (props) => {
                 setErrors(err.response.data.errors);
             });
     };
-
-    // const handleLogin = (e) => {
-    //     e.preventDefault();
-    //     axios.post("http://localhost:8000/api/users/login", login, {withCredentials:true})
-    //         .then(res => {
-    //             console.log(res)
-    //             setUser({
-    //                 // id: res.data.userInfo.id,
-    //                 screenName: res.data.user.screenName,
-    //                 email: res.data.user.email,
-
-    //             })
-    //             navigate("/chat")
-    //         })
-    //         .catch((err) => {
-    //             console.log(err.response.data.errors);
-    //         setErrors(err.response.data.errors)
-    //         })
-    // }
 
     return (
         <>
@@ -100,25 +81,41 @@ const Login = (props) => {
                     </div>
                 </nav>
             </div>
-            <div className="items-center flexm-2">
+            <div className="items-center flex m-2">
                 <span className=" block max-w-xs max-h-sm p-2 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:border-gray-700 mt-2 m-auto">
-                    <img src={logo1} style={{}} alt="logo1" />
+                    <div className="border-2  border-black rounded-lg bg-blue-700 max-h-56 max-w-76">
+                        <p className="p-2 tracking-tighter font-extrabold text-white text-xl">
+                            Do you remember AIM?
+                        </p>
+                        <div className="flex justify-center flex-row">
+                            <p className="font-extrabold text-6xl">"</p>
+                            <div>
+                                <Boop
+                                    rotation={"20"}
+                                    duration={"2000"}
+                                    className=""
+                                >
+                                    <img
+                                        src={aolemoji}
+                                        alt="aolemoji"
+                                        className="-mt-10 mb-6"
+                                        // style={{height: "200px"}}
+                                    />
+                                </Boop>
+                            </div>
+                            <p className="font-extrabold text-6xl">"</p>
+                        </div>
+                        <p className="p-2 font-extrabold tracking-tighter text-white text-xl -mt-10">
+                            It's 'still' the SAIM-MESSENGER
+                        </p>
+                    </div>
                     <hr />
                     <form onSubmit={handleLogin}>
                         <p className="text-red-600">
-                            {/* {errors}  */}
                             {errors && (
                                 <span className="accent">{errors}📸</span>
                             )}
                         </p>
-                        {/* {errors.length > 0 &&
-                            errors.map((error, i) => (
-                                <>
-                                    <p className=" text-red-600" key={i}>
-                                        {error}
-                                    </p>
-                                </>
-                            ))} */}
                         <div className="mb-6 mt-0">
                             <label className="block">
                                 <span className="after:content-['*'] after:ml-0.5 after:text-red-500 flex text-sm font-medium text-black">

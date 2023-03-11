@@ -9,9 +9,12 @@ import LikeButton from "./LikeButton";
 import ViewAwayMesssageModal from "./ViewAwayMessageModal";
 import UpdateAwayMessageModal from "./UpdateAwayMessageModal";
 import CreateAwayMessage from "./CreateAwayMessage";
-import SvgComponent from "./SvgComponent";
+import useSound from "use-sound";
+import WindowsXpShutDown from "../sounds/WindowsXpShutDown.mp3";
+
 import Boop from "./Boop";
 const AwayMessagesList = ({ awayMessage, setAwayMessage }) => {
+    const [play] = useSound(WindowsXpShutDown);
     const [awayMessageLabel, setAwayMessageLabel] = useState("");
     const [awayMessageCreator, setAwayMessageCreator] = useState("");
     const [showModal, setShowModal] = React.useState(false);
@@ -33,9 +36,21 @@ const AwayMessagesList = ({ awayMessage, setAwayMessage }) => {
     console.log("awaymessages creators", creator);
     const navigate = useNavigate();
     const handleLogOutClick = () => {
-        console.log(`${user.screenName} has been logged out.`);
-        alert(`${user.screenName} has been successfully logged out! 👋`);
-        navigate("/");
+        axios
+            .get("http://localhost:8000/api/users/logout", {
+                withCredentials: true,
+            })
+            .then((res) => {
+                console.log("Logged out!");
+                socket.disconnect();
+                // window.location.reload(false);
+                setUser(null);
+                // res.cookie.clear();
+                alert(`Logging ${user.screenName} out. Bye!`);
+                navigate("/");
+                window.location.reload(); //this seems to be needed to be able to sign in and out and chat
+            });
+        play(WindowsXpShutDown);
     };
     const deleteAwayMessage = (awayMessageId) => {
         axios
@@ -128,24 +143,26 @@ const AwayMessagesList = ({ awayMessage, setAwayMessage }) => {
                                 </h1>
                             </div>
                             <div>
-
-                            <Boop rotation={"10"} timing={"100"}>
-                                <p className="tracking-tighter text-gray-900 md:text-lg dark:text-gray-400">
-                                    <mark className="w-auto grid grid-cols-2 content-center m-auto m-4 p-4 bg-blue-800 rounded-xl shadow-lg h-28" style={{width:"800px"}}>
-                                        <h1 className=" text-5xl font-extrabold text-white dark:text-white mt-10">
-                                            @ {userScreenName}
-                                        </h1>
-                                        <img
-                                            src={aolemoji}
-                                            alt="aolemoji"
-                                            style={{
-                                                height: "150px",
-                                                width: "200px",
-                                            }}
-                                        />
-                                    </mark>
-                                </p>
-                            </Boop>
+                                <Boop rotation={"10"} timing={"100"}>
+                                    <p className="tracking-tighter text-gray-900 md:text-lg dark:text-gray-400">
+                                        <mark
+                                            className="w-auto grid grid-cols-2 content-center m-auto m-4 p-4 bg-blue-800 rounded-xl shadow-lg h-28"
+                                            style={{ width: "800px" }}
+                                        >
+                                            <h1 className=" text-5xl font-extrabold text-white dark:text-white mt-10">
+                                                @ {userScreenName}
+                                            </h1>
+                                            <img
+                                                src={aolemoji}
+                                                alt="aolemoji"
+                                                style={{
+                                                    height: "150px",
+                                                    width: "200px",
+                                                }}
+                                            />
+                                        </mark>
+                                    </p>
+                                </Boop>
                             </div>
                         </div>
                     </nav>
@@ -212,10 +229,10 @@ const AwayMessagesList = ({ awayMessage, setAwayMessage }) => {
                                     >
                                         <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
                                             <table
-                                                className="m-4 text-xl text-left bg-white text-black"
+                                                className="m-4 text-xl text-center bg-white text-black"
                                                 style={{ width: "1800px" }}
                                             >
-                                                <thead className="text-3xl text-center text-gray-700 bg-white text-black">
+                                                <thead className="text-3xl text-center bg-white text-black">
                                                     <tr className="">
                                                         <th scope="col">
                                                             Away Message
@@ -234,7 +251,7 @@ const AwayMessagesList = ({ awayMessage, setAwayMessage }) => {
                                                         </th>
                                                         <th
                                                             scope="col0"
-                                                            className="mr-3 grid grid-cols-2 content-center"
+                                                            className=" grid grid-cols-2 content-center"
                                                             style={{
                                                                 width: "",
                                                             }}
@@ -255,7 +272,7 @@ const AwayMessagesList = ({ awayMessage, setAwayMessage }) => {
                                                                     key={
                                                                         awayMessage.id
                                                                     }
-                                                                    className="bg-white border-b bg-white dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-blue-300"
+                                                                    className="bg-white dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-blue-300"
                                                                 >
                                                                     <ViewAwayMesssageModal
                                                                         label={
@@ -270,7 +287,6 @@ const AwayMessagesList = ({ awayMessage, setAwayMessage }) => {
                                                                         id={
                                                                             awayMessage._id
                                                                         }
-                                                                        test="ale4xbutt"
                                                                     />
                                                                     <td className="">
                                                                         {
@@ -285,14 +301,6 @@ const AwayMessagesList = ({ awayMessage, setAwayMessage }) => {
                                                                     </td>
                                                                     <td className="grid grid-cols-2 content-center">
                                                                         {(() => {
-                                                                            console.log(
-                                                                                "what is my creator for reaturn",
-                                                                                creator
-                                                                            );
-                                                                            console.log(
-                                                                                "what is my userScreenName value for return",
-                                                                                userScreenName
-                                                                            );
                                                                             return awayMessage.awayMessageCreator ==
                                                                                 userScreenName ? (
                                                                                 <>
