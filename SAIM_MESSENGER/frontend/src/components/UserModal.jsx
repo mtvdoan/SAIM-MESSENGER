@@ -50,7 +50,7 @@ const UserModal = (props) => {
 
     return (
         <>
-            <div className="grid grid-cols-1 content-starts">
+            <div className="grid grid-cols-1 content-starts h-96 w-96 overflow-y-auto">
                 {usersList.length > 0 &&
                     usersList.map((user, index) => (
                         <div className="flex ml-10">

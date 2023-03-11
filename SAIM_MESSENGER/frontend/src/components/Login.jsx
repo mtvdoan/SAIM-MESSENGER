@@ -7,9 +7,13 @@ import { UserContext } from "../context/UserContext";
 import axios from "axios";
 import App from "../App";
 import io from "socket.io-client";
-import Boop from './Boop'
+import Boop from "./Boop";
+import useSound from "use-sound";
+import windowXp from "../sounds/windowXp.mp3";
 const Login = (props) => {
-    const {setUser} = useContext(UserContext);
+    const { setUser } = useContext(UserContext);
+    const [play] = useSound(windowXp);
+
     const [state, setState] = useState({
         login: {
             email: "",
@@ -20,23 +24,31 @@ const Login = (props) => {
     const [errors, setErrors] = useState("");
     const navigate = useNavigate();
 
-   const handleLoginInputs = (e) => {
+    const handleLoginInputs = (e) => {
         props.setAuthorized("");
-        setState({...state, login: {...state.login, [e.target.name]: e.target.value}})
-    }
-
+        setState({
+            ...state,
+            login: { ...state.login, [e.target.name]: e.target.value },
+        });
+    };
 
     const handleLogin = (e) => {
-        e.preventDefault()
-        axios.post('http://localhost:8000/api/users/login', login , { withCredentials: true })
-            .then ( res => {
-                console.log('user', res.data.user);
-                setUser(res.data.user)
+        e.preventDefault();
+        axios
+            .post("http://localhost:8000/api/users/login", login, {
+                withCredentials: true,
+            })
+            .then((res) => {
+                console.log("user", res.data.user);
+                setUser(res.data.user);
+                play({windowXp})
                 navigate("/chat");
             })
-            .catch( err => {console.log(err.response.data); setErrors(err.response.data.errors)} )
-            
-    }
+            .catch((err) => {
+                console.log(err.response.data);
+                setErrors(err.response.data.errors);
+            });
+    };
 
     // const handleLogin = (e) => {
     //     e.preventDefault();
@@ -56,7 +68,7 @@ const Login = (props) => {
     //         setErrors(err.response.data.errors)
     //         })
     // }
-    
+
     return (
         <>
             <div className="">
@@ -72,9 +84,7 @@ const Login = (props) => {
                             </Boop>
                             <h1 className="text-4xl content-centerfont-extrabold text-white dark:text-white">
                                 <Boop rotation={"3"} timing={"100"}>
-                                SAIM - MESSENGER 
-
-                                👋
+                                    SAIM - MESSENGER 👋
                                 </Boop>
                             </h1>
                         </div>
@@ -95,8 +105,10 @@ const Login = (props) => {
                     <hr />
                     <form onSubmit={handleLogin}>
                         <p className="text-red-600">
-                           {/* {errors}  */}
-                                   {errors && <span className='accent'>{errors}📸</span>}
+                            {/* {errors}  */}
+                            {errors && (
+                                <span className="accent">{errors}📸</span>
+                            )}
                         </p>
                         {/* {errors.length > 0 &&
                             errors.map((error, i) => (

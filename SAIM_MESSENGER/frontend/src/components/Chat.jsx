@@ -71,10 +71,8 @@ const Chat = (props) => {
                 console.log(response);
             }
         );
-        document.getElementById('message').value='';
-        
+        document.getElementById("message").value = "";
     };
-
 
     const handleLogOutClick = () => {
         socket.disconnect();
@@ -86,7 +84,7 @@ const Chat = (props) => {
     return (
         <>
             <div>
-                <div className="">
+                <div className="h-auto">
                     <nav className="whitespace-nowrap m-2 border-gray-200 px-2 sm:px-4 py-10 rounded-2xl shadow-2xl fill-indigo-400border-2  bg-blue-400">
                         <div className="container grid grid-cols-2 content-center flex flex-wrap items-center justify-between mx-auto">
                             <div className="flex items-center justify">
@@ -134,6 +132,7 @@ const Chat = (props) => {
                                     Buddies:
                                 </h1>
                                 <UserModal
+                                    className=""
                                     userScreenName={user.screenName}
                                     userEmail={user.email}
                                 />
@@ -175,17 +174,20 @@ const Chat = (props) => {
                                             </span>
                                         </a>
                                     </Boop>
+                                    <Link to={"/videochatroom"}>
+                                        Video Chat Room
+                                    </Link>
                                 </div>
                             </div>
                         </span>
                     </div>
                     <div
                         className="rounded-xl mt-0 m-auto shadow-2xl text-xlp-2 grid grid-col-2 content-center"
-                        style={{ width: "800px" }}
+                        style={{ width: "600px" }}
                     >
                         <div
                             className="border-1 rounded-xl border-black bg-gray-300"
-                            style={{ width: "auto", height: "750px" }}
+                            style={{ width: "auto", height: "650px" }}
                         >
                             <h2
                                 className=" rounded-t-lg text-3xl p-4 tracking-widest font-extrabold dark:text-white bg-blue-500 border-black border-2"
@@ -196,9 +198,8 @@ const Chat = (props) => {
                             <div
                                 className=""
                                 style={{
-                                    maxHeight: "400px",
                                     width: "auto",
-                                    height: "800px",
+                                    height: "300px",
                                 }}
                             >
                                 <div
@@ -210,38 +211,98 @@ const Chat = (props) => {
                                         className="rt-body whitespace-normal m-2 card overflow-y-auto border-1 border-black"
                                         style={{
                                             width: "auto",
-                                            height: "400px",
+                                            height: "300px",
                                             overflow: "visible",
-                                            scrollbarWidth: "700px",
-                                            whitespace: "wrap",
-                                            maxHeight: "500px",
+                                            wordWrap: "break-word",
                                         }}
                                     >
                                         <div
-                                            className="overflow-auto border-1 text-3xl border-black m-4"
-                                            style={{ height: "400px" }}
+                                            className="overflow-y-auto border-1 text-3xl whitespace-normal border-black m-4 overflow-x-hidden"
+                                            style={{
+                                                height: "300px",
+                                                whiteSpace: "wrap",
+                                            }}
                                         >
                                             {messages.map((m, i) => (
                                                 <div
-                                                    className="whitespace-normal text-black rt-tr-group overflow-auto"
+                                                    className={`text-black rt-tr-group ${
+                                                        i % 2 === 0
+                                                            ? "bg-gray-200"
+                                                            : "bg-white"
+                                                    }`}
                                                     style={{
                                                         fontSize: "24px",
                                                         display: "flex",
-                                                        whitespace: "wrap",
+                                                        maxWidth: "400px",
                                                     }}
                                                     key={i}
                                                 >
                                                     <div
-                                                        style={{}}
-                                                        className="font-extrabold text-black mr-4 whitespace-normal text-xl "
+                                                        style={{
+                                                            maxWidth: "400px",
+                                                            color: "red"
+                                                        }}
+                                                        className="whitespace-normal font-extrabold text-black mr-4 text-xl "
                                                     >
                                                         {m.user}:
                                                     </div>
-                                                    {m.message}
+                                                    <p
+                                                        className=""
+                                                        style={{
+                                                            overflowWrap:
+                                                                "break-word",
+                                                        }}
+                                                    >
+                                                        {m.message}
+                                                    </p>
                                                 </div>
                                             ))}
                                         </div>
                                     </div>
+
+                                    {/* <div
+                                        className="rt-body whitespace-normal m-2 card overflow-y-auto border-1 border-black"
+                                        style={{
+                                            width: "auto",
+                                            height: "300px",
+                                            overflow: "visible",
+
+                                            whitespace: "wrap",
+                                        }}
+                                    >
+                                        <div
+                                            className="overflow-y-auto border-1 text-3xl whitespace-normal border-black m-4 overflow-x-hidden"
+                                            style={{
+                                                height: "300px",
+                                                whiteSpace: "wrap",
+                                            }}
+                                        >
+                                            {messages.map((m, i) => (
+                                                <div
+                                                    className=" text-black rt-tr-group"
+                                                    style={{
+                                                        fontSize: "24px",
+                                                        display: "flex",
+                                                        whitespace: "wrap",
+                                                        maxWidth: "400px",
+                                                    }}
+                                                    key={i}
+                                                >
+                                                    <div
+                                                        style={{
+                                                            maxWidth: "400px",
+                                                        }}
+                                                        className="whitespace-normal font-extrabold text-black mr-4 text-xl "
+                                                    >
+                                                        {m.user}:
+                                                    </div>
+                                                    <p className="">
+                                                        {m.message}
+                                                    </p>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </div> */}
                                     <div className="mb-6 m-2">
                                         <form
                                             id="chatEntry"
@@ -255,13 +316,10 @@ const Chat = (props) => {
                                                         e.target.value
                                                     )
                                                 }
-                                                className="text-xl form-control bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                className=" form-control bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-white dark:border-gray-600 dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                             />
                                             <div className="">
-                                                <button
-                                                    
-                                                    className="m-2 relative inline-block text-lg group grid grid-col-1 content-center"
-                                                >
+                                                <button className="m-2 relative text-lg group grid grid-col-1 content-center">
                                                     <span className="relative z-10 block px-5 py-3 overflow-hidden font-medium leading-tight text-gray-800 transition-colors duration-300 ease-out border-2 border-gray-900 rounded-lg group-hover:text-white">
                                                         <span className="absolute inset-0 w-full h-full px-5 py-3 rounded-lg bg-gray-50"></span>
                                                         <span className="absolute left-0 w-48 h-48 -ml-2 transition-all duration-300 origin-top-right -rotate-90 -translate-x-full translate-y-12 bg-gray-900 group-hover:-rotate-180 ease"></span>
