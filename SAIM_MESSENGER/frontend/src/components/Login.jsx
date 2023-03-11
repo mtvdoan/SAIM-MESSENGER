@@ -41,11 +41,12 @@ const Login = (props) => {
             .then((res) => {
                 console.log("user", res.data.user);
                 setUser(res.data.user);
+                alert(`Thanks for logging in, ${res.data.user.screenName}`);
                 play({windowXp})
                 navigate("/chat");
             })
             .catch((err) => {
-                console.log(err.response.data);
+                console.log(err.response.data.errors);
                 setErrors(err.response.data.errors);
             });
     };

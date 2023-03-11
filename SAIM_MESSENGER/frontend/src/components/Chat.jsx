@@ -74,11 +74,34 @@ const Chat = (props) => {
         document.getElementById("message").value = "";
     };
 
+    // const handleLogOutClick = (e) => {
+    //     e.preventDefault();
+    //     socket.disconnect();
+    //     console.log(`${user.screenName} has been logged out.`);
+    //     alert(`${user.screenName} has been successfully logged out! 👋`);
+    //     setUser(null);
+    //     navigate("/");
+    //     window.location.reload(); //this removed a cookie...
+    // };
+
     const handleLogOutClick = () => {
-        socket.disconnect();
-        console.log(`${user.screenName} has been logged out.`);
-        alert(`${user.screenName} has been successfully logged out! 👋`);
-        navigate("/");
+        axios
+            .get("http://localhost:8000/api/users/logout", {
+                withCredentials: true,
+            })
+            .then((res) => {
+                console.log("Logged out!");
+                socket.disconnect();
+                // window.location.reload(false);
+                setUser({
+                    id: 0,
+                    screenName: "",
+                    // email: "",
+                });
+                // res.cookie.clear();
+                navigate("/");
+                window.location.reload(); //this seems to be needed to be able to sign in and out and chat
+            });
     };
 
     return (
@@ -162,7 +185,7 @@ const Chat = (props) => {
                                     <Boop rotation={"25"} timing={"100"}>
                                         <a
                                             href
-                                            onClick={handleLogOutClick}
+                                            onClick={() => handleLogOutClick()}
                                             className=" cursor-pointer relative inline-flex items-center justify-start px-6 py-3 overflow-hidden font-medium transition-all bg-red-500 rounded-xl group"
                                         >
                                             <span className="absolute top-0 right-0 inline-block w-4 h-4 transition-all duration-500 ease-in-out bg-red-700 rounded group-hover:-mr-4 group-hover:-mt-4">
@@ -240,7 +263,7 @@ const Chat = (props) => {
                                                     <div
                                                         style={{
                                                             maxWidth: "400px",
-                                                            color: "red"
+                                                            color: "red",
                                                         }}
                                                         className="whitespace-normal font-extrabold text-black mr-4 text-xl "
                                                     >

@@ -45,15 +45,15 @@ io.on("connection", (socket) => {
     })
     
     //Communication for video call
-socket.on("disconnectCall", () => {
-		socket.broadcast.emit("callEnded")
-	});
-    socket.on("callUser", ({ userToCall, signalData, from, name }) => {
-		io.to(userToCall).emit("callUser", { signal: signalData, from, name });
-	});
-    socket.on("answerCall", (data) => {
-		io.to(data.to).emit("callAccepted", data.signal)
-	});
+// socket.on("disconnectCall", () => {
+// 		socket.broadcast.emit("callEnded")
+// 	});
+//     socket.on("callUser", ({ userToCall, signalData, from, name }) => {
+// 		io.to(userToCall).emit("callUser", { signal: signalData, from, name });
+// 	});
+//     socket.on("answerCall", (data) => {
+// 		io.to(data.to).emit("callAccepted", data.signal)
+// 	});
     // socket.on("join_room", (data) => {
     //     console.log("Joined room:", data);
     //     socket.join(data)
