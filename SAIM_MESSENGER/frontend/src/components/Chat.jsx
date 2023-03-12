@@ -1,33 +1,39 @@
 import React, { useState, useContext, useEffect } from "react";
 import { UserContext } from "../context/UserContext";
-import logo1 from "../images/logo1.png";
 import io from "socket.io-client";
 import { useNavigate, Link } from "react-router-dom";
 import aolemoji from "../images/aolemoji.png";
 import "../App.css";
-import SvgComponent from "./SvgComponent";
 import Boop from "./Boop";
 import UserModal from "./UserModal";
 import UsersList from "./UsersList";
 import axios from "axios";
-import LogOutButton from "./LogOutButton";
 import useSound from "use-sound";
 import WindowsXpShutDown from "../sounds/WindowsXpShutDown.mp3";
+import IM from "../sounds/IM.mp3";
 const Chat = (props) => {
     const [usersList, setUsersList] = useState([]);
     const { user, setUser, socket } = useContext(UserContext);
     const [screenName, setScreenName] = useState("");
     const [password, setPassword] = useState("");
     const [play] = useSound(WindowsXpShutDown);
+    const [play2] = useSound(IM);
     console.log("whatis ", user, socket);
     console.log("what my sn", user.screenName);
     console.log("what is socket", socket);
     const [messages, setMessages] = useState([]);
     const [currentMessage, setCurrentMessage] = useState("");
     const navigate = useNavigate();
-
     useEffect(() => {
-        console.log("wheeeeeee4e");
+        if (user.id === 0) {
+            props.setAuthorized("You have to be logged in to view this page");
+            alert("You need to be logged in to view this page");
+            console.log("testing unauth");
+            navigate("/");
+        }
+    }, []);
+    useEffect(() => {
+        console.log("Test for useEffect with socket.on()");
         socket.on("private_message_response", (data) => {
             console.log("what is my socket", socket);
             console.log("Got your message");
@@ -57,6 +63,7 @@ const Chat = (props) => {
     const sendMessage = (e) => {
         e.preventDefault();
         console.log("Sending private message");
+        play2(IM);
         socket.emit(
             "private_message",
             {
@@ -79,6 +86,7 @@ const Chat = (props) => {
             .then((res) => {
                 console.log("Logged out!");
                 socket.disconnect();
+                localStorage.clear();
                 // window.location.reload(false);
                 setUser(null);
                 // res.cookie.clear();

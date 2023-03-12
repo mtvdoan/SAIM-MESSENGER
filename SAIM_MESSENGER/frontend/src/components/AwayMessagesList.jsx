@@ -13,7 +13,8 @@ import useSound from "use-sound";
 import WindowsXpShutDown from "../sounds/WindowsXpShutDown.mp3";
 
 import Boop from "./Boop";
-const AwayMessagesList = ({ awayMessage, setAwayMessage }) => {
+const AwayMessagesList = (props) => {
+    const [awayMessage, setAwayMessage] = useState("");
     const [play] = useSound(WindowsXpShutDown);
     const [awayMessageLabel, setAwayMessageLabel] = useState("");
     const [awayMessageCreator, setAwayMessageCreator] = useState("");
@@ -21,20 +22,21 @@ const AwayMessagesList = ({ awayMessage, setAwayMessage }) => {
     const [awayMessagesList, setAwayMessagesList] = useState([]);
     const [usersList, setUsersList] = useState([]);
     const { user, setUser, socket } = useContext(UserContext);
-    console.log("What is my socket", socket);
-    console.log("what is my user", user);
-    console.log("whatis set user?", setUser);
+    const navigate = useNavigate();
+    useEffect(() => {
+        if (user.id === 0) {
+            props.setAuthorized("You have to be logged in to view this page");
+            alert("You need to be logged in to view this page");
+            console.log("testing unauth");
+            navigate("/");
+        }
+    }, []);
     const creator =
         awayMessagesList.length > 0 &&
         awayMessagesList.map(
             (awayMessage, index) => awayMessage.awayMessageCreator
         );
-    console.log("is this printing the loop awaylist", creator);
     const userScreenName = user["screenName"];
-    console.log("Is this loop printing my userList?", userScreenName);
-    console.log("who's the creator", creator);
-    console.log("awaymessages creators", creator);
-    const navigate = useNavigate();
     const handleLogOutClick = () => {
         axios
             .get("http://localhost:8000/api/users/logout", {
@@ -42,10 +44,9 @@ const AwayMessagesList = ({ awayMessage, setAwayMessage }) => {
             })
             .then((res) => {
                 console.log("Logged out!");
+                localStorage.clear();
                 socket.disconnect();
-                // window.location.reload(false);
                 setUser(null);
-                // res.cookie.clear();
                 alert(`Logging ${user.screenName} out. Bye!`);
                 navigate("/");
                 window.location.reload(); //this seems to be needed to be able to sign in and out and chat

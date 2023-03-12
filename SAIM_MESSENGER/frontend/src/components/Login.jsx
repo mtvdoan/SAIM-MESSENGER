@@ -12,8 +12,11 @@ import useSound from "use-sound";
 import windowXp from "../sounds/windowXp.mp3";
 import aolemoji from "../images/aolemoji.png";
 const Login = (props) => {
-    const { setUser } = useContext(UserContext);
+    const { user, setUser } = useContext(UserContext);
+    const [loggedUsersList, setLoggedUsersList] = useState([]);
+    console.log("usercontext", user);
     const [play] = useSound(windowXp);
+    // const [localStorage, setLocalStorage] =useState([]);
     const [state, setState] = useState({
         login: {
             email: "",
@@ -34,13 +37,45 @@ const Login = (props) => {
 
     const handleLogin = (e) => {
         e.preventDefault();
+        // if (localStorage.getItem("email") != user.email) {
+        //     alert("You are already logged in");
+        //     setUser({
+        //         id: localStorage.getItem("id"),
+        //         email: localStorage.getItem("email"),
+        //         screenName: localStorage.getItem("screenName"),
+        //     });
+        //     navigate("/chat");
+        //     console.log("userid", user["id"]);
+        //     return;
+        // }
+
         axios
             .post("http://localhost:8000/api/users/login", login, {
                 withCredentials: true,
             })
+
             .then((res) => {
-                console.log("user", res.data.user);
-                setUser(res.data.user);
+                setUser({
+                    id: res.data.user._id,
+                    email: res.data.user.email,
+                    screenName: res.data.user.screenName,
+                });
+                // setLoggedUsersList({
+                //     id: res.data.user._id,
+                //     email: res.data.user.email,
+                //     screenName: res.data.user.screenName,
+                // });
+                // console.log("user", res);
+                // console.log("loggedusers", loggedUsersList);
+                // localStorage.setItem(res.data.user);
+                // localStorage.setItem("email", res.data.user.email);
+                // localStorage.setItem("screenName", res.data.user.screenName);
+                // localStorage.setItem("id", res.data.user._id);
+                console.log(
+                    "TEST. What is email in localStorage?",
+                    localStorage.getItem("email")
+                );
+                console.log("setuser", res.data.user);
                 alert(`Thanks for logging in, ${res.data.user.screenName}`);
                 play({ windowXp });
                 navigate("/chat");

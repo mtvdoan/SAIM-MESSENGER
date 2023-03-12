@@ -35,9 +35,17 @@ const register = async (req, res) => {
             const token = jwt.sign({ id: user._id }, process.env.SECRET_KEY);
             res.cookie("userToken", token, {
                 expires: new Date(Date.now() + 900000),
-            }).json({message: `Yay. Thanks for registering, ${user.screenName}.  Here is your jsonwebtoken: ${token}. This is your user payload information:`, user: payload
+            }).json({
+                message: `Yay. Thanks for registering, ${user.screenName}.  Here is your jsonwebtoken: ${token}. This is your user payload information:`,
+                user: payload,
             });
-            console.log(`Yay. Thanks for registering, ${user.screenName}.  Here is your jsonwebtoken: ${token}. This is your user payload information: ${JSON.stringify(payload)}`);
+            console.log(
+                `Yay. Thanks for registering, ${
+                    user.screenName
+                }.  Here is your jsonwebtoken: ${token}. This is your user payload information: ${JSON.stringify(
+                    payload
+                )}`
+            );
         }
     } catch (err) {
         res.status(400).json(err);
@@ -65,11 +73,15 @@ const login = async (req, res) => {
                     email: user.email,
                     screenName: user.screenName,
                 };
-                            const token = jwt.sign({ id: user._id }, process.env.SECRET_KEY);
+                const token = jwt.sign(
+                    { id: user._id },
+                    process.env.SECRET_KEY
+                );
 
                 res.cookie("userToken", token, {
                     expires: new Date(Date.now() + 900000),
                 }).json({ successMessage: "userToken: ", user: payload });
+                console.log(`Thanks for logging in, ${user.screenName}.  Here's your userToken: ${token}`);
             }
         }
     } catch (err) {
@@ -100,13 +112,10 @@ const findAllUsers = async (req, res) => {
             res.json({ allUsers, message: "Here are all users" })
         )
         .catch((err) =>
-            res
-                .status(400)
-                .json({
-                    message:
-                        "Something went wrong while trying to view all users",
-                    error: err,
-                })
+            res.status(400).json({
+                message: "Something went wrong while trying to view all users",
+                error: err,
+            })
         );
 };
 
@@ -161,4 +170,3 @@ module.exports = {
     updateUser,
     deleteUser,
 };
-

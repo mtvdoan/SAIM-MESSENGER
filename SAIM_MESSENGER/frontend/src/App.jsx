@@ -1,4 +1,3 @@
-
 import {BrowserRouter, Routes, Route} from 'react-router-dom';
 import React, {useState} from 'react';
 import {UserProvider} from './context/UserContext';
@@ -10,8 +9,6 @@ import UpdateAwayMessage from './components/UpdateAwayMessageModal';
 import ViewAwayMessageModal from './components/ViewAwayMessageModal';
 import Chat from './components/Chat';
 import UserModal from './components/UserModal';
-import LogOutButton from './components/LogOutButton';
-import io from 'socket.io-client';
 import './App.css';
 function App() {
     const [authorized, setAuthorized] = useState("");
@@ -26,7 +23,6 @@ function App() {
                     <Routes>
                         <Route>
                             <Route index element={<Login authorized= {authorized} setAuthorized={setAuthorized}/>}/>
-                            <Route path="/logout" element={<LogOutButton authorized= {authorized} setAuthorized={setAuthorized}/>}/>
                             <Route path="/register" element={<Register authorized= {authorized} setAuthorized={setAuthorized}/>}/>
                             <Route path="/chat" element={<Chat setAuthorized={setAuthorized}/>}/>
                             <Route path="/chat" element={<UserModal setAuthorized={setAuthorized}/>}/>

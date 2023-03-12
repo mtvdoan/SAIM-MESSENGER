@@ -4,19 +4,24 @@ const bcrypt = require('bcrypt')
 const Schema = new mongoose.Schema({
     screenName: {
         type: String,
-        required: [true, 'Gimme a screen name'],
-        minLength: [2, 'Gimme some more🦄']
+        required: [true, 'A screen name is required.'],
+        minLength: [2, 'Screen names must be at least 2 characters long.']
     },
     email: {
         type: String,
         required: [true, 'Gimme an email'],
-        minLength: [2, 'Gimme some more🦄']
+        minLength: [2, 'Emails need to be at least 2 characters long.']
     },
     password: {
         type: String,
         required: [true, 'Password required!'],
-        minLength: [2, 'Gimme some more🦄']
-    }
+        minLength: [2, 'Passwords need to be at least 2 characters long.']
+    },
+    //   isLoggedIn: { 
+    //     type: Boolean, 
+    //     default: false 
+    // }, // new field
+
 }, {timestamps: true} )
 
 // MongoDB schema provides virtual
@@ -29,8 +34,6 @@ Schema.pre('validate', function(next){
     if (this.password !== this.confirmPassword) {
         this.invalidate('confirmPassword', 'Passwords must match💜💜!!')
     }
-    // otherwise call next middleware
-    // alwasy call next middleware
     next()
 })
 
