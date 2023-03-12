@@ -48,7 +48,9 @@ const Register = (props) => {
                     // password: res.data.user.password,
                     // confirmPassword: res.data.user.confirmPassword,
                 });
-                navigate("/chat");
+                alert(`Thanks for registering ${res.data.user.screenName}.  Please sign in to get started.`)
+                console.log(`Thanks for registering, ${res.data.user.screenName}.  Please log in to get started.`)
+                navigate("/");
             })
             .catch((res) => {
                 setErrors(res.response.data.errors);

@@ -80,7 +80,7 @@ const login = async (req, res) => {
 
                 res
                     .cookie("userToken", token, {
-                    httpOnly:true,  //added this to see if it works
+                    httpOnly:true,  //added this to see if it works 
                     expires: new Date(Date.now() + 900000),
                 }).json({ successMessage: `userToken: ${token} `, user: payload });
                 console.log(`Thanks for logging in, ${user.screenName}.  Here's your userToken: ${token}`);
