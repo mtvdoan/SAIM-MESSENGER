@@ -4,12 +4,12 @@ import { UserContext } from "../context/UserContext";
 import axios from "axios";
 import UserModal from "./UserModal";
 const UsersList = (props) => {
-    // const { user, setUser, socket } = useContext(UserContext);
+    const { user, setUser, socket } = useContext(UserContext);
     const [usersList, setUsersList] = useState([]);
-    const [user, setUser] = useState("");
+    // const [user, setUser] = useState("");
     useEffect(() => {
         axios
-            .get("http://localhost:8000/api/users/")
+            .get("http://localhost:8000/api/users/", {withCredentials:true} )
             .then((response) => {
                 console.log("response", response);
                 setUsersList(response.data.allUsers);

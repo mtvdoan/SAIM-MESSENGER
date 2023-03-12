@@ -59,6 +59,7 @@ const Login = (props) => {
                     id: res.data.user._id,
                     email: res.data.user.email,
                     screenName: res.data.user.screenName,
+                    room: "",
                 });
                 // setLoggedUsersList({
                 //     id: res.data.user._id,

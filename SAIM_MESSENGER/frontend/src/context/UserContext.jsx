@@ -8,7 +8,7 @@ const UserProvider = ({children}) => {
         id: 0,
         screenName: "",
         email: "",
-        // room: ""
+        room: ""  //new
     })
     const [socket] = useState(() => io(":8000"))
     return (

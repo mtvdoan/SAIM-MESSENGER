@@ -30,7 +30,7 @@ const UserModal = (props) => {
     const handleOpen = () => setOpen(!open);
     useEffect(() => {
         axios
-            .get("http://localhost:8000/api/users/")
+            .get("http://localhost:8000/api/users/", {withCredentials:true} )
             .then((response) => {
                 setUsersList(response.data.allUsers);
                 console.log("allusers in usermodal", response.data.allUsers);

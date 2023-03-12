@@ -48,7 +48,7 @@ const Chat = (props) => {
     }, []);
     useEffect(() => {
         axios
-            .get("http://localhost:8000/api/users/")
+            .get("http://localhost:8000/api/users/", {withCredentials:true} )
             .then((response) =>
                 setUsersList(
                     // response.data,
@@ -332,6 +332,10 @@ const Chat = (props) => {
                     </div>
                 </div>
             </div>
+            <button className="">
+
+            <Link to={"/rooms/all"} className="font-extrabold text-white">Private Chat</Link>
+            </button>
         </>
     );
 };

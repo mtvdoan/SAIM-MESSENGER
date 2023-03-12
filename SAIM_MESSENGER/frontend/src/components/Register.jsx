@@ -40,12 +40,14 @@ const Register = (props) => {
             .then((res) => {
                 setUser(res.data.user);
 
-                // setUser({
-                //     screenName: res.data.user.screenName,
-                //     email: res.data.user.email,
-                //     password: res.data.user.password,
-                //     confirmPassword: res.data.user.confirmPassword,
-                // });
+                setUser({
+                    id: res.data.user.id,
+                    screenName: res.data.user.screenName,
+                    email: res.data.user.email,
+                    room:"",
+                    // password: res.data.user.password,
+                    // confirmPassword: res.data.user.confirmPassword,
+                });
                 navigate("/chat");
             })
             .catch((res) => {
