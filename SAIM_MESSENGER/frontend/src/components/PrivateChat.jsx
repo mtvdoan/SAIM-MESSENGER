@@ -2,6 +2,7 @@ import { useState, useContext } from "react";
 import io from "socket.io-client";
 import { UserContext } from "../context/UserContext";
 import { useEffect } from "react";
+import {Link} from 'react-router-dom';
 const PrivateChat = (props) => {
     const { user, setUser, socket } = useContext(UserContext);
     const [messages, setMessages] = useState([]);
@@ -46,6 +47,9 @@ const PrivateChat = (props) => {
                     className="form-control"
                 />
             </form>
+            <button className="text-5xl font-extrabold">
+                <Link to={`/home/${user.id}`}>Go Back</Link>
+            </button>
         </div>
     );
 };

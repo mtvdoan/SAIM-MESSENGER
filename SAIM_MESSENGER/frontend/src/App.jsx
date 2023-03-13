@@ -14,6 +14,7 @@ import Lobby from './components/Lobby';
 import PrivateChat from './components/PrivateChat';
 import './App.css';
 import UsersList from './components/UsersList';
+import MyChatRoomsList from './components/MyChatRoomsList';
 
 function App() {
     const [authorized, setAuthorized] = useState("");
@@ -39,6 +40,8 @@ function App() {
                             <Route path="/rooms" element={<CreateRoom/>}/>
                             <Route path="/rooms/all" element={<Lobby/>}/>
                             <Route path="/rooms/:roomid" element={<PrivateChat/>}/>
+                            <Route path="/rooms/allMyChatRooms" element={<MyChatRoomsList/>}/>
+                        
                             
                         </Route>
                     </Routes>

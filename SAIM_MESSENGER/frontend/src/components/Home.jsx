@@ -11,8 +11,10 @@ import axios from "axios";
 import useSound from "use-sound";
 import WindowsXpShutDown from "../sounds/WindowsXpShutDown.mp3";
 import IM from "../sounds/IM.mp3";
+import CreateRoom from "./CreateRoom";
+import Lobby from "./Lobby";
 const Home = (props) => {
-     const [state, setState] = useState({
+    const [state, setState] = useState({
         login: {
             email: "",
             password: "",
@@ -55,7 +57,7 @@ const Home = (props) => {
     }, []);
     useEffect(() => {
         axios
-            .get("http://localhost:8000/api/users/", {withCredentials:true} )
+            .get("http://localhost:8000/api/users/", { withCredentials: true })
             .then((response) =>
                 setUsersList(
                     // response.data,
@@ -103,19 +105,19 @@ const Home = (props) => {
             });
         play(WindowsXpShutDown);
     };
-  const handleGoToLobby = (e) => {
-    e.preventDefault();
-    // setUser({
-    //     id: user["id"],
-    //     email: user["email"],
-    //     screenName: user["screenName"],
-    //     password: user["password"],
-    // })
-            
-    // window.open(`/rooms/all`, 'popup', 'width=600,height=600');
-    alert("Ready to chat?")
-    navigate(`/rooms/all`);
-  }
+    const handleGoToLobby = (e) => {
+        e.preventDefault();
+        // setUser({
+        //     id: user["id"],
+        //     email: user["email"],
+        //     screenName: user["screenName"],
+        //     password: user["password"],
+        // })
+
+        // window.open(`/rooms/all`, 'popup', 'width=600,height=600');
+        alert("Ready to chat?");
+        navigate(`/rooms/all`);
+    };
     return (
         <>
             <div>
@@ -150,11 +152,11 @@ const Home = (props) => {
                         </div>
                     </nav>
                 </div>
-                <div className="grid grid-cols-2 content-center p-4">
+                <div className="grid grid-cols-2 content-center">
                     <div>
                         <div
-                            className=" block max-h-sm p-2 bg-white rounded-lg shadow-2xl hover:bg-gray-100  dark:border-gray-700 mt-2 m-auto"
-                            style={{ width: "600px" }}
+                            className=" block max-h-sm p-2 bg-gray-300 rounded-lg shadow-2xl hover:bg-gray-100  dark:border-gray-700 mt-2"
+                            style={{ width: "500px" }}
                         >
                             <div className="border-2 flex flex-col  border-black rounded-lg bg-blue-700 max-h-96 max-w-96">
                                 <p className="p-2 font-extrabold tracking-tighter text-white text-4xl -mt-30">
@@ -226,14 +228,30 @@ const Home = (props) => {
                                             </span>
                                         </a>
                                     </Boop>
-                                    <Link to={"/videochatroom"}>
+                                    {/* <Link to={"/videochatroom"}>
                                         Video Chat Room
-                                    </Link>
+                                    </Link> */}
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div
+                    <div className="border-2 border-gray-200 rounded-xl bg-gray-200">
+                        <div className="m-2 border-2 border-black h-14 from-b rounded-xl bg-gradient-to-r from-blue-500 to-blue-400">
+                            <p className="text-white font-bold m-4 text-2xl">
+                                {" "}
+                                Instant Message
+                            </p>
+                        </div>
+                        <div
+                            className="border-2 m-2 border-black rounded-xl bg-white"
+                            style={{ height: "900px" }}
+                        >
+                            <CreateRoom />
+                            <Lobby />
+                        </div>
+                    </div>
+                    {/* The chat box itself */}
+                    {/* <div
                         className="rounded-xl mt-0 m-auto shadow-2xl text-xlp-2 grid grid-col-2 content-center"
                         style={{ width: "600px" }}
                     >
@@ -348,18 +366,10 @@ const Home = (props) => {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
 
-            <button className="text-black text-2xl">
-                   <Link to={`/home/${user["id"]}`} onClick={handleGoToLobby}>Go To Loby</Link>
-
-            </button>
-            <button className="">
-
-            <Link to={"/rooms"} className="font-extrabold text-white">Private Chat</Link>
-            </button>
         </>
     );
 };
