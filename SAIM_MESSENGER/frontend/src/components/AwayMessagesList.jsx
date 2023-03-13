@@ -1,9 +1,9 @@
 import { UserContext } from "../context/UserContext";
 import React, { useState, useEffect, useContext } from "react";
-import Chat from "./Chat";
+import Chat from "./Home";
 import logo1 from "../images/logo1.png";
 import aolemoji from "../images/aolemoji.png";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useParams } from "react-router-dom";
 import axios from "axios";
 import LikeButton from "./LikeButton";
 import ViewAwayMesssageModal from "./ViewAwayMessageModal";
@@ -14,6 +14,7 @@ import WindowsXpShutDown from "../sounds/WindowsXpShutDown.mp3";
 
 import Boop from "./Boop";
 const AwayMessagesList = (props) => {
+    const id = useParams();
     const [awayMessage, setAwayMessage] = useState("");
     const [play] = useSound(WindowsXpShutDown);
     const [awayMessageLabel, setAwayMessageLabel] = useState("");
@@ -22,6 +23,7 @@ const AwayMessagesList = (props) => {
     const [awayMessagesList, setAwayMessagesList] = useState([]);
     const [usersList, setUsersList] = useState([]);
     const { user, setUser, socket } = useContext(UserContext);
+    const currentUserId = user["id"];
     const navigate = useNavigate();
     useEffect(() => {
         if (user.id === 0) {
@@ -60,7 +62,7 @@ const AwayMessagesList = (props) => {
                 console.log("Successfully deleted away message from backend");
                 alert(`Away message has been deleted`);
                 removeFromDom(awayMessageId);
-                navigate("/chat");
+                navigate("/home/:id");
             })
             .catch((err) =>
                 console.log(
@@ -365,7 +367,7 @@ const AwayMessagesList = (props) => {
                             <div className="m-auto">
                                 <Boop rotation={"5"} timing={"200"}>
                                     <button className="p-2 bg-yellow-700 rounded-2xl hover:bg-yellow-900 text-black text-5xl font-extrabold">
-                                        <Link to={"/chat"}>Go Back</Link>
+                                        <Link to={`/home/${currentUserId}`}>Go Back</Link>
                                     </button>
                                 </Boop>
                                 <div></div>

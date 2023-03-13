@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import logo1 from "../images/logo1.png";
-import Chat from "./Chat";
+import Chat from "./Home";
 import man from "../images/aolemoji.png";
 import { UserContext } from "../context/UserContext";
 import axios from "axios";

@@ -1,41 +1,46 @@
-import { UserContext } from "../context/UserContext"
-import { useContext, useEffect, useState } from "react";
-import {useNavigate} from 'react-router-dom'
+import {useEffect, useState, useContext} from 'react';
+import { UserContext } from '../context/UserContext';
 import axios from 'axios';
-const CreateRoom = (props) => {
-    const navigate = useNavigate()
-    const {user, setUser, socket} = useContext(UserContext);
-    const [roomName, setRoomName] = useState("");
-    const [passKey, setPasskey] = useState("");
-
+const Lobby = props => {
+    const {user, socket} = useContext(UserContext);
+    const [rooms, setRooms] = useState([]);
+    const [roomId, setRoomId] = useState("");
+    const [selectedRoom, setSelectedRoom] = useState("");
     useEffect(() => {
-        if (roomName !== "") {
-            navigate('/rooms/' + user.room);
-        }
-    }, [user])
-    
-    const chooseRoom = (e) => {
-        e.preventDefault();
-        axios.post("http://localhost:8000/api/rooms", {
-            name: roomName,
-            passKey,
-            host: user.id,
-            membersJoined: [user.id]
-        }, {withCredentials:true})
-        console.dir(e.target)
-        setUser({...user, room: roomName})
+        axios.get("http://localhost:8000/api/rooms", {withCredentials: true})
+            .then(res => setRooms(res.data))
+            .catch(err => console.log(err))
+    }, [])
 
-        socket.emit("join_room", roomName)
-    } 
+    const joinRoom  = (e) => {
+        e.preventDefault();
+        axios.put("http://localhost:8000/api/rooms/add/" + roomId, {userid: user.id}, {withCredentials:true})
+            .then(res => {
+                console.log(res.data)
+                socket.emit("join-room", selectedRoom )
+            })
+            .catch(err => console.log(err))
+    }
+
+    const onChangeHandler = (e) => {
+        // e.preventDefault();
+        setSelectedRoom(e.target.selectedOptions[0].innerText)
+        setRoomId(e.target.value);
+    }
+
     return (
-        <form onSubmit={(e) => chooseRoom(e)}>
-            <label className="form-label">Room Name</label>
-            <input name="name" type="text" onChange={(e) => setRoomName(e.target.value)} value={roomName} className="form-control" />
-            <label>Pass Key</label>
-            <input type="text" name="passKey" value={passKey} onChange={(e) => setPasskey(e.target.value)} />
-            <button className="btn btn-dark">Create Room</button>
-        </form>
+        <div className="container text-black">
+            <form onSubmit={joinRoom}>
+                <select onChange={onChangeHandler } className="form-control">
+                    {rooms.map((room, i) => (
+                        <option id={room.name} key={room._id} value={room._id}>{room.name}</option>
+                    ))}
+                </select>
+                <button className="btn btn-success">Join</button>
+            </form>
+        </div>
     )
+    
 }
 
-export default CreateRoom;
+export default Lobby;

@@ -56,7 +56,7 @@ io.on("connection", (socket) => {
 
     socket.on("private_message", (data) => {
         console.log(data);
-        // io.to(data.room).emit("private_message_response", data)  //try this out later to add rooms
+        io.to(data.room).emit("private_message_response", data)  //try this out later to add rooms
         io.emit("private_message_response", data)
 
     })

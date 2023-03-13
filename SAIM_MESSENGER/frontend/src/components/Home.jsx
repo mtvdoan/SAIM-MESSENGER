@@ -11,7 +11,14 @@ import axios from "axios";
 import useSound from "use-sound";
 import WindowsXpShutDown from "../sounds/WindowsXpShutDown.mp3";
 import IM from "../sounds/IM.mp3";
-const Chat = (props) => {
+const Home = (props) => {
+     const [state, setState] = useState({
+        login: {
+            email: "",
+            password: "",
+        },
+    });
+    const { login } = state;
     const [usersList, setUsersList] = useState([]);
     const { user, setUser, socket } = useContext(UserContext);
     const [screenName, setScreenName] = useState("");
@@ -96,7 +103,19 @@ const Chat = (props) => {
             });
         play(WindowsXpShutDown);
     };
-
+  const handleGoToLobby = (e) => {
+    e.preventDefault();
+    // setUser({
+    //     id: user["id"],
+    //     email: user["email"],
+    //     screenName: user["screenName"],
+    //     password: user["password"],
+    // })
+            
+    // window.open(`/rooms/all`, 'popup', 'width=600,height=600');
+    alert("Ready to chat?")
+    navigate(`/rooms/all`);
+  }
     return (
         <>
             <div>
@@ -332,12 +351,17 @@ const Chat = (props) => {
                     </div>
                 </div>
             </div>
+
+            <button className="text-black text-2xl">
+                   <Link to={`/home/${user["id"]}`} onClick={handleGoToLobby}>Go To Loby</Link>
+
+            </button>
             <button className="">
 
-            <Link to={"/rooms/all"} className="font-extrabold text-white">Private Chat</Link>
+            <Link to={"/rooms"} className="font-extrabold text-white">Private Chat</Link>
             </button>
         </>
     );
 };
 
-export default Chat;
+export default Home;

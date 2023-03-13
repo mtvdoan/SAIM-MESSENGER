@@ -29,8 +29,8 @@ const CreateRoom = (props) => {
     } 
     return (
         <form onSubmit={(e) => chooseRoom(e)}>
-            <label className="form-label">Room Name</label>
-            <input name="name" type="text" onChange={(e) => setRoomName(e.target.value)} value={roomName} className="form-control" />
+            <label className="text-black">Room Name</label>
+            <input name="name" type="text" onChange={(e) => setRoomName(e.target.value)} value={roomName} className="form-control text-black" />
             <label>Pass Key</label>
             <input type="text" name="passKey" value={passKey} onChange={(e) => setPasskey(e.target.value)} />
             <button className="btn btn-dark">Create Room</button>
